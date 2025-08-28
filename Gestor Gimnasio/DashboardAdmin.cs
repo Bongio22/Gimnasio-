@@ -16,5 +16,7 @@ namespace Gestor_Gimnasio
         {
             InitializeComponent();
         }
+
+        
     }
 }
