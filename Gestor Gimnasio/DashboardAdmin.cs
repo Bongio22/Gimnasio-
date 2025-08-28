@@ -17,6 +17,11 @@ namespace Gestor_Gimnasio
             InitializeComponent();
         }
 
+        private void pbox_logo_Click(object sender, EventArgs e)
+        {
+
+        }
+
         
     }
 }

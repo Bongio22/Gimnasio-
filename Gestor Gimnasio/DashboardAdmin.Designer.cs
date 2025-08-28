@@ -28,112 +28,160 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.cLIENTEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vERToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aÑADIRToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panel2.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.panel_menu = new System.Windows.Forms.Panel();
+            this.BEntrenadores = new System.Windows.Forms.Button();
+            this.BClientes = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.BSalir = new System.Windows.Forms.Button();
+            this.pbox_logo = new System.Windows.Forms.PictureBox();
+            this.BPagos = new System.Windows.Forms.Button();
+            this.BCuotas = new System.Windows.Forms.Button();
+            this.panel_menu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbox_logo)).BeginInit();
             this.SuspendLayout();
             // 
-            // panel1
+            // panel_menu
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.ForeColor = System.Drawing.Color.Navy;
-            this.panel1.Location = new System.Drawing.Point(3, -6);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(990, 103);
-            this.panel1.TabIndex = 1;
+            this.panel_menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.panel_menu.Controls.Add(this.BCuotas);
+            this.panel_menu.Controls.Add(this.BPagos);
+            this.panel_menu.Controls.Add(this.BSalir);
+            this.panel_menu.Controls.Add(this.pbox_logo);
+            this.panel_menu.Controls.Add(this.BEntrenadores);
+            this.panel_menu.Controls.Add(this.BClientes);
+            this.panel_menu.Location = new System.Drawing.Point(3, 0);
+            this.panel_menu.Name = "panel_menu";
+            this.panel_menu.Size = new System.Drawing.Size(244, 695);
+            this.panel_menu.TabIndex = 2;
             // 
-            // pictureBox1
+            // BEntrenadores
             // 
-            this.pictureBox1.ErrorImage = global::Gestor_Gimnasio.Properties.Resources.logo;
-            this.pictureBox1.Image = global::Gestor_Gimnasio.Properties.Resources.logo;
-            this.pictureBox1.InitialImage = global::Gestor_Gimnasio.Properties.Resources.logo;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(144, 103);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.BEntrenadores.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.BEntrenadores.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.BEntrenadores.FlatAppearance.BorderSize = 0;
+            this.BEntrenadores.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BEntrenadores.Font = new System.Drawing.Font("Malgun Gothic", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BEntrenadores.ForeColor = System.Drawing.Color.GreenYellow;
+            this.BEntrenadores.Location = new System.Drawing.Point(3, 238);
+            this.BEntrenadores.Name = "BEntrenadores";
+            this.BEntrenadores.Size = new System.Drawing.Size(238, 61);
+            this.BEntrenadores.TabIndex = 1;
+            this.BEntrenadores.Text = "ENTRENADORES";
+            this.BEntrenadores.UseVisualStyleBackColor = false;
             // 
-            // panel2
+            // BClientes
             // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.panel2.Controls.Add(this.menuStrip1);
-            this.panel2.Location = new System.Drawing.Point(3, 103);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(190, 511);
-            this.panel2.TabIndex = 2;
+            this.BClientes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.BClientes.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.BClientes.FlatAppearance.BorderSize = 0;
+            this.BClientes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BClientes.Font = new System.Drawing.Font("Malgun Gothic", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BClientes.ForeColor = System.Drawing.Color.GreenYellow;
+            this.BClientes.Location = new System.Drawing.Point(3, 180);
+            this.BClientes.Name = "BClientes";
+            this.BClientes.Size = new System.Drawing.Size(238, 52);
+            this.BClientes.TabIndex = 0;
+            this.BClientes.Text = "CLIENTES";
+            this.BClientes.UseVisualStyleBackColor = false;
             // 
-            // menuStrip1
+            // pictureBox2
             // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cLIENTEToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(190, 28);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
+            this.pictureBox2.BackgroundImage = global::Gestor_Gimnasio.Properties.Resources.marcadeagua;
+            this.pictureBox2.Location = new System.Drawing.Point(395, 100);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(508, 404);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 3;
+            this.pictureBox2.TabStop = false;
             // 
-            // cLIENTEToolStripMenuItem
+            // BSalir
             // 
-            this.cLIENTEToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.vERToolStripMenuItem,
-            this.aÑADIRToolStripMenuItem});
-            this.cLIENTEToolStripMenuItem.Name = "cLIENTEToolStripMenuItem";
-            this.cLIENTEToolStripMenuItem.Size = new System.Drawing.Size(78, 24);
-            this.cLIENTEToolStripMenuItem.Text = "CLIENTE";
+            this.BSalir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.BSalir.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.BSalir.FlatAppearance.BorderSize = 0;
+            this.BSalir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BSalir.Font = new System.Drawing.Font("Malgun Gothic", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BSalir.ForeColor = System.Drawing.Color.GreenYellow;
+            this.BSalir.Image = global::Gestor_Gimnasio.Properties.Resources.cerrar_sesion;
+            this.BSalir.Location = new System.Drawing.Point(43, 544);
+            this.BSalir.Name = "BSalir";
+            this.BSalir.Size = new System.Drawing.Size(166, 100);
+            this.BSalir.TabIndex = 1;
+            this.BSalir.Text = "Cerrar Sesion";
+            this.BSalir.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.BSalir.UseVisualStyleBackColor = false;
             // 
-            // vERToolStripMenuItem
+            // pbox_logo
             // 
-            this.vERToolStripMenuItem.Name = "vERToolStripMenuItem";
-            this.vERToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.vERToolStripMenuItem.Text = "VER";
+            this.pbox_logo.ErrorImage = global::Gestor_Gimnasio.Properties.Resources.logo;
+            this.pbox_logo.Image = global::Gestor_Gimnasio.Properties.Resources.logo;
+            this.pbox_logo.InitialImage = global::Gestor_Gimnasio.Properties.Resources.logo;
+            this.pbox_logo.Location = new System.Drawing.Point(3, 0);
+            this.pbox_logo.Name = "pbox_logo";
+            this.pbox_logo.Size = new System.Drawing.Size(233, 129);
+            this.pbox_logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbox_logo.TabIndex = 0;
+            this.pbox_logo.TabStop = false;
+            this.pbox_logo.Click += new System.EventHandler(this.pbox_logo_Click);
             // 
-            // aÑADIRToolStripMenuItem
+            // BPagos
             // 
-            this.aÑADIRToolStripMenuItem.Name = "aÑADIRToolStripMenuItem";
-            this.aÑADIRToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.aÑADIRToolStripMenuItem.Text = "AÑADIR";
+            this.BPagos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.BPagos.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.BPagos.FlatAppearance.BorderSize = 0;
+            this.BPagos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BPagos.Font = new System.Drawing.Font("Malgun Gothic", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BPagos.ForeColor = System.Drawing.Color.GreenYellow;
+            this.BPagos.Location = new System.Drawing.Point(0, 363);
+            this.BPagos.Name = "BPagos";
+            this.BPagos.Size = new System.Drawing.Size(244, 52);
+            this.BPagos.TabIndex = 3;
+            this.BPagos.Text = "PAGOS";
+            this.BPagos.UseVisualStyleBackColor = false;
+            // 
+            // BCuotas
+            // 
+            this.BCuotas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.BCuotas.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.BCuotas.FlatAppearance.BorderSize = 0;
+            this.BCuotas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BCuotas.Font = new System.Drawing.Font("Malgun Gothic", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BCuotas.ForeColor = System.Drawing.Color.GreenYellow;
+            this.BCuotas.Location = new System.Drawing.Point(0, 305);
+            this.BCuotas.Name = "BCuotas";
+            this.BCuotas.Size = new System.Drawing.Size(244, 52);
+            this.BCuotas.TabIndex = 4;
+            this.BCuotas.Text = "CUOTAS";
+            this.BCuotas.UseVisualStyleBackColor = false;
             // 
             // DashboardAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(989, 592);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
-            this.ForeColor = System.Drawing.Color.DarkRed;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.ClientSize = new System.Drawing.Size(1021, 656);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.panel_menu);
+            this.ForeColor = System.Drawing.Color.Gainsboro;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "DashboardAdmin";
             this.Text = "DashboardAdmin";
-            this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.panel_menu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbox_logo)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem cLIENTEToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem vERToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aÑADIRToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pbox_logo;
+        private System.Windows.Forms.Panel panel_menu;
+        private System.Windows.Forms.Button BSalir;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Button BEntrenadores;
+        private System.Windows.Forms.Button BClientes;
+        private System.Windows.Forms.Button BPagos;
+        private System.Windows.Forms.Button BCuotas;
     }
 }
