@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Gestor Gimnasio"
   ],
-  "SelectedNode": "\\Gestor Gimnasio.sln",
+  "SelectedNode": "\\Gestor Gimnasio\\ClienteAgregarControl.Designer.cs",
   "PreviewInSolutionExplorer": false
 }

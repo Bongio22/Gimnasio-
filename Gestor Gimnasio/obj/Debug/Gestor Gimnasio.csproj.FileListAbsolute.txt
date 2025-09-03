@@ -9,3 +9,19 @@ C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.c
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.csproj.CoreCompileInputs.cache
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.exe
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.pdb
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\bin\Debug\Gestor Gimnasio.exe.config
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\bin\Debug\Gestor Gimnasio.exe
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\bin\Debug\Gestor Gimnasio.pdb
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.csproj.AssemblyReference.cache
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.exe.config
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.DashboardAdmin.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.DashboardDueño.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.DashboardSuperAdmin.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.Login.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.Properties.Resources.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.csproj.GenerateResource.cache
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.csproj.CoreCompileInputs.cache
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.exe
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.pdb
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ClienteControl.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ClienteBuscarControl.resources

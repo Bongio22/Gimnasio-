@@ -15,6 +15,12 @@ namespace Gestor_Gimnasio
         public DashboardDueño()
         {
             InitializeComponent();
+            
+        }
+
+        private void imagenFondo_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
