@@ -15,6 +15,73 @@ namespace Gestor_Gimnasio
         public DashboardAdmin()
         {
             InitializeComponent();
+            // Enganches de eventos para Profesores
+            BEntrenadores.Click += BEntrenadores_Click;
+            BProfesorAgregar.Click += BProfesorAgregar_Click;
+            BProfesorBuscar.Click += BProfesorBuscar_Click;
+            BProfesorModificar.Click += BProfesorModificar_Click;
+            BProfesorEliminar.Click += BProfesorEliminar_Click;
+        }
+
+        private void MostrarNavbar(Panel navbar)
+        {
+            panel_contenido.Controls.Clear();
+            navbar.Visible = true;
+            if (!panel_contenido.Controls.Contains(navbar))
+                panel_contenido.Controls.Add(navbar);
+
+            // El índice 0 queda arriba del z-order (navbar “encima”).
+            panel_contenido.Controls.SetChildIndex(navbar, 0);    // tope del z-order
+                                                                  // Alternativa visual: navbar.BringToFront();          // trae al frente. :contentReference[oaicite:2]{index=2}
+        }
+
+        private void CargarContenidoBajoNavbar(UserControl ctrl, Panel navbar)
+        {
+            while (panel_contenido.Controls.Count > 1)
+                panel_contenido.Controls.RemoveAt(1);
+
+            ctrl.Dock = DockStyle.Fill;                            // usa el resto del espacio
+            panel_contenido.Controls.Add(ctrl);
+            panel_contenido.Controls.SetChildIndex(navbar, 0);     // mantener navbar arriba
+        }
+
+        // Sidebar: CLIENTES (tu versión actual sirve; si querés usar helper:)
+        private void BClientes_Click(object sender, EventArgs e)
+        {
+            navbarProfesor.Visible = false;
+            MostrarNavbar(navbarCliente);
+        }
+
+        // Sidebar: ENTRENADORES
+        private void BEntrenadores_Click(object sender, EventArgs e)
+        {
+            navbarCliente.Visible = false;
+            MostrarNavbar(navbarProfesor);
+        }
+
+        // Navbar Profesores
+        private void BProfesorAgregar_Click(object sender, EventArgs e)
+        {
+            var alta = new ProfesorAgregarControl();
+            CargarContenidoBajoNavbar(alta, navbarProfesor);
+        }
+
+        private void BProfesorBuscar_Click(object sender, EventArgs e)
+        {
+            // TODO: var buscar = new ProfesorBuscarControl();
+            // CargarContenidoBajoNavbar(buscar, navbarProfesor);
+        }
+
+        private void BProfesorModificar_Click(object sender, EventArgs e)
+        {
+            // TODO: var mod = new ProfesorModificarControl();
+            // CargarContenidoBajoNavbar(mod, navbarProfesor);
+        }
+
+        private void BProfesorEliminar_Click(object sender, EventArgs e)
+        {
+            // TODO: var del = new ProfesorEliminarControl();
+            // CargarContenidoBajoNavbar(del, navbarProfesor);
         }
 
         private void pbox_logo_Click(object sender, EventArgs e)
@@ -27,13 +94,7 @@ namespace Gestor_Gimnasio
 
         }
 
-        private void BClientes_Click(object sender, EventArgs e)
-        {
-            panel_contenido.Controls.Clear();
-            navbarCliente.Visible = true;
-            panel_contenido.Controls.Add(navbarCliente);
-        }
-
+  
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -50,7 +111,7 @@ namespace Gestor_Gimnasio
             while (panel_contenido.Controls.Count > 1)
                 panel_contenido.Controls.RemoveAt(1);
 
-            var clienteControl = new ClienteControl();
+            var clienteControl = new ClienteAgregarControl();
             clienteControl.Dock = DockStyle.Fill;
             panel_contenido.Controls.Add(clienteControl);
             panel_contenido.Controls.SetChildIndex(navbarCliente, 0); // Navbar siempre arriba
@@ -63,11 +124,7 @@ namespace Gestor_Gimnasio
             panel_contenido.Controls.Add(control);
         }
 
-        private void btnBuscarCliente_Click(object sender, EventArgs e)
-        {
-            var buscarCliente = new ClienteBuscarControl();
-            CargarControl(buscarCliente); // Método que limpia y carga el UserControl en el panel
-        }
+   
 
 
 

@@ -56,65 +56,6 @@ namespace Gestor_Gimnasio
             this.panel_contenido.SuspendLayout();
             this.navbarCliente.SuspendLayout();
             this.SuspendLayout();
-
-            // --- navbarProfesor ---
-            this.navbarProfesor = new System.Windows.Forms.Panel();
-            this.BProfesorAgregar = new System.Windows.Forms.Button();
-            this.BProfesorBuscar = new System.Windows.Forms.Button();
-            this.BProfesorModificar = new System.Windows.Forms.Button();
-            this.BProfesorEliminar = new System.Windows.Forms.Button();
-
-            // navbarProfesor (estilo igual al de Clientes)
-            this.navbarProfesor.BackColor = System.Drawing.Color.DarkGreen;
-            this.navbarProfesor.Dock = System.Windows.Forms.DockStyle.Top;
-            this.navbarProfesor.Location = new System.Drawing.Point(0, 0);
-            this.navbarProfesor.Name = "navbarProfesor";
-            this.navbarProfesor.Size = new System.Drawing.Size(1080, 100);
-            this.navbarProfesor.TabIndex = 1;
-            this.navbarProfesor.Visible = false;
-
-            // Botones (look & feel)
-            foreach (var b in new[] { this.BProfesorAgregar, this.BProfesorBuscar, this.BProfesorModificar, this.BProfesorEliminar })
-            {
-                b.BackColor = System.Drawing.Color.DarkGreen;
-                b.FlatAppearance.BorderSize = 0;
-                b.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-                b.Font = new System.Drawing.Font("Malgun Gothic", 13.8F, System.Drawing.FontStyle.Bold);
-                b.ForeColor = System.Drawing.Color.GreenYellow;
-                b.Size = new System.Drawing.Size(185, 87);
-                b.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            }
-
-            // Textos
-            this.BProfesorAgregar.Text = "Agregar Profesor";
-            this.BProfesorBuscar.Text = "Buscar Profesor";
-            this.BProfesorModificar.Text = "Modificar Profesor";
-            this.BProfesorEliminar.Text = "Eliminar Profesor";
-
-            // Posiciones (como Clientes)
-            this.BProfesorAgregar.Location = new System.Drawing.Point(124, 9);
-            this.BProfesorBuscar.Location = new System.Drawing.Point(344, 9);
-            this.BProfesorModificar.Location = new System.Drawing.Point(586, 9);
-            this.BProfesorEliminar.Location = new System.Drawing.Point(815, 9);
-
-            // Handlers (los implementás en .cs)
-            this.BProfesorAgregar.Click += new System.EventHandler(this.BProfesorAgregar_Click);
-            this.BProfesorBuscar.Click += new System.EventHandler(this.BProfesorBuscar_Click);
-            this.BProfesorModificar.Click += new System.EventHandler(this.BProfesorModificar_Click);
-            this.BProfesorEliminar.Click += new System.EventHandler(this.BProfesorEliminar_Click);
-
-            // Armar panel
-            this.navbarProfesor.Controls.Add(this.BProfesorAgregar);
-            this.navbarProfesor.Controls.Add(this.BProfesorBuscar);
-            this.navbarProfesor.Controls.Add(this.BProfesorModificar);
-            this.navbarProfesor.Controls.Add(this.BProfesorEliminar);
-
-            // Agregar al contenedor (junto con navbarCliente)
-            this.panel_contenido.Controls.Add(this.navbarProfesor);
-
-            // El botón del sidebar debe disparar el cambio de navbar
-            this.BEntrenadores.Click += new System.EventHandler(this.BEntrenadores_Click);
-
             // 
             // panel_menu
             // 
@@ -353,16 +294,8 @@ namespace Gestor_Gimnasio
         private System.Windows.Forms.Button BClienteModificar;
         private System.Windows.Forms.Button BClienteBuscar;
         private System.Windows.Forms.Button BClienteAgregar;
-        private System.Windows.Forms.Button BClienteEliminar;
-        private System.Windows.Forms.Panel navbarProfesor;
-        private System.Windows.Forms.Button BProfesorAgregar;
-        private System.Windows.Forms.Button BProfesorBuscar;
-        private System.Windows.Forms.Button BProfesorModificar;
-        private System.Windows.Forms.Button BProfesorEliminar;
-
-
-
-
+        private System.Windows.Forms.Button BClienteEliminar;   
+        
     }
 
 
