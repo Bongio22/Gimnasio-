@@ -47,11 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DashboardAdmin.cs">
+    <Compile Include="DashboardAdministrador.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DashboardAdmin.Designer.cs">
-      <DependentUpon>DashboardAdmin.cs</DependentUpon>
+    <Compile Include="DashboardAdministrador.Designer.cs">
+      <DependentUpon>DashboardAdministrador.cs</DependentUpon>
     </Compile>
     <Compile Include="DashboardDueño.cs">
       <SubType>Form</SubType>
@@ -64,6 +64,24 @@
     </Compile>
     <Compile Include="DashboardSuperAdmin.Designer.cs">
       <DependentUpon>DashboardSuperAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditarEntrenador.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditarEntrenador.Designer.cs">
+      <DependentUpon>EditarEntrenador.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InicioBienvenidaControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InicioBienvenidaControl.Designer.cs">
+      <DependentUpon>InicioBienvenidaControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListaEntrenadores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListaEntrenadores.Designer.cs">
+      <DependentUpon>ListaEntrenadores.cs</DependentUpon>
     </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
@@ -85,14 +103,23 @@
     <Compile Include="ProfesorAgregarControl.Designer.cs">
       <DependentUpon>ProfesorAgregarControl.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="DashboardAdmin.resx">
-      <DependentUpon>DashboardAdmin.cs</DependentUpon>
+    <EmbeddedResource Include="DashboardAdministrador.resx">
+      <DependentUpon>DashboardAdministrador.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DashboardDueño.resx">
       <DependentUpon>DashboardDueño.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DashboardSuperAdmin.resx">
       <DependentUpon>DashboardSuperAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarEntrenador.resx">
+      <DependentUpon>EditarEntrenador.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InicioBienvenidaControl.resx">
+      <DependentUpon>InicioBienvenidaControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListaEntrenadores.resx">
+      <DependentUpon>ListaEntrenadores.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
@@ -137,6 +164,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\marcadeagua.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gym_image.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

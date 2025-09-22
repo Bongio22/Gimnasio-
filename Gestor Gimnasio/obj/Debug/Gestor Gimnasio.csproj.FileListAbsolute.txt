@@ -2,7 +2,6 @@ C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\bin\Debug\Gestor Gimnasio.e
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\bin\Debug\Gestor Gimnasio.exe
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\bin\Debug\Gestor Gimnasio.pdb
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.csproj.AssemblyReference.cache
-C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.DashboardAdmin.resources
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.Login.resources
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.Properties.Resources.resources
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.csproj.GenerateResource.cache
@@ -24,3 +23,12 @@ C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug
 C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.csproj.CoreCompileInputs.cache
 C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.exe
 C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.pdb
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.exe.config
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.DashboardDueño.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.DashboardSuperAdmin.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ProfesorAgregarControl.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ClienteAgregarControl.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.EditarEntrenador.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ListaEntrenadores.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.InicioBienvenidaControl.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.DashboardAdministrador.resources

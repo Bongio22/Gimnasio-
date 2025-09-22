@@ -22,14 +22,11 @@ namespace Gestor_Gimnasio
 
         private void ClienteAgregarControl_Load(object sender, EventArgs e)
         {
-            // Cadena de conexión
+ 
             string cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
 
-            // Consulta SQL para obtener los turnos disponibles
-            const string sqlTurnos = @"
-        SELECT id_turno, descripcion
-        FROM dbo.Turno
-        ORDER BY descripcion;";
+            // consulta para obtener los turnos disponibles
+            const string sqlTurnos = @"SELECT id_turno, descripcion FROM dbo.Turno ORDER BY descripcion;";
 
             try
             {
@@ -43,7 +40,7 @@ namespace Gestor_Gimnasio
                     {
                         comboBoxTurno.Enabled = true;
                         comboBoxTurno.DataSource = tablaTurnos;
-                        comboBoxTurno.DisplayMember = "descripcion";  // lo que se ve
+                        comboBoxTurno.DisplayMember = "descripcion";  // lo que se ve 
                         comboBoxTurno.ValueMember = "id_turno";       // el ID real
                         comboBoxTurno.SelectedIndex = 0;
                     }
@@ -62,7 +59,7 @@ namespace Gestor_Gimnasio
                 MessageBox.Show("Error al cargar turnos: " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                // En caso de error, deshabilitar controles
+                // en caso de error, deshabilitar controles
                 comboBoxTurno.DataSource = null;
                 comboBoxTurno.Items.Clear();
                 comboBoxTurno.Items.Add("Error al cargar turnos");
@@ -70,7 +67,7 @@ namespace Gestor_Gimnasio
                 comboBoxTurno.Enabled = false;
             }
 
-            // Deshabilitamos profesores hasta que se elija un turno
+            // deshabilitamos profesores hasta que se elija un turno
             comboBoxProfesor.DataSource = null;
             comboBoxProfesor.Items.Clear();
             comboBoxProfesor.Items.Add("Seleccione un turno primero");
@@ -78,26 +75,23 @@ namespace Gestor_Gimnasio
             comboBoxProfesor.Enabled = false;
         }
 
+        //el disable de los entrenadores correspomdientes al turno elegido
         private void comboBoxTurno_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Verificar si hay un valor seleccionado válido
+            // verificar si hay un valor seleccionado válido
             if (comboBoxTurno.SelectedValue == null || !comboBoxTurno.Enabled)
                 return;
 
-            // Verificar que el valor sea numérico (no sea el texto de error)
+            // verificar que el valor sea numérico (no sea el texto de error)
             if (!int.TryParse(comboBoxTurno.SelectedValue.ToString(), out int idTurno))
                 return;
 
             string cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
 
-            // Consulta SQL para obtener los entrenadores de ese turno
-            const string sqlProfesores = @"
-        SELECT e.id_entrenador,
-               e.nombre
-        FROM dbo.Turno_Entrenador te
-        JOIN dbo.Entrenador e ON e.id_entrenador = te.id_entrenador
-        WHERE te.id_turno = @id_turno AND e.estado = 1
-        ORDER BY e.nombre;";
+            // consulta  para obtener los entrenadores que hay disponibles ese turno seleccionado
+            const string sqlProfesores = @"SELECT e.id_entrenador, e.nombre FROM dbo.Turno_Entrenador te
+            JOIN dbo.Entrenador e ON e.id_entrenador = te.id_entrenador WHERE te.id_turno = @id_turno
+AND e.estado = 1 ORDER BY e.nombre;";
 
             try
             {
@@ -132,7 +126,7 @@ namespace Gestor_Gimnasio
                 MessageBox.Show("Error al cargar profesores: " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                // En caso de error, deshabilitar el combo de profesores
+                // deshabilitar el combo de profesores si hay errores
                 comboBoxProfesor.DataSource = null;
                 comboBoxProfesor.Items.Clear();
                 comboBoxProfesor.Items.Add("Error al cargar profesores");
@@ -143,7 +137,7 @@ namespace Gestor_Gimnasio
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            // Validaciones de campos obligatorios
+            // validaciones de campos 
             if (string.IsNullOrWhiteSpace(textBoxNombre.Text))
             {
                 MessageBox.Show("El nombre es obligatorio.", "Validación",
@@ -176,7 +170,7 @@ namespace Gestor_Gimnasio
                 return;
             }
 
-            // Validar selección de turno y profesor
+            // validacion de selección de turno y profesor
             if (!comboBoxTurno.Enabled || comboBoxTurno.SelectedValue == null)
             {
                 MessageBox.Show("Debes seleccionar un turno válido.", "Validación",
@@ -191,7 +185,7 @@ namespace Gestor_Gimnasio
                 return;
             }
 
-            // Validaciones de formato
+            // validaciones de formato num
             if (!int.TryParse(textBoxDNI.Text.Trim(), out var dni) || dni <= 0)
             {
                 MessageBox.Show("El DNI debe ser un número válido mayor a 0.", "Validación",
@@ -208,7 +202,7 @@ namespace Gestor_Gimnasio
                 return;
             }
 
-            // Obtener datos del formulario
+            // obtener datos del formulario
             string nombre = textBoxNombre.Text.Trim();
             string domicilio = textBoxDomicilio.Text.Trim();
 
@@ -228,11 +222,10 @@ namespace Gestor_Gimnasio
 
             string cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
 
-            // Insertar alumno usando turno y profesor seleccionados
-            const string sqlInsAlumno = @"
-        INSERT INTO dbo.Alumno (estado, dni, nombre, telefono, domicilio, id_turno)
-        VALUES (@estado, @dni, @nombre, @telefono, @domicilio, @id_turno);
-        SELECT CAST(SCOPE_IDENTITY() AS int);";
+            // insertar alumno usando turno y profesor seleccionados
+            const string sqlInsAlumno = @"INSERT INTO dbo.Alumno (estado, dni, nombre, telefono, domicilio, id_turno)
+    VALUES (@estado, @dni, @nombre, @telefono, @domicilio, @id_turno);
+    SELECT CAST(SCOPE_IDENTITY() AS int);";
 
             try
             {
@@ -241,7 +234,7 @@ namespace Gestor_Gimnasio
                 {
                     cn.Open();
 
-                    // Agregar parámetros con tipos específicos para evitar errores
+                    // parametros para evitar errores
                     cmd.Parameters.Add("@estado", SqlDbType.Bit).Value = 1;
                     cmd.Parameters.Add("@dni", SqlDbType.Int).Value = dni;
                     cmd.Parameters.Add("@nombre", SqlDbType.VarChar, 50).Value = nombre;
@@ -255,7 +248,7 @@ namespace Gestor_Gimnasio
                         MessageBox.Show($"¡Alumno guardado exitosamente!\n\nID: {idAlumno}\nNombre: {nombre}\nTurno: {comboBoxTurno.Text}\nProfesor: {comboBoxProfesor.Text}",
                             "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        // Limpiar formulario después de guardar exitosamente
+                       
                         LimpiarFormulario();
                     }
                     else
@@ -265,7 +258,7 @@ namespace Gestor_Gimnasio
                     }
                 }
             }
-            catch (SqlException ex) when (ex.Number == 2627 || ex.Number == 2601) // restricción UNIQUE (ej. DNI)
+            catch (SqlException ex) when (ex.Number == 2627 || ex.Number == 2601) // restricción UNIQUE para dni
             {
                 MessageBox.Show($"Ya existe un alumno registrado con el DNI: {dni}\n\nPor favor, verifique el DNI e intente nuevamente.",
                     "DNI Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -286,7 +279,7 @@ namespace Gestor_Gimnasio
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            // Confirmar cancelación si hay datos en el formulario
+            //  cancelación si hay datos en el formulario
             if (TieneInformacion())
             {
                 var resultado = MessageBox.Show("¿Está seguro que desea cancelar?\n\nSe perderán todos los datos ingresados.",
@@ -305,22 +298,19 @@ namespace Gestor_Gimnasio
 
         private void LimpiarFormulario()
         {
-            // Limpiar todos los campos de texto
+            //limpia los cmapos
             textBoxNombre.Clear();
             textBoxDNI.Clear();
             textBoxTelefono.Clear();
             textBoxDomicilio.Clear();
 
-            // Resetear los ComboBox a su estado inicial si tienen elementos
+            // reset los combo box a su estado inicial si tienen elementos
             if (comboBoxTurno.Enabled && comboBoxTurno.Items.Count > 0)
             {
                 comboBoxTurno.SelectedIndex = 0;
             }
 
-            // El ComboBox de profesor se resetea automáticamente cuando cambia el turno
-            // debido al evento comboBoxTurno_SelectedIndexChanged
-
-            // Enfocar el primer campo para facilitar el siguiente ingreso
+            // enfoca el primer campo para facilitar el siguiente ingreso
             textBoxNombre.Focus();
         }
 
@@ -332,10 +322,16 @@ namespace Gestor_Gimnasio
                    !string.IsNullOrWhiteSpace(textBoxDomicilio.Text);
         }
 
-        // Eventos opcionales para mejorar la experiencia del usuario
+
+
+
+
+
+
+        //Permitir solo letras y/o numeros, espacios y backspace
         private void textBoxNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permitir solo letras, espacios y backspace
+            
             if (!char.IsLetter(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
                 e.Handled = true;
@@ -344,7 +340,6 @@ namespace Gestor_Gimnasio
 
         private void textBoxDNI_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permitir solo números y backspace
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
                 e.Handled = true;
@@ -353,7 +348,7 @@ namespace Gestor_Gimnasio
 
         private void textBoxTelefono_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permitir solo números y backspace
+            
             if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
                 e.Handled = true;

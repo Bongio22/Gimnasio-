@@ -65,9 +65,9 @@
             this.groupBoxRegistro.Controls.Add(this.Lnombre);
             this.groupBoxRegistro.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.groupBoxRegistro.ForeColor = System.Drawing.Color.DarkGreen;
-            this.groupBoxRegistro.Location = new System.Drawing.Point(50, 80);
+            this.groupBoxRegistro.Location = new System.Drawing.Point(104, 92);
             this.groupBoxRegistro.Name = "groupBoxRegistro";
-            this.groupBoxRegistro.Size = new System.Drawing.Size(400, 400);
+            this.groupBoxRegistro.Size = new System.Drawing.Size(941, 361);
             this.groupBoxRegistro.TabIndex = 0;
             this.groupBoxRegistro.TabStop = false;
             this.groupBoxRegistro.Text = "Datos del Alumno";
@@ -78,7 +78,7 @@
             this.btnCancelar.FlatAppearance.BorderSize = 0;
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
-            this.btnCancelar.Location = new System.Drawing.Point(213, 320);
+            this.btnCancelar.Location = new System.Drawing.Point(807, 285);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(100, 35);
             this.btnCancelar.TabIndex = 13;
@@ -92,7 +92,7 @@
             this.btnGuardar.FlatAppearance.BorderSize = 0;
             this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(77, 320);
+            this.btnGuardar.Location = new System.Drawing.Point(680, 285);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(100, 35);
             this.btnGuardar.TabIndex = 12;
@@ -104,17 +104,17 @@
             // 
             this.comboBoxProfesor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxProfesor.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.comboBoxProfesor.Location = new System.Drawing.Point(140, 247);
+            this.comboBoxProfesor.Location = new System.Drawing.Point(707, 187);
             this.comboBoxProfesor.Name = "comboBoxProfesor";
-            this.comboBoxProfesor.Size = new System.Drawing.Size(200, 33);
+            this.comboBoxProfesor.Size = new System.Drawing.Size(200, 28);
             this.comboBoxProfesor.TabIndex = 11;
             // 
             // lProfesor
             // 
             this.lProfesor.AutoSize = true;
-            this.lProfesor.Location = new System.Drawing.Point(40, 250);
+            this.lProfesor.Location = new System.Drawing.Point(703, 161);
             this.lProfesor.Name = "lProfesor";
-            this.lProfesor.Size = new System.Drawing.Size(92, 28);
+            this.lProfesor.Size = new System.Drawing.Size(77, 23);
             this.lProfesor.TabIndex = 10;
             this.lProfesor.Text = "Profesor";
             // 
@@ -122,89 +122,89 @@
             // 
             this.comboBoxTurno.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTurno.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.comboBoxTurno.Location = new System.Drawing.Point(140, 207);
+            this.comboBoxTurno.Location = new System.Drawing.Point(419, 187);
             this.comboBoxTurno.Name = "comboBoxTurno";
-            this.comboBoxTurno.Size = new System.Drawing.Size(200, 33);
+            this.comboBoxTurno.Size = new System.Drawing.Size(200, 28);
             this.comboBoxTurno.TabIndex = 9;
             this.comboBoxTurno.SelectedIndexChanged += new System.EventHandler(this.comboBoxTurno_SelectedIndexChanged);
             // 
             // lTurno
             // 
             this.lTurno.AutoSize = true;
-            this.lTurno.Location = new System.Drawing.Point(40, 210);
+            this.lTurno.Location = new System.Drawing.Point(415, 161);
             this.lTurno.Name = "lTurno";
-            this.lTurno.Size = new System.Drawing.Size(68, 28);
+            this.lTurno.Size = new System.Drawing.Size(56, 23);
             this.lTurno.TabIndex = 8;
             this.lTurno.Text = "Turno";
             // 
             // textBoxDomicilio
             // 
             this.textBoxDomicilio.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.textBoxDomicilio.Location = new System.Drawing.Point(140, 167);
+            this.textBoxDomicilio.Location = new System.Drawing.Point(40, 187);
             this.textBoxDomicilio.Name = "textBoxDomicilio";
-            this.textBoxDomicilio.Size = new System.Drawing.Size(200, 31);
+            this.textBoxDomicilio.Size = new System.Drawing.Size(300, 27);
             this.textBoxDomicilio.TabIndex = 7;
             // 
             // lDomicilio
             // 
             this.lDomicilio.AutoSize = true;
-            this.lDomicilio.Location = new System.Drawing.Point(40, 170);
+            this.lDomicilio.Location = new System.Drawing.Point(40, 161);
             this.lDomicilio.Name = "lDomicilio";
-            this.lDomicilio.Size = new System.Drawing.Size(103, 28);
+            this.lDomicilio.Size = new System.Drawing.Size(87, 23);
             this.lDomicilio.TabIndex = 6;
             this.lDomicilio.Text = "Domicilio";
             // 
             // textBoxTelefono
             // 
             this.textBoxTelefono.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.textBoxTelefono.Location = new System.Drawing.Point(140, 127);
+            this.textBoxTelefono.Location = new System.Drawing.Point(707, 95);
             this.textBoxTelefono.Name = "textBoxTelefono";
-            this.textBoxTelefono.Size = new System.Drawing.Size(200, 31);
+            this.textBoxTelefono.Size = new System.Drawing.Size(200, 27);
             this.textBoxTelefono.TabIndex = 5;
             this.textBoxTelefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTelefono_KeyPress);
             // 
             // textBoxDNI
             // 
             this.textBoxDNI.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.textBoxDNI.Location = new System.Drawing.Point(140, 87);
+            this.textBoxDNI.Location = new System.Drawing.Point(419, 95);
             this.textBoxDNI.Name = "textBoxDNI";
-            this.textBoxDNI.Size = new System.Drawing.Size(200, 31);
+            this.textBoxDNI.Size = new System.Drawing.Size(200, 27);
             this.textBoxDNI.TabIndex = 3;
             this.textBoxDNI.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxDNI_KeyPress);
             // 
             // textBoxNombre
             // 
             this.textBoxNombre.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.textBoxNombre.Location = new System.Drawing.Point(140, 47);
+            this.textBoxNombre.Location = new System.Drawing.Point(40, 95);
             this.textBoxNombre.Name = "textBoxNombre";
-            this.textBoxNombre.Size = new System.Drawing.Size(200, 31);
+            this.textBoxNombre.Size = new System.Drawing.Size(300, 27);
             this.textBoxNombre.TabIndex = 1;
             this.textBoxNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxNombre_KeyPress);
             // 
             // lTelefono
             // 
             this.lTelefono.AutoSize = true;
-            this.lTelefono.Location = new System.Drawing.Point(40, 130);
+            this.lTelefono.Location = new System.Drawing.Point(703, 69);
             this.lTelefono.Name = "lTelefono";
-            this.lTelefono.Size = new System.Drawing.Size(94, 28);
+            this.lTelefono.Size = new System.Drawing.Size(78, 23);
             this.lTelefono.TabIndex = 4;
             this.lTelefono.Text = "Teléfono";
             // 
             // Ldni
             // 
             this.Ldni.AutoSize = true;
-            this.Ldni.Location = new System.Drawing.Point(40, 90);
+            this.Ldni.Location = new System.Drawing.Point(415, 69);
             this.Ldni.Name = "Ldni";
-            this.Ldni.Size = new System.Drawing.Size(49, 28);
+            this.Ldni.Size = new System.Drawing.Size(41, 23);
             this.Ldni.TabIndex = 2;
             this.Ldni.Text = "DNI";
             // 
             // Lnombre
             // 
             this.Lnombre.AutoSize = true;
-            this.Lnombre.Location = new System.Drawing.Point(40, 50);
+            this.Lnombre.Location = new System.Drawing.Point(40, 69);
             this.Lnombre.Name = "Lnombre";
-            this.Lnombre.Size = new System.Drawing.Size(89, 28);
+            this.Lnombre.Size = new System.Drawing.Size(76, 23);
             this.Lnombre.TabIndex = 0;
             this.Lnombre.Text = "Nombre";
             // 
@@ -215,25 +215,26 @@
             this.lRegistro.ForeColor = System.Drawing.Color.DarkGreen;
             this.lRegistro.Location = new System.Drawing.Point(50, 30);
             this.lRegistro.Name = "lRegistro";
-            this.lRegistro.Size = new System.Drawing.Size(253, 32);
+            this.lRegistro.Size = new System.Drawing.Size(209, 28);
             this.lRegistro.TabIndex = 1;
             this.lRegistro.Text = "Registro de Alumnos";
             // 
             // ClienteAgregarControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.lRegistro);
             this.Controls.Add(this.groupBoxRegistro);
             this.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.Name = "ClienteAgregarControl";
-            this.Size = new System.Drawing.Size(500, 500);
+            this.Size = new System.Drawing.Size(1128, 731);
             this.Load += new System.EventHandler(this.ClienteAgregarControl_Load);
             this.groupBoxRegistro.ResumeLayout(false);
             this.groupBoxRegistro.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
