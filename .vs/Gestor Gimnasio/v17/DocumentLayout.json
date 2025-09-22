@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\dashboardadministrador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|c:\\users\\agos\\source\\repos\\gimnasio-\\gestor gimnasio\\dashboardadministrador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\dashboardadministrador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|c:\\users\\agos\\source\\repos\\gimnasio-\\gestor gimnasio\\dashboarddue\u00F1o.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\dashboarddue\u00F1o.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|c:\\users\\agos\\source\\repos\\gimnasio-\\gestor gimnasio\\dashboardadministrador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\dashboardadministrador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\dashboarddue\u00F1o.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -90,7 +90,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -105,39 +105,43 @@
               "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "DashboardAdministrador.cs",
               "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardAdministrador.cs",
               "RelativeDocumentMoniker": "Gestor Gimnasio\\DashboardAdministrador.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardAdministrador.cs",
-              "RelativeToolTip": "Gestor Gimnasio\\DashboardAdministrador.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAAC0AAAA5AAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardAdministrador.cs*",
+              "RelativeToolTip": "Gestor Gimnasio\\DashboardAdministrador.cs*",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAABEAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-22T18:28:04.083Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "DashboardDue\u00F1o.cs",
               "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardDue\u00F1o.cs",
               "RelativeDocumentMoniker": "Gestor Gimnasio\\DashboardDue\u00F1o.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardDue\u00F1o.cs*",
-              "RelativeToolTip": "Gestor Gimnasio\\DashboardDue\u00F1o.cs*",
-              "ViewState": "AgIAACcAAAAAAAAAAAAWwDYAAAAMAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardDue\u00F1o.cs",
+              "RelativeToolTip": "Gestor Gimnasio\\DashboardDue\u00F1o.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAAAEIAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-22T18:27:53.952Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "DashboardAdministrador.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardAdministrador.cs",
               "RelativeDocumentMoniker": "Gestor Gimnasio\\DashboardAdministrador.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardAdministrador.cs [Dise\u00F1o]",
-              "RelativeToolTip": "Gestor Gimnasio\\DashboardAdministrador.cs [Dise\u00F1o]",
+              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardAdministrador.cs [Dise\u00F1o]*",
+              "RelativeToolTip": "Gestor Gimnasio\\DashboardAdministrador.cs [Dise\u00F1o]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-22T18:22:26.939Z",
               "EditorCaption": " [Dise\u00F1o]"
@@ -173,8 +177,8 @@
               "Title": "DashboardDue\u00F1o.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardDue\u00F1o.cs",
               "RelativeDocumentMoniker": "Gestor Gimnasio\\DashboardDue\u00F1o.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardDue\u00F1o.cs [Dise\u00F1o]*",
-              "RelativeToolTip": "Gestor Gimnasio\\DashboardDue\u00F1o.cs [Dise\u00F1o]*",
+              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardDue\u00F1o.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Gestor Gimnasio\\DashboardDue\u00F1o.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-22T02:00:54.208Z",
               "EditorCaption": " [Dise\u00F1o]"

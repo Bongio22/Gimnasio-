@@ -15,6 +15,7 @@ namespace Gestor_Gimnasio
         public DashboardAdministrador()
         {
             InitializeComponent();
+            InicioBienvenida();
         }
 
         private void BSalir_Click(object sender, EventArgs e)
@@ -46,6 +47,17 @@ namespace Gestor_Gimnasio
             ClienteAgregarControl ucCliente = new ClienteAgregarControl();
             ucCliente.Dock = DockStyle.Fill; // Que ocupe todo el panel
             panel_DashBoardAdm.Controls.Add(ucCliente); // Lo agregamos al panel
+        }
+
+        private void InicioBienvenida()
+        {
+            //nombre del panel en el form
+            panel_DashBoardAdm.Controls.Clear();
+
+            var bienvenida = new InicioBienvenidaControl();
+            bienvenida.Dock = DockStyle.Fill;
+
+            panel_DashBoardAdm.Controls.Add(bienvenida);
         }
     }
 }
