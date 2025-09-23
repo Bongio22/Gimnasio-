@@ -381,6 +381,42 @@ namespace Gestor_Gimnasio
         {
 
         }
+
+        private void textBoxNombre_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir solo letras
+            if (!char.IsControl(e.KeyChar) && char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquea el carácter
+            }
+        }
+
+        private void textBoxDomicilio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir solo letras
+            if (!char.IsControl(e.KeyChar) && char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquea el carácter
+            }
+        }
+
+        private void textBoxDNI_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir solo números y teclas de control (ej: Backspace)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquea el carácter
+            }
+        }
+
+        private void textBoxTelefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir solo números y teclas de control (ej: Backspace)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquea el carácter
+            }
+        }
     }
 }
 

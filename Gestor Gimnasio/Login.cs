@@ -119,5 +119,24 @@ namespace Gestor_Gimnasio
         {
             this.Close();
         }
+
+        private void txt_user_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txt_user_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir solo números y teclas de control (ej: Backspace)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquea el carácter
+            }
+        }
+
+        private void txt_contrasena_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
     }
 }

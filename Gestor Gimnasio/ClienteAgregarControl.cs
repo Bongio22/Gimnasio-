@@ -340,16 +340,26 @@ AND e.estado = 1 ORDER BY e.nombre;";
 
         private void textBoxDNI_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            // Permitir solo números y teclas de control (ej: Backspace)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
-                e.Handled = true;
+                e.Handled = true; // Bloquea el carácter
             }
         }
 
         private void textBoxTelefono_KeyPress(object sender, KeyPressEventArgs e)
         {
-            
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+
+            // Permitir solo números y teclas de control (ej: Backspace)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Bloquea el carácter
+            }
+        }
+
+        private void textBoxDomicilio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsLetter(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
                 e.Handled = true;
             }

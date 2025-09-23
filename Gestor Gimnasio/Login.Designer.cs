@@ -36,8 +36,8 @@
             this.txt_contrasena = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.BCerrar = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -98,6 +98,8 @@
             this.txt_user.Name = "txt_user";
             this.txt_user.Size = new System.Drawing.Size(244, 30);
             this.txt_user.TabIndex = 7;
+            this.txt_user.TextChanged += new System.EventHandler(this.txt_user_TextChanged);
+            this.txt_user.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_user_KeyPress);
             // 
             // txt_contrasena
             // 
@@ -108,6 +110,7 @@
             this.txt_contrasena.PasswordChar = '*';
             this.txt_contrasena.Size = new System.Drawing.Size(244, 30);
             this.txt_contrasena.TabIndex = 8;
+            this.txt_contrasena.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_contrasena_KeyPress);
             // 
             // panel1
             // 
@@ -133,17 +136,6 @@
             this.panel2.Size = new System.Drawing.Size(338, 457);
             this.panel2.TabIndex = 10;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Image = global::Gestor_Gimnasio.Properties.Resources.logo;
-            this.pictureBox1.Location = new System.Drawing.Point(71, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(206, 120);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
             // BCerrar
             // 
             this.BCerrar.BackColor = System.Drawing.Color.White;
@@ -157,6 +149,17 @@
             this.BCerrar.Text = "X";
             this.BCerrar.UseVisualStyleBackColor = false;
             this.BCerrar.Click += new System.EventHandler(this.BCerrar_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Image = global::Gestor_Gimnasio.Properties.Resources.logo;
+            this.pictureBox1.Location = new System.Drawing.Point(71, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(206, 120);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // Login
             // 

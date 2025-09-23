@@ -23,7 +23,6 @@ C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug
 C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.csproj.CoreCompileInputs.cache
 C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.exe
 C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.pdb
-C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.exe.config
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.DashboardDueño.resources
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.DashboardSuperAdmin.resources
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ProfesorAgregarControl.resources

@@ -144,6 +144,7 @@
             this.textBoxDomicilio.Name = "textBoxDomicilio";
             this.textBoxDomicilio.Size = new System.Drawing.Size(300, 27);
             this.textBoxDomicilio.TabIndex = 7;
+            this.textBoxDomicilio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxDomicilio_KeyPress);
             // 
             // lDomicilio
             // 
