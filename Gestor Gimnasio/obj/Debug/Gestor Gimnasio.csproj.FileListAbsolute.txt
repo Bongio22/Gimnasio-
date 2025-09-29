@@ -28,6 +28,15 @@ C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.D
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ProfesorAgregarControl.resources
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ClienteAgregarControl.resources
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.EditarEntrenador.resources
-C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ListaEntrenadores.resources
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.InicioBienvenidaControl.resources
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.DashboardAdministrador.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ListaClientesControl.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ListaEntrenadoresControl.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ReportesControl.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.EstadoCuotasControl.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.CobrosControl.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.BackUp.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.UsuariosControl.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ReporteCliente.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ReporteEntrenador.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.exe.config

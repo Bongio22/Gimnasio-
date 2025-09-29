@@ -36,6 +36,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,6 +48,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackUp.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BackUp.Designer.cs">
+      <DependentUpon>BackUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EstadoCuotasControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EstadoCuotasControl.Designer.cs">
+      <DependentUpon>EstadoCuotasControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DashboardAdministrador.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,17 +90,29 @@
     <Compile Include="InicioBienvenidaControl.Designer.cs">
       <DependentUpon>InicioBienvenidaControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListaEntrenadores.cs">
-      <SubType>Form</SubType>
+    <Compile Include="ListaClientesControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ListaEntrenadores.Designer.cs">
-      <DependentUpon>ListaEntrenadores.cs</DependentUpon>
+    <Compile Include="ListaClientesControl.Designer.cs">
+      <DependentUpon>ListaClientesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListaEntrenadoresControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ListaEntrenadoresControl.Designer.cs">
+      <DependentUpon>ListaEntrenadoresControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CobrosControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CobrosControl.Designer.cs">
+      <DependentUpon>CobrosControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,6 +128,41 @@
     <Compile Include="ProfesorAgregarControl.Designer.cs">
       <DependentUpon>ProfesorAgregarControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ReporteCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReporteCliente.Designer.cs">
+      <DependentUpon>ReporteCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReporteEntrenador.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReporteEntrenador.Designer.cs">
+      <DependentUpon>ReporteEntrenador.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReportesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ReportesControl.Designer.cs">
+      <DependentUpon>ReportesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UsuariosControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UsuariosControl.Designer.cs">
+      <DependentUpon>UsuariosControl.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="BackUp.resx">
+      <DependentUpon>BackUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EstadoCuotasControl.resx">
+      <DependentUpon>EstadoCuotasControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DashboardAdministrador.resx">
       <DependentUpon>DashboardAdministrador.cs</DependentUpon>
     </EmbeddedResource>
@@ -118,27 +178,40 @@
     <EmbeddedResource Include="InicioBienvenidaControl.resx">
       <DependentUpon>InicioBienvenidaControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ListaEntrenadores.resx">
-      <DependentUpon>ListaEntrenadores.cs</DependentUpon>
+    <EmbeddedResource Include="ListaClientesControl.resx">
+      <DependentUpon>ListaClientesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListaEntrenadoresControl.resx">
+      <DependentUpon>ListaEntrenadoresControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CobrosControl.resx">
+      <DependentUpon>CobrosControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProfesorAgregarControl.resx">
       <DependentUpon>ProfesorAgregarControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="ClienteAgregarControl.resx">
       <DependentUpon>ClienteAgregarControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteCliente.resx">
+      <DependentUpon>ReporteCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteEntrenador.resx">
+      <DependentUpon>ReporteEntrenador.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportesControl.resx">
+      <DependentUpon>ReportesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UsuariosControl.resx">
+      <DependentUpon>UsuariosControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -167,6 +240,45 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\gym_image.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dolar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dolar %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plata.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\usuario.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\usuario1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ahorrar-dinero.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reporte.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\users.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cuota.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bkup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\report.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cobrar.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

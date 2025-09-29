@@ -3,84 +3,44 @@
   "WorkspaceRootPath": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\clienteagregarcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\clienteagregarcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\clienteagregarcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\clienteagregarcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\profesoragregarcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\profesoragregarcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|c:\\users\\agos\\source\\repos\\gimnasio-\\gestor gimnasio\\profesoragregarcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\profesoragregarcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\dashboarddue\u00F1o.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\dashboarddue\u00F1o.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\dashboardadministrador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\dashboardadministrador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|c:\\users\\agos\\source\\repos\\gimnasio-\\gestor gimnasio\\dashboardadministrador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\dashboardadministrador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\dashboardsuperadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\dashboardsuperadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\dashboarddue\u00F1o.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\dashboarddue\u00F1o.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\clienteagregarcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\clienteagregarcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\dashboarddue\u00F1o.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\dashboarddue\u00F1o.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\clienteagregarcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\clienteagregarcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\editarentrenador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\editarentrenador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\cobroscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\cobroscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\editarentrenador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\editarentrenador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\profesoragregarcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\profesoragregarcontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\listaentrenadores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\listaentrenadores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\usuarioscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\usuarioscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\listaentrenadores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\listaentrenadores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\usuarioscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\usuarioscontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\dashboardsuperadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\dashboardsuperadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\iniciobienvenidacontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\iniciobienvenidacontrol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\dashboardsuperadmin.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\dashboardsuperadmin.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\profesoragregarcontrol.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\profesoragregarcontrol.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+      "AbsoluteMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|C:\\Users\\Agos\\source\\repos\\Gimnasio-\\gestor gimnasio\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EEB116E6-FED5-4832-80B4-851EB0488A66}|Gestor Gimnasio\\Gestor Gimnasio.csproj|solutionrelative:gestor gimnasio\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -90,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -106,246 +66,121 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Login.cs",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\Login.cs",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\Login.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\Login.cs",
-              "RelativeToolTip": "Gestor Gimnasio\\Login.cs",
-              "ViewState": "AgIAAHcAAAAAAAAAAAAMwIEAAAALAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-21T21:33:37.473Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "ProfesorAgregarControl.cs",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ProfesorAgregarControl.cs",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\ProfesorAgregarControl.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ProfesorAgregarControl.cs",
-              "RelativeToolTip": "Gestor Gimnasio\\ProfesorAgregarControl.cs",
-              "ViewState": "AgIAAI0BAAAAAAAAAAAWwKEBAAANAAAAAAAAAA==",
+              "Title": "DashboardSuperAdmin.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardSuperAdmin.cs",
+              "RelativeDocumentMoniker": "Gestor Gimnasio\\DashboardSuperAdmin.cs",
+              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardSuperAdmin.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Gestor Gimnasio\\DashboardSuperAdmin.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T15:23:37.814Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ProfesorAgregarControl.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ProfesorAgregarControl.cs",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\ProfesorAgregarControl.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ProfesorAgregarControl.cs [Dise\u00F1o]",
-              "RelativeToolTip": "Gestor Gimnasio\\ProfesorAgregarControl.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T20:56:54.496Z",
-              "EditorCaption": " [Dise\u00F1o]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ClienteAgregarControl.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ClienteAgregarControl.cs",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\ClienteAgregarControl.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ClienteAgregarControl.cs [Dise\u00F1o]",
-              "RelativeToolTip": "Gestor Gimnasio\\ClienteAgregarControl.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T15:36:33.552Z",
+              "WhenOpened": "2025-09-28T21:18:52.542Z",
               "EditorCaption": " [Dise\u00F1o]"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ClienteAgregarControl.cs",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ClienteAgregarControl.cs",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\ClienteAgregarControl.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ClienteAgregarControl.cs",
-              "RelativeToolTip": "Gestor Gimnasio\\ClienteAgregarControl.cs",
-              "ViewState": "AgIAAFoBAAAAAAAAAAAMwGwBAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T04:18:25.15Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\Program.cs",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\Program.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\Program.cs",
-              "RelativeToolTip": "Gestor Gimnasio\\Program.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAawBIAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-19T13:13:56.319Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "DashboardAdministrador.cs",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardAdministrador.cs",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\DashboardAdministrador.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardAdministrador.cs",
-              "RelativeToolTip": "Gestor Gimnasio\\DashboardAdministrador.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAAABEAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T18:28:04.083Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Login.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\Login.cs",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\Login.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\Login.cs [Dise\u00F1o]",
-              "RelativeToolTip": "Gestor Gimnasio\\Login.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-19T15:15:14.788Z",
-              "EditorCaption": " [Dise\u00F1o]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "DashboardAdministrador.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardAdministrador.cs",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\DashboardAdministrador.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardAdministrador.cs [Dise\u00F1o]",
-              "RelativeToolTip": "Gestor Gimnasio\\DashboardAdministrador.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T18:22:26.939Z",
-              "EditorCaption": " [Dise\u00F1o]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "DashboardDue\u00F1o.cs",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardDue\u00F1o.cs",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\DashboardDue\u00F1o.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardDue\u00F1o.cs",
-              "RelativeToolTip": "Gestor Gimnasio\\DashboardDue\u00F1o.cs",
-              "ViewState": "AgIAADUAAAAAAAAAAAAAAEIAAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T18:27:53.952Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
               "Title": "DashboardDue\u00F1o.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardDue\u00F1o.cs",
               "RelativeDocumentMoniker": "Gestor Gimnasio\\DashboardDue\u00F1o.cs",
               "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardDue\u00F1o.cs [Dise\u00F1o]",
               "RelativeToolTip": "Gestor Gimnasio\\DashboardDue\u00F1o.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T02:00:54.208Z"
+              "WhenOpened": "2025-09-28T21:08:52.444Z",
+              "EditorCaption": " [Dise\u00F1o]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "EditarEntrenador.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\EditarEntrenador.cs",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\EditarEntrenador.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\EditarEntrenador.cs [Dise\u00F1o]",
-              "RelativeToolTip": "Gestor Gimnasio\\EditarEntrenador.cs [Dise\u00F1o]",
+              "DocumentIndex": 1,
+              "Title": "DashboardAdministrador.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardAdministrador.cs",
+              "RelativeDocumentMoniker": "Gestor Gimnasio\\DashboardAdministrador.cs",
+              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardAdministrador.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Gestor Gimnasio\\DashboardAdministrador.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-21T15:58:41.777Z"
+              "WhenOpened": "2025-09-28T14:22:44.466Z",
+              "EditorCaption": " [Dise\u00F1o]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "EditarEntrenador.cs",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\EditarEntrenador.cs",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\EditarEntrenador.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\EditarEntrenador.cs",
-              "RelativeToolTip": "Gestor Gimnasio\\EditarEntrenador.cs",
-              "ViewState": "AgIAAK4AAAAAAAAAAAAwwMQAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "ClienteAgregarControl.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ClienteAgregarControl.cs",
+              "RelativeDocumentMoniker": "Gestor Gimnasio\\ClienteAgregarControl.cs",
+              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ClienteAgregarControl.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Gestor Gimnasio\\ClienteAgregarControl.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-21T20:31:42.178Z"
+              "WhenOpened": "2025-09-29T17:49:09.391Z",
+              "EditorCaption": " [Dise\u00F1o]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "ListaEntrenadores.cs",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ListaEntrenadores.cs",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\ListaEntrenadores.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ListaEntrenadores.cs",
-              "RelativeToolTip": "Gestor Gimnasio\\ListaEntrenadores.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAYwDgAAAAtAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "ClienteAgregarControl.cs",
+              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ClienteAgregarControl.cs",
+              "RelativeDocumentMoniker": "Gestor Gimnasio\\ClienteAgregarControl.cs",
+              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ClienteAgregarControl.cs",
+              "RelativeToolTip": "Gestor Gimnasio\\ClienteAgregarControl.cs",
+              "ViewState": "AgIAALoBAAAAAAAAAAAwwCcBAABkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T01:47:25.168Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "ListaEntrenadores.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ListaEntrenadores.cs",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\ListaEntrenadores.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ListaEntrenadores.cs [Dise\u00F1o]",
-              "RelativeToolTip": "Gestor Gimnasio\\ListaEntrenadores.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T15:49:49.548Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "DashboardSuperAdmin.cs",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardSuperAdmin.cs",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\DashboardSuperAdmin.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardSuperAdmin.cs",
-              "RelativeToolTip": "Gestor Gimnasio\\DashboardSuperAdmin.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAABgAAABGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T15:14:13.334Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "InicioBienvenidaControl.cs",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\InicioBienvenidaControl.cs",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\InicioBienvenidaControl.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\InicioBienvenidaControl.cs",
-              "RelativeToolTip": "Gestor Gimnasio\\InicioBienvenidaControl.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAkwBsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T14:21:07.999Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "DashboardSuperAdmin.Designer.cs",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardSuperAdmin.Designer.cs",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\DashboardSuperAdmin.Designer.cs",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\DashboardSuperAdmin.Designer.cs",
-              "RelativeToolTip": "Gestor Gimnasio\\DashboardSuperAdmin.Designer.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-19T15:11:54.6Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "ProfesorAgregarControl.resx",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ProfesorAgregarControl.resx",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\ProfesorAgregarControl.resx",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ProfesorAgregarControl.resx",
-              "RelativeToolTip": "Gestor Gimnasio\\ProfesorAgregarControl.resx",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2025-09-19T15:15:02.601Z",
+              "WhenOpened": "2025-09-29T17:49:13.01Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "App.config",
-              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\App.config",
-              "RelativeDocumentMoniker": "Gestor Gimnasio\\App.config",
-              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\App.config",
-              "RelativeToolTip": "Gestor Gimnasio\\App.config",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2025-09-17T02:19:22.987Z",
-              "EditorCaption": ""
+              "DocumentIndex": 9,
+              "Title": "Login.cs",
+              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\Login.cs",
+              "RelativeDocumentMoniker": "Gestor Gimnasio\\Login.cs",
+              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\Login.cs",
+              "RelativeToolTip": "Gestor Gimnasio\\Login.cs",
+              "ViewState": "AgIAAFUAAAAAAAAAAAAkwI0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-29T17:50:42.114Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CobrosControl.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\CobrosControl.cs",
+              "RelativeDocumentMoniker": "Gestor Gimnasio\\CobrosControl.cs",
+              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\CobrosControl.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Gestor Gimnasio\\CobrosControl.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-29T20:08:55.502Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UsuariosControl.cs",
+              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\UsuariosControl.cs",
+              "RelativeDocumentMoniker": "Gestor Gimnasio\\UsuariosControl.cs",
+              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\UsuariosControl.cs",
+              "RelativeToolTip": "Gestor Gimnasio\\UsuariosControl.cs",
+              "ViewState": "AgIAAIkAAAAAAAAAAAAswJcAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-29T17:47:30.326Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ProfesorAgregarControl.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ProfesorAgregarControl.cs",
+              "RelativeDocumentMoniker": "Gestor Gimnasio\\ProfesorAgregarControl.cs",
+              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\ProfesorAgregarControl.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Gestor Gimnasio\\ProfesorAgregarControl.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-29T18:26:40.933Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UsuariosControl.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\UsuariosControl.cs",
+              "RelativeDocumentMoniker": "Gestor Gimnasio\\UsuariosControl.cs",
+              "ToolTip": "C:\\Users\\Agos\\source\\repos\\Gimnasio-\\Gestor Gimnasio\\UsuariosControl.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Gestor Gimnasio\\UsuariosControl.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-29T18:06:17.749Z"
             }
           ]
         }

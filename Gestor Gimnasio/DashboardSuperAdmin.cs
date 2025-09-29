@@ -14,10 +14,37 @@ namespace Gestor_Gimnasio
 {
     public partial class DashboardSuperAdmin : Form
     {
+        private Control controlActivo;
         public DashboardSuperAdmin()
         {
             InitializeComponent();
             InicioBienvenida();
+        }
+
+        private void AbrirControlEnPanel(Control ctrl)
+        {
+            try
+            {
+                if (controlActivo != null && !controlActivo.IsDisposed)
+                {
+                    controlActivo.Dispose();
+                    controlActivo = null;
+                }
+
+                panelContenedor.Controls.Clear();
+
+                ctrl.Dock = DockStyle.Fill;                 // ocupa todo el panel
+                panelContenedor.Controls.Add(ctrl);
+                panelContenedor.Tag = ctrl;
+
+                controlActivo = ctrl;
+                ctrl.BringToFront();
+                ctrl.Focus();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No se pudo abrir la vista: " + ex.ToString());
+            }
         }
 
         private void BEntrenadores_Click(object sender, EventArgs e)
@@ -55,6 +82,27 @@ namespace Gestor_Gimnasio
             bienvenida.Dock = DockStyle.Fill;
 
             panelContenedor.Controls.Add(bienvenida);
+        }
+
+        private void BClientes_Click(object sender, EventArgs e)
+        {
+            AbrirControlEnPanel(new ClienteAgregarControl());
+        }
+
+        private void BUsuarios_Click(object sender, EventArgs e)
+        {
+            AbrirControlEnPanel(new UsuariosControl());
+        }
+
+        private void BCuotas_Click(object sender, EventArgs e)
+        {
+            AbrirControlEnPanel(new EstadoCuotasControl());
+        }
+
+
+        private void B_backup_Click(object sender, EventArgs e)
+        {
+            AbrirControlEnPanel(new BackUp()); 
         }
     }
 }

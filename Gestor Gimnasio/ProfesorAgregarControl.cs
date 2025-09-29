@@ -20,7 +20,10 @@ namespace Gestor_Gimnasio
         public ProfesorAgregarControl()
         {
             InitializeComponent();
-            
+            tabla_profesores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            tabla_profesores.MultiSelect = false;
+            tabla_profesores.AllowUserToAddRows = false;
+            tabla_profesores.AllowUserToResizeRows = false;
         }
 
         private void ProfesorAgregarControl_Load(object sender, EventArgs e)
@@ -210,6 +213,7 @@ namespace Gestor_Gimnasio
 
             // ocultar columna real estado (bit)
             tabla_profesores.Columns["estado"].Visible = false;
+            tabla_profesores.Columns["id_entrenador"].Visible = false;
 
             // eliminar columnas si ya estaban
             if (tabla_profesores.Columns.Contains("Editar")) tabla_profesores.Columns.Remove("Editar");

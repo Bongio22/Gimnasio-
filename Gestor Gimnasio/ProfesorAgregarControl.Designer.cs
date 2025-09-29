@@ -33,8 +33,8 @@ namespace Gestor_Gimnasio
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lTitulo = new System.Windows.Forms.Label();
             this.groupBoxRegistroProf = new System.Windows.Forms.GroupBox();
             this.lTurno = new System.Windows.Forms.Label();
@@ -53,6 +53,10 @@ namespace Gestor_Gimnasio
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.tabla_profesores = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox_DniEntrenadores = new System.Windows.Forms.TextBox();
+            this.B_BuscarEntrenador = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBoxRegistroProf.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCupo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabla_profesores)).BeginInit();
@@ -65,9 +69,9 @@ namespace Gestor_Gimnasio
             this.lTitulo.ForeColor = System.Drawing.Color.DarkGreen;
             this.lTitulo.Location = new System.Drawing.Point(95, 54);
             this.lTitulo.Name = "lTitulo";
-            this.lTitulo.Size = new System.Drawing.Size(226, 28);
+            this.lTitulo.Size = new System.Drawing.Size(303, 28);
             this.lTitulo.TabIndex = 0;
-            this.lTitulo.Text = "Registro de Profesores";
+            this.lTitulo.Text = "REGISTRO DE ENTRENADORES";
             // 
             // groupBoxRegistroProf
             // 
@@ -93,7 +97,7 @@ namespace Gestor_Gimnasio
             this.groupBoxRegistroProf.Size = new System.Drawing.Size(941, 361);
             this.groupBoxRegistroProf.TabIndex = 1;
             this.groupBoxRegistroProf.TabStop = false;
-            this.groupBoxRegistroProf.Text = "Datos del Profesor";
+            this.groupBoxRegistroProf.Text = "Datos del Entrenador";
             // 
             // lTurno
             // 
@@ -250,41 +254,89 @@ namespace Gestor_Gimnasio
             this.tabla_profesores.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tabla_profesores.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.tabla_profesores.BackgroundColor = System.Drawing.Color.GreenYellow;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 10F);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.tabla_profesores.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.tabla_profesores.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.DarkSlateGray;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.DarkSlateGray;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.tabla_profesores.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.tabla_profesores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.GreenYellow;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 10F);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.tabla_profesores.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.AliceBlue;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.tabla_profesores.DefaultCellStyle = dataGridViewCellStyle2;
             this.tabla_profesores.GridColor = System.Drawing.Color.GreenYellow;
-            this.tabla_profesores.Location = new System.Drawing.Point(183, 506);
+            this.tabla_profesores.Location = new System.Drawing.Point(183, 563);
             this.tabla_profesores.Name = "tabla_profesores";
             this.tabla_profesores.RowHeadersWidth = 51;
             this.tabla_profesores.RowTemplate.Height = 24;
-            this.tabla_profesores.Size = new System.Drawing.Size(907, 264);
+            this.tabla_profesores.Size = new System.Drawing.Size(907, 357);
             this.tabla_profesores.TabIndex = 2;
             this.tabla_profesores.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tabla_profesores_CellContentClick_1);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.label1.ForeColor = System.Drawing.Color.DarkGreen;
+            this.label1.Location = new System.Drawing.Point(95, 507);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(260, 28);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "LISTA DE ENTRENADORES";
+            // 
+            // textBox_DniEntrenadores
+            // 
+            this.textBox_DniEntrenadores.Location = new System.Drawing.Point(787, 525);
+            this.textBox_DniEntrenadores.Name = "textBox_DniEntrenadores";
+            this.textBox_DniEntrenadores.Size = new System.Drawing.Size(201, 30);
+            this.textBox_DniEntrenadores.TabIndex = 6;
+            // 
+            // B_BuscarEntrenador
+            // 
+            this.B_BuscarEntrenador.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.B_BuscarEntrenador.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.B_BuscarEntrenador.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.B_BuscarEntrenador.ForeColor = System.Drawing.Color.White;
+            this.B_BuscarEntrenador.Location = new System.Drawing.Point(994, 521);
+            this.B_BuscarEntrenador.Name = "B_BuscarEntrenador";
+            this.B_BuscarEntrenador.Size = new System.Drawing.Size(96, 36);
+            this.B_BuscarEntrenador.TabIndex = 7;
+            this.B_BuscarEntrenador.Text = "Buscar";
+            this.B_BuscarEntrenador.UseVisualStyleBackColor = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.DarkGreen;
+            this.label2.Location = new System.Drawing.Point(661, 530);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(120, 25);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Ingresar DNI";
+            // 
             // ProfesorAgregarControl
             // 
+            this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.B_BuscarEntrenador);
+            this.Controls.Add(this.textBox_DniEntrenadores);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.tabla_profesores);
             this.Controls.Add(this.lTitulo);
             this.Controls.Add(this.groupBoxRegistroProf);
             this.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.Name = "ProfesorAgregarControl";
-            this.Size = new System.Drawing.Size(1191, 800);
+            this.Size = new System.Drawing.Size(1191, 941);
             this.Load += new System.EventHandler(this.ProfesorAgregarControl_Load);
             this.groupBoxRegistroProf.ResumeLayout(false);
             this.groupBoxRegistroProf.PerformLayout();
@@ -296,5 +348,9 @@ namespace Gestor_Gimnasio
         }
 
         private DataGridView tabla_profesores;
+        private Label label1;
+        private TextBox textBox_DniEntrenadores;
+        private Button B_BuscarEntrenador;
+        private Label label2;
     }
 }

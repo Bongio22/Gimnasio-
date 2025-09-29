@@ -12,52 +12,86 @@ namespace Gestor_Gimnasio
 {
     public partial class DashboardAdministrador : Form
     {
+        private Control controlActivo;
+
         public DashboardAdministrador()
         {
             InitializeComponent();
             InicioBienvenida();
+
+        
         }
 
-        private void BSalir_Click(object sender, EventArgs e)
+        
+        private void AbrirControlEnPanel(Control ctrl)
         {
-            //CON ESTO VOLVEMOS A EL INICIO DE SESION SIN CERRAR COMPLETAMENTE LA APLICACION
-            Login login = new Login();
-            login.Show();
-            this.Hide();
+            try
+            {
+                if (controlActivo != null && !controlActivo.IsDisposed)
+                {
+                    controlActivo.Dispose();
+                    controlActivo = null;
+                }
 
+                panel_DashBoardAdm.Controls.Clear();
+
+                ctrl.Dock = DockStyle.Fill;                
+                panel_DashBoardAdm.Controls.Add(ctrl);
+                panel_DashBoardAdm.Tag = ctrl;
+
+                controlActivo = ctrl;
+                ctrl.BringToFront();
+                ctrl.Focus();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No se pudo abrir la vista: " + ex.ToString());
+            }
         }
 
+ 
         private void B_Entrenadores_Click(object sender, EventArgs e)
         {
-            // Limpiamos el panel antes de cargar el control
-            panel_DashBoardAdm.Controls.Clear();
-
-            // Creamos la instancia del UserControl
-            ProfesorAgregarControl ucProfesor = new ProfesorAgregarControl();
-            ucProfesor.Dock = DockStyle.Fill; // Que ocupe todo el panel
-            panel_DashBoardAdm.Controls.Add(ucProfesor); // Lo agregamos al panel
+            AbrirControlEnPanel(new ProfesorAgregarControl());
         }
 
         private void B_Clientes_Click(object sender, EventArgs e)
         {
-            // Limpiamos el panel antes de cargar el control
-            panel_DashBoardAdm.Controls.Clear();
-
-            // Creamos la instancia del UserControl
-            ClienteAgregarControl ucCliente = new ClienteAgregarControl();
-            ucCliente.Dock = DockStyle.Fill; // Que ocupe todo el panel
-            panel_DashBoardAdm.Controls.Add(ucCliente); // Lo agregamos al panel
+            AbrirControlEnPanel(new ClienteAgregarControl());
         }
+
+
+      
+
 
         private void InicioBienvenida()
         {
-            //nombre del panel en el form
             panel_DashBoardAdm.Controls.Clear();
 
-            var bienvenida = new InicioBienvenidaControl();
-            bienvenida.Dock = DockStyle.Fill;
+            var bienvenida = new InicioBienvenidaControl
+            {
+                Dock = DockStyle.Fill
+            };
 
             panel_DashBoardAdm.Controls.Add(bienvenida);
+        }
+
+     
+        private void BSalir_Click(object sender, EventArgs e)
+        {
+            var login = new Login();
+            login.Show();
+            this.Hide();
+        }
+
+        private void B_EstadoCuota_Click(object sender, EventArgs e)
+        {
+            AbrirControlEnPanel(new EstadoCuotasControl());
+        }
+
+        private void B_Cobros_Click(object sender, EventArgs e)
+        {
+            AbrirControlEnPanel(new CobrosControl());
         }
     }
 }

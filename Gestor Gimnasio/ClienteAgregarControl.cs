@@ -18,6 +18,10 @@ namespace Gestor_Gimnasio
         public ClienteAgregarControl()
         {
             InitializeComponent();
+            Agregar_ListaClientes();
+            CargarListaClientes();
+            comboBoxTurno.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxProfesor.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void ClienteAgregarControl_Load(object sender, EventArgs e)
@@ -73,6 +77,7 @@ namespace Gestor_Gimnasio
             comboBoxProfesor.Items.Add("Seleccione un turno primero");
             comboBoxProfesor.SelectedIndex = 0;
             comboBoxProfesor.Enabled = false;
+            dtpFechaAlta.Value = DateTime.Today;
         }
 
         //el disable de los entrenadores correspomdientes al turno elegido
@@ -108,7 +113,7 @@ AND e.estado = 1 ORDER BY e.nombre;";
                         comboBoxProfesor.Enabled = true;
                         comboBoxProfesor.DataSource = tablaProfesores;
                         comboBoxProfesor.DisplayMember = "nombre";        // lo que se ve
-                        comboBoxProfesor.ValueMember = "id_entrenador";   // el ID real
+                        comboBoxProfesor.ValueMember = "id_entrenador";   // el id real
                         comboBoxProfesor.SelectedIndex = 0;
                     }
                     else
@@ -202,30 +207,21 @@ AND e.estado = 1 ORDER BY e.nombre;";
                 return;
             }
 
-            // obtener datos del formulario
+            // tomar fecha de alta desde el picker
+            DateTime fechaAlta = dtpFechaAlta.Value.Date;
+
+            // datos
             string nombre = textBoxNombre.Text.Trim();
             string domicilio = textBoxDomicilio.Text.Trim();
-
-            if (!int.TryParse(comboBoxTurno.SelectedValue.ToString(), out int idTurno))
-            {
-                MessageBox.Show("Error en la selección del turno.", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (!int.TryParse(comboBoxProfesor.SelectedValue.ToString(), out int idProfesor))
-            {
-                MessageBox.Show("Error en la selección del profesor.", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            int idTurno = int.Parse(comboBoxTurno.SelectedValue.ToString());
+            int idProfesor = int.Parse(comboBoxProfesor.SelectedValue.ToString()); // si más adelante lo guardás
 
             string cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
 
-            // insertar alumno usando turno y profesor seleccionados
-            const string sqlInsAlumno = @"INSERT INTO dbo.Alumno (estado, dni, nombre, telefono, domicilio, id_turno)
-    VALUES (@estado, @dni, @nombre, @telefono, @domicilio, @id_turno);
-    SELECT CAST(SCOPE_IDENTITY() AS int);";
+            const string sqlInsAlumno = @"
+        INSERT INTO dbo.Alumno (estado, dni, nombre, telefono, domicilio, id_turno, fecha_alta)
+        VALUES (@estado, @dni, @nombre, @telefono, @domicilio, @id_turno, @fecha_alta);
+        SELECT CAST(SCOPE_IDENTITY() AS int);";
 
             try
             {
@@ -234,33 +230,37 @@ AND e.estado = 1 ORDER BY e.nombre;";
                 {
                     cn.Open();
 
-                    // parametros para evitar errores
                     cmd.Parameters.Add("@estado", SqlDbType.Bit).Value = 1;
-                    cmd.Parameters.Add("@dni", SqlDbType.Int).Value = dni;
+                    cmd.Parameters.Add("@dni", SqlDbType.Int).Value = int.Parse(textBoxDNI.Text.Trim());
                     cmd.Parameters.Add("@nombre", SqlDbType.VarChar, 50).Value = nombre;
-                    cmd.Parameters.Add("@telefono", SqlDbType.Int).Value = telefono;
+                    cmd.Parameters.Add("@telefono", SqlDbType.Int).Value = int.Parse(textBoxTelefono.Text.Trim());
                     cmd.Parameters.Add("@domicilio", SqlDbType.VarChar, 50).Value = domicilio;
                     cmd.Parameters.Add("@id_turno", SqlDbType.Int).Value = idTurno;
+
+                    fechaAlta = dtpFechaAlta.Value.Date;
+                    cmd.Parameters.Add("@fecha_alta", SqlDbType.Date).Value = fechaAlta;
+
 
                     var resultado = cmd.ExecuteScalar();
                     if (resultado != null && int.TryParse(resultado.ToString(), out int idAlumno))
                     {
-                        MessageBox.Show($"¡Alumno guardado exitosamente!\n\nID: {idAlumno}\nNombre: {nombre}\nTurno: {comboBoxTurno.Text}\nProfesor: {comboBoxProfesor.Text}",
+                        MessageBox.Show(
+                            $"¡Alumno guardado!\n\nID: {idAlumno}\nNombre: {nombre}\nTurno: {comboBoxTurno.Text}\nProfesor: {comboBoxProfesor.Text}\nFecha alta: {fechaAlta:dd/MM/yyyy}",
                             "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                       
                         LimpiarFormulario();
+                        
                     }
                     else
                     {
-                        MessageBox.Show("Error: No se pudo obtener el ID del alumno creado.", "Error",
+                        MessageBox.Show("No se pudo obtener el ID del alumno creado.", "Error",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
-            catch (SqlException ex) when (ex.Number == 2627 || ex.Number == 2601) // restricción UNIQUE para dni
+            catch (SqlException ex) when (ex.Number == 2627 || ex.Number == 2601)
             {
-                MessageBox.Show($"Ya existe un alumno registrado con el DNI: {dni}\n\nPor favor, verifique el DNI e intente nuevamente.",
+                MessageBox.Show($"Ya existe un alumno registrado con el DNI ingresado.",
                     "DNI Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxDNI.Focus();
                 textBoxDNI.SelectAll();
@@ -275,7 +275,200 @@ AND e.estado = 1 ORDER BY e.nombre;";
                 MessageBox.Show($"Error inesperado al guardar el alumno:\n\n{ex.Message}",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            CargarListaClientes();
         }
+
+
+        private void Agregar_ListaClientes()
+        {
+            var dgv = dataGridView_ListaClientes;
+
+            dgv.AutoGenerateColumns = false;
+            dgv.Columns.Clear();
+            dgv.ReadOnly = true; // los botones igual funcionan
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.MultiSelect = false;
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.RowHeadersVisible = false;
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // id oculto
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colId",
+                HeaderText = "ID",
+                DataPropertyName = "id_alumno",
+                Visible = false
+            });
+            // guardar bit real para usarlo en los botones
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colEstadoBit",
+                HeaderText = "estado_bit",
+                DataPropertyName = "estado",
+                Visible = false
+            });
+
+            // visibles
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colNombre",
+                HeaderText = "Nombre",
+                DataPropertyName = "nombre"
+            });
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colDni",
+                HeaderText = "DNI",
+                DataPropertyName = "dni",
+                Width = 110
+            });
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colTelefono",
+                HeaderText = "Teléfono",
+                DataPropertyName = "telefono",
+                Width = 110
+            });
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colDomicilio",
+                HeaderText = "Domicilio",
+                DataPropertyName = "domicilio"
+            });
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colTurno",
+                HeaderText = "Turno",
+                DataPropertyName = "turno"
+            });
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "colEstadoTxt",
+                HeaderText = "Estado",
+                DataPropertyName = "EstadoTexto",
+                Width = 90
+            });
+
+            // acciones
+            var colEditar = new DataGridViewButtonColumn
+            {
+                Name = "colEditar",
+                HeaderText = "Editar",
+                Text = "Editar",
+                UseColumnTextForButtonValue = true
+            };
+            dgv.Columns.Add(colEditar);
+
+            // 
+            var colToggle = new DataGridViewButtonColumn
+            {
+                Name = "colToggle",
+                HeaderText = "Acción",
+                UseColumnTextForButtonValue = false // lo seteo en DataBindingComplete
+            };
+            dgv.Columns.Add(colToggle);
+
+            // Eventos
+            dgv.DataBindingComplete -= dataGridView_ListaClientes_DataBindingComplete;
+            dgv.DataBindingComplete += dataGridView_ListaClientes_DataBindingComplete;
+
+            dgv.CellContentClick -= dataGridView_ListaClientes_CellContentClick;
+            dgv.CellContentClick += dataGridView_ListaClientes_CellContentClick;
+        }
+
+        public void CargarListaClientes()
+        {
+            string cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
+
+            const string sql = @"
+        SELECT
+            a.id_alumno,
+            a.nombre,
+            a.dni,
+            a.telefono,
+            a.domicilio,
+            a.estado,              -- BIT (1 activo / 0 inactivo)
+            t.descripcion AS turno
+        FROM dbo.Alumno a
+        LEFT JOIN dbo.Turno t ON t.id_turno = a.id_turno
+        ORDER BY a.nombre;";
+
+            var dt = new DataTable();
+            try
+            {
+                using (var cn = new SqlConnection(cs))
+                using (var da = new SqlDataAdapter(sql, cn))
+                {
+                    da.Fill(dt);
+                }
+
+                // col EstadoTexto (Activo/Inactivo)
+                if (!dt.Columns.Contains("EstadoTexto"))
+                    dt.Columns.Add("EstadoTexto", typeof(string));
+
+                foreach (DataRow r in dt.Rows)
+                {
+                    bool activo = r["estado"] != DBNull.Value && Convert.ToBoolean(r["estado"]);
+                    r["EstadoTexto"] = activo ? "Activo" : "Inactivo";
+                }
+
+                dataGridView_ListaClientes.DataSource = dt;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar clientes: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // ajustar el texto del botón según el estado (por cada fila)
+        private void dataGridView_ListaClientes_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            var dgv = dataGridView_ListaClientes;
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                bool activo = false;
+                if (row.Cells["colEstadoBit"].Value != null && row.Cells["colEstadoBit"].Value != DBNull.Value)
+                    activo = Convert.ToBoolean(row.Cells["colEstadoBit"].Value);
+
+                row.Cells["colToggle"].Value = activo ? "Dar de baja" : "Dar de alta";
+            }
+        }
+
+        // 
+        private void dataGridView_ListaClientes_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            var dgv = dataGridView_ListaClientes;
+
+            // btn editar
+            if (dgv.Columns[e.ColumnIndex].Name == "colEditar")
+            {
+                int idAlumno = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["colId"].Value);
+                string nombre = dgv.Rows[e.RowIndex].Cells["colNombre"].Value?.ToString() ?? "";
+                //sql funcional
+                MessageBox.Show($"Editar alumno: {nombre} (ID {idAlumno})");
+            }
+
+            
+            if (dgv.Columns[e.ColumnIndex].Name == "colToggle")
+            {
+                int idAlumno = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["colId"].Value);
+                bool activo = Convert.ToBoolean(dgv.Rows[e.RowIndex].Cells["colEstadoBit"].Value);
+                string accion = activo ? "dar de baja" : "dar de alta";
+              //sql funcional
+                MessageBox.Show($"(Demo) Vas a {accion} al alumno ID {idAlumno}");
+               
+            }
+        }
+
+
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -325,9 +518,6 @@ AND e.estado = 1 ORDER BY e.nombre;";
 
 
 
-
-
-
         //Permitir solo letras y/o numeros, espacios y backspace
         private void textBoxNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -340,7 +530,7 @@ AND e.estado = 1 ORDER BY e.nombre;";
 
         private void textBoxDNI_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permitir solo números y teclas de control (ej: Backspace)
+            // permitir solo números y teclas de control (ej: Backspace)
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true; // Bloquea el carácter
@@ -350,7 +540,7 @@ AND e.estado = 1 ORDER BY e.nombre;";
         private void textBoxTelefono_KeyPress(object sender, KeyPressEventArgs e)
         {
 
-            // Permitir solo números y teclas de control (ej: Backspace)
+            // permitir solo números y teclas de control (ej: Backspace)
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true; // Bloquea el carácter
@@ -359,10 +549,7 @@ AND e.estado = 1 ORDER BY e.nombre;";
 
         private void textBoxDomicilio_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsLetter(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar) && !char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;
-            }
+           
         }
     }
 }

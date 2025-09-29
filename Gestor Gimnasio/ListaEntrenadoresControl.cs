@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Configuration;     // ConfigurationManager
-using System.Data.SqlClient;    // SqlConnection, SqlCommand
 
 namespace Gestor_Gimnasio
 {
-    public partial class ListaEntrenadores : Form
+    public partial class ListaEntrenadoresControl : UserControl
     {
-        public ListaEntrenadores()
+        public ListaEntrenadoresControl()
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen;
+            
         }
-
         // metodo público para cargar los entrenadores
         public void CargarEntrenadores()
         {
@@ -47,7 +46,7 @@ namespace Gestor_Gimnasio
                 if (!dt.Columns.Contains("EstadoTexto"))
                     dt.Columns.Add("EstadoTexto", typeof(string));
 
-               
+
                 foreach (DataRow row in dt.Rows)
                 {
                     bool activo = Convert.ToBoolean(row["estado"]);
@@ -75,7 +74,7 @@ namespace Gestor_Gimnasio
 
                 // ajusta las columnas automaticamente al contenido
                 lista_Entrenadores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-               
+
                 // centra el contenido de las celdas
                 lista_Entrenadores.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
@@ -93,15 +92,11 @@ namespace Gestor_Gimnasio
             }
         }
 
-     
+
         private void ListaEntrenadores_Load(object sender, EventArgs e)
         {
             CargarEntrenadores();
         }
 
-        private void ListaEntrenadores_Load_1(object sender, EventArgs e)
-        {
-
-        }
     }
 }

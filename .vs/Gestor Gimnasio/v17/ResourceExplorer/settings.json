@@ -2,7 +2,7 @@
   "ShowEmptyProjects": false,
   "SelectedGroups": [],
   "ExpandedProjects": [],
-  "EnableSpellChecker": true,
+  "EnableSpellChecker": false,
   "ColumnOrder": [
     "name",
     "type",
@@ -11,6 +11,7 @@
   ],
   "VisibleColumnKeys": [
     "name",
+    "neutral-comment",
     "neutral-value"
   ]
 }
