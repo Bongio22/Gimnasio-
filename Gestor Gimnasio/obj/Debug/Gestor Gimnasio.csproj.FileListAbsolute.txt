@@ -40,3 +40,5 @@ C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.U
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ReporteCliente.resources
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ReporteEntrenador.resources
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.exe.config
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.EditarCliente.resources
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.EditarUsuario.resources

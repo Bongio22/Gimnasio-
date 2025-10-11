@@ -31,8 +31,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBoxRegistro = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.dtpFecha_nac = new System.Windows.Forms.DateTimePicker();
+            this.label4 = new System.Windows.Forms.Label();
             this.dtpFechaAlta = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
+            this.textBoxCorreo = new System.Windows.Forms.TextBox();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.comboBoxProfesor = new System.Windows.Forms.ComboBox();
@@ -59,8 +63,12 @@
             // 
             // groupBoxRegistro
             // 
+            this.groupBoxRegistro.Controls.Add(this.label5);
+            this.groupBoxRegistro.Controls.Add(this.dtpFecha_nac);
+            this.groupBoxRegistro.Controls.Add(this.label4);
             this.groupBoxRegistro.Controls.Add(this.dtpFechaAlta);
             this.groupBoxRegistro.Controls.Add(this.label3);
+            this.groupBoxRegistro.Controls.Add(this.textBoxCorreo);
             this.groupBoxRegistro.Controls.Add(this.btnCancelar);
             this.groupBoxRegistro.Controls.Add(this.btnGuardar);
             this.groupBoxRegistro.Controls.Add(this.comboBoxProfesor);
@@ -77,31 +85,63 @@
             this.groupBoxRegistro.Controls.Add(this.Lnombre);
             this.groupBoxRegistro.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxRegistro.ForeColor = System.Drawing.Color.DarkGreen;
-            this.groupBoxRegistro.Location = new System.Drawing.Point(149, 119);
+            this.groupBoxRegistro.Location = new System.Drawing.Point(100, 119);
             this.groupBoxRegistro.Name = "groupBoxRegistro";
-            this.groupBoxRegistro.Size = new System.Drawing.Size(941, 361);
+            this.groupBoxRegistro.Size = new System.Drawing.Size(967, 387);
             this.groupBoxRegistro.TabIndex = 0;
             this.groupBoxRegistro.TabStop = false;
             this.groupBoxRegistro.Text = "Datos del Cliente";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(716, 47);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(174, 23);
+            this.label5.TabIndex = 30;
+            this.label5.Text = "Fecha de nacimiento";
+            // 
+            // dtpFecha_nac
+            // 
+            this.dtpFecha_nac.Location = new System.Drawing.Point(720, 73);
+            this.dtpFecha_nac.Name = "dtpFecha_nac";
+            this.dtpFecha_nac.Size = new System.Drawing.Size(202, 30);
+            this.dtpFecha_nac.TabIndex = 29;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(375, 148);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(64, 23);
+            this.label4.TabIndex = 27;
+            this.label4.Text = "Correo";
             // 
             // dtpFechaAlta
             // 
             this.dtpFechaAlta.CalendarForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.dtpFechaAlta.CalendarMonthBackground = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.dtpFechaAlta.CalendarTitleForeColor = System.Drawing.Color.GreenYellow;
-            this.dtpFechaAlta.Location = new System.Drawing.Point(175, 268);
+            this.dtpFechaAlta.Location = new System.Drawing.Point(550, 271);
             this.dtpFechaAlta.Name = "dtpFechaAlta";
-            this.dtpFechaAlta.Size = new System.Drawing.Size(336, 30);
+            this.dtpFechaAlta.Size = new System.Drawing.Size(200, 30);
             this.dtpFechaAlta.TabIndex = 16;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(40, 274);
+            this.label3.Location = new System.Drawing.Point(546, 245);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(115, 23);
             this.label3.TabIndex = 15;
             this.label3.Text = "Fecha de alta";
+            // 
+            // textBoxCorreo
+            // 
+            this.textBoxCorreo.Location = new System.Drawing.Point(379, 174);
+            this.textBoxCorreo.Name = "textBoxCorreo";
+            this.textBoxCorreo.Size = new System.Drawing.Size(312, 30);
+            this.textBoxCorreo.TabIndex = 28;
             // 
             // btnCancelar
             // 
@@ -109,7 +149,7 @@
             this.btnCancelar.FlatAppearance.BorderSize = 0;
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
-            this.btnCancelar.Location = new System.Drawing.Point(807, 285);
+            this.btnCancelar.Location = new System.Drawing.Point(822, 328);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(100, 35);
             this.btnCancelar.TabIndex = 13;
@@ -123,7 +163,7 @@
             this.btnGuardar.FlatAppearance.BorderSize = 0;
             this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(680, 285);
+            this.btnGuardar.Location = new System.Drawing.Point(695, 328);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(100, 35);
             this.btnGuardar.TabIndex = 12;
@@ -135,15 +175,15 @@
             // 
             this.comboBoxProfesor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxProfesor.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.comboBoxProfesor.Location = new System.Drawing.Point(707, 187);
+            this.comboBoxProfesor.Location = new System.Drawing.Point(287, 271);
             this.comboBoxProfesor.Name = "comboBoxProfesor";
-            this.comboBoxProfesor.Size = new System.Drawing.Size(200, 28);
+            this.comboBoxProfesor.Size = new System.Drawing.Size(226, 28);
             this.comboBoxProfesor.TabIndex = 11;
             // 
             // lProfesor
             // 
             this.lProfesor.AutoSize = true;
-            this.lProfesor.Location = new System.Drawing.Point(703, 161);
+            this.lProfesor.Location = new System.Drawing.Point(283, 245);
             this.lProfesor.Name = "lProfesor";
             this.lProfesor.Size = new System.Drawing.Size(77, 23);
             this.lProfesor.TabIndex = 10;
@@ -153,7 +193,7 @@
             // 
             this.comboBoxTurno.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTurno.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.comboBoxTurno.Location = new System.Drawing.Point(419, 187);
+            this.comboBoxTurno.Location = new System.Drawing.Point(40, 271);
             this.comboBoxTurno.Name = "comboBoxTurno";
             this.comboBoxTurno.Size = new System.Drawing.Size(200, 28);
             this.comboBoxTurno.TabIndex = 9;
@@ -162,7 +202,7 @@
             // lTurno
             // 
             this.lTurno.AutoSize = true;
-            this.lTurno.Location = new System.Drawing.Point(415, 161);
+            this.lTurno.Location = new System.Drawing.Point(36, 245);
             this.lTurno.Name = "lTurno";
             this.lTurno.Size = new System.Drawing.Size(56, 23);
             this.lTurno.TabIndex = 8;
@@ -171,16 +211,16 @@
             // textBoxDomicilio
             // 
             this.textBoxDomicilio.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.textBoxDomicilio.Location = new System.Drawing.Point(40, 187);
+            this.textBoxDomicilio.Location = new System.Drawing.Point(40, 177);
             this.textBoxDomicilio.Name = "textBoxDomicilio";
-            this.textBoxDomicilio.Size = new System.Drawing.Size(300, 27);
+            this.textBoxDomicilio.Size = new System.Drawing.Size(308, 27);
             this.textBoxDomicilio.TabIndex = 7;
             this.textBoxDomicilio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxDomicilio_KeyPress);
             // 
             // lDomicilio
             // 
             this.lDomicilio.AutoSize = true;
-            this.lDomicilio.Location = new System.Drawing.Point(40, 161);
+            this.lDomicilio.Location = new System.Drawing.Point(40, 151);
             this.lDomicilio.Name = "lDomicilio";
             this.lDomicilio.Size = new System.Drawing.Size(87, 23);
             this.lDomicilio.TabIndex = 6;
@@ -189,7 +229,7 @@
             // textBoxTelefono
             // 
             this.textBoxTelefono.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.textBoxTelefono.Location = new System.Drawing.Point(707, 95);
+            this.textBoxTelefono.Location = new System.Drawing.Point(720, 177);
             this.textBoxTelefono.Name = "textBoxTelefono";
             this.textBoxTelefono.Size = new System.Drawing.Size(200, 27);
             this.textBoxTelefono.TabIndex = 5;
@@ -198,25 +238,25 @@
             // textBoxDNI
             // 
             this.textBoxDNI.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.textBoxDNI.Location = new System.Drawing.Point(419, 95);
+            this.textBoxDNI.Location = new System.Drawing.Point(450, 78);
             this.textBoxDNI.Name = "textBoxDNI";
-            this.textBoxDNI.Size = new System.Drawing.Size(200, 27);
+            this.textBoxDNI.Size = new System.Drawing.Size(211, 27);
             this.textBoxDNI.TabIndex = 3;
             this.textBoxDNI.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxDNI_KeyPress);
             // 
             // textBoxNombre
             // 
             this.textBoxNombre.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.textBoxNombre.Location = new System.Drawing.Point(40, 95);
+            this.textBoxNombre.Location = new System.Drawing.Point(40, 78);
             this.textBoxNombre.Name = "textBoxNombre";
-            this.textBoxNombre.Size = new System.Drawing.Size(300, 27);
+            this.textBoxNombre.Size = new System.Drawing.Size(364, 27);
             this.textBoxNombre.TabIndex = 1;
             this.textBoxNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxNombre_KeyPress);
             // 
             // lTelefono
             // 
             this.lTelefono.AutoSize = true;
-            this.lTelefono.Location = new System.Drawing.Point(703, 69);
+            this.lTelefono.Location = new System.Drawing.Point(716, 151);
             this.lTelefono.Name = "lTelefono";
             this.lTelefono.Size = new System.Drawing.Size(78, 23);
             this.lTelefono.TabIndex = 4;
@@ -225,7 +265,7 @@
             // Ldni
             // 
             this.Ldni.AutoSize = true;
-            this.Ldni.Location = new System.Drawing.Point(415, 69);
+            this.Ldni.Location = new System.Drawing.Point(446, 52);
             this.Ldni.Name = "Ldni";
             this.Ldni.Size = new System.Drawing.Size(41, 23);
             this.Ldni.TabIndex = 2;
@@ -234,11 +274,11 @@
             // Lnombre
             // 
             this.Lnombre.AutoSize = true;
-            this.Lnombre.Location = new System.Drawing.Point(40, 69);
+            this.Lnombre.Location = new System.Drawing.Point(40, 52);
             this.Lnombre.Name = "Lnombre";
-            this.Lnombre.Size = new System.Drawing.Size(76, 23);
+            this.Lnombre.Size = new System.Drawing.Size(163, 23);
             this.Lnombre.TabIndex = 0;
-            this.Lnombre.Text = "Nombre";
+            this.Lnombre.Text = "Nombre y Apellido";
             // 
             // lRegistro
             // 
@@ -371,5 +411,9 @@
         private System.Windows.Forms.Button B_BuscarCliente;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DateTimePicker dtpFechaAlta;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBoxCorreo;
+        private System.Windows.Forms.DateTimePicker dtpFecha_nac;
+        private System.Windows.Forms.Label label5;
     }
 }

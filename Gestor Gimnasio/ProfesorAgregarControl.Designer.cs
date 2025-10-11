@@ -37,6 +37,10 @@ namespace Gestor_Gimnasio
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lTitulo = new System.Windows.Forms.Label();
             this.groupBoxRegistroProf = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.dtpFecha_nac = new System.Windows.Forms.DateTimePicker();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBoxCorreo = new System.Windows.Forms.TextBox();
             this.lTurno = new System.Windows.Forms.Label();
             this.comboBoxTurno = new System.Windows.Forms.ComboBox();
             this.lNombre = new System.Windows.Forms.Label();
@@ -75,6 +79,10 @@ namespace Gestor_Gimnasio
             // 
             // groupBoxRegistroProf
             // 
+            this.groupBoxRegistroProf.Controls.Add(this.label5);
+            this.groupBoxRegistroProf.Controls.Add(this.dtpFecha_nac);
+            this.groupBoxRegistroProf.Controls.Add(this.label3);
+            this.groupBoxRegistroProf.Controls.Add(this.textBoxCorreo);
             this.groupBoxRegistroProf.Controls.Add(this.lTurno);
             this.groupBoxRegistroProf.Controls.Add(this.comboBoxTurno);
             this.groupBoxRegistroProf.Controls.Add(this.lNombre);
@@ -92,17 +100,50 @@ namespace Gestor_Gimnasio
             this.groupBoxRegistroProf.Controls.Add(this.btnCancelar);
             this.groupBoxRegistroProf.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.groupBoxRegistroProf.ForeColor = System.Drawing.Color.DarkGreen;
-            this.groupBoxRegistroProf.Location = new System.Drawing.Point(166, 115);
+            this.groupBoxRegistroProf.Location = new System.Drawing.Point(100, 115);
             this.groupBoxRegistroProf.Name = "groupBoxRegistroProf";
-            this.groupBoxRegistroProf.Size = new System.Drawing.Size(941, 361);
+            this.groupBoxRegistroProf.Size = new System.Drawing.Size(1007, 361);
             this.groupBoxRegistroProf.TabIndex = 1;
             this.groupBoxRegistroProf.TabStop = false;
             this.groupBoxRegistroProf.Text = "Datos del Entrenador";
+            this.groupBoxRegistroProf.Enter += new System.EventHandler(this.groupBoxRegistroProf_Enter);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(723, 55);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(174, 23);
+            this.label5.TabIndex = 32;
+            this.label5.Text = "Fecha de nacimiento";
+            // 
+            // dtpFecha_nac
+            // 
+            this.dtpFecha_nac.Location = new System.Drawing.Point(727, 81);
+            this.dtpFecha_nac.Name = "dtpFecha_nac";
+            this.dtpFecha_nac.Size = new System.Drawing.Size(237, 30);
+            this.dtpFecha_nac.TabIndex = 31;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(408, 144);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(64, 23);
+            this.label3.TabIndex = 25;
+            this.label3.Text = "Correo";
+            // 
+            // textBoxCorreo
+            // 
+            this.textBoxCorreo.Location = new System.Drawing.Point(412, 170);
+            this.textBoxCorreo.Name = "textBoxCorreo";
+            this.textBoxCorreo.Size = new System.Drawing.Size(318, 30);
+            this.textBoxCorreo.TabIndex = 26;
             // 
             // lTurno
             // 
             this.lTurno.AutoSize = true;
-            this.lTurno.Location = new System.Drawing.Point(386, 144);
+            this.lTurno.Location = new System.Drawing.Point(42, 242);
             this.lTurno.Name = "lTurno";
             this.lTurno.Size = new System.Drawing.Size(56, 23);
             this.lTurno.TabIndex = 10;
@@ -112,7 +153,7 @@ namespace Gestor_Gimnasio
             // 
             this.comboBoxTurno.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTurno.FormattingEnabled = true;
-            this.comboBoxTurno.Location = new System.Drawing.Point(390, 170);
+            this.comboBoxTurno.Location = new System.Drawing.Point(46, 268);
             this.comboBoxTurno.Name = "comboBoxTurno";
             this.comboBoxTurno.Size = new System.Drawing.Size(200, 31);
             this.comboBoxTurno.TabIndex = 11;
@@ -131,7 +172,7 @@ namespace Gestor_Gimnasio
             // 
             this.textBoxNombre.Location = new System.Drawing.Point(46, 81);
             this.textBoxNombre.Name = "textBoxNombre";
-            this.textBoxNombre.Size = new System.Drawing.Size(300, 30);
+            this.textBoxNombre.Size = new System.Drawing.Size(336, 30);
             this.textBoxNombre.TabIndex = 13;
             this.textBoxNombre.TextChanged += new System.EventHandler(this.textBoxNombre_TextChanged);
             this.textBoxNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxNombre_KeyPress);
@@ -139,7 +180,7 @@ namespace Gestor_Gimnasio
             // lDni
             // 
             this.lDni.AutoSize = true;
-            this.lDni.Location = new System.Drawing.Point(386, 55);
+            this.lDni.Location = new System.Drawing.Point(425, 55);
             this.lDni.Name = "lDni";
             this.lDni.Size = new System.Drawing.Size(41, 23);
             this.lDni.TabIndex = 14;
@@ -147,7 +188,7 @@ namespace Gestor_Gimnasio
             // 
             // textBoxDNI
             // 
-            this.textBoxDNI.Location = new System.Drawing.Point(390, 81);
+            this.textBoxDNI.Location = new System.Drawing.Point(429, 81);
             this.textBoxDNI.Name = "textBoxDNI";
             this.textBoxDNI.Size = new System.Drawing.Size(233, 30);
             this.textBoxDNI.TabIndex = 15;
@@ -157,7 +198,7 @@ namespace Gestor_Gimnasio
             // lTelefono
             // 
             this.lTelefono.AutoSize = true;
-            this.lTelefono.Location = new System.Drawing.Point(657, 55);
+            this.lTelefono.Location = new System.Drawing.Point(758, 144);
             this.lTelefono.Name = "lTelefono";
             this.lTelefono.Size = new System.Drawing.Size(78, 23);
             this.lTelefono.TabIndex = 16;
@@ -165,9 +206,9 @@ namespace Gestor_Gimnasio
             // 
             // textBoxTelefono
             // 
-            this.textBoxTelefono.Location = new System.Drawing.Point(661, 81);
+            this.textBoxTelefono.Location = new System.Drawing.Point(762, 170);
             this.textBoxTelefono.Name = "textBoxTelefono";
-            this.textBoxTelefono.Size = new System.Drawing.Size(233, 30);
+            this.textBoxTelefono.Size = new System.Drawing.Size(202, 30);
             this.textBoxTelefono.TabIndex = 17;
             this.textBoxTelefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTelefono_KeyPress);
             // 
@@ -184,14 +225,14 @@ namespace Gestor_Gimnasio
             // 
             this.textBoxDomicilio.Location = new System.Drawing.Point(46, 170);
             this.textBoxDomicilio.Name = "textBoxDomicilio";
-            this.textBoxDomicilio.Size = new System.Drawing.Size(300, 30);
+            this.textBoxDomicilio.Size = new System.Drawing.Size(347, 30);
             this.textBoxDomicilio.TabIndex = 19;
             this.textBoxDomicilio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxDomicilio_KeyPress);
             // 
             // lCupo
             // 
             this.lCupo.AutoSize = true;
-            this.lCupo.Location = new System.Drawing.Point(42, 256);
+            this.lCupo.Location = new System.Drawing.Point(279, 271);
             this.lCupo.Name = "lCupo";
             this.lCupo.Size = new System.Drawing.Size(52, 23);
             this.lCupo.TabIndex = 20;
@@ -199,7 +240,7 @@ namespace Gestor_Gimnasio
             // 
             // numCupo
             // 
-            this.numCupo.Location = new System.Drawing.Point(120, 254);
+            this.numCupo.Location = new System.Drawing.Point(346, 269);
             this.numCupo.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -214,7 +255,7 @@ namespace Gestor_Gimnasio
             this.chkActivo.AutoSize = true;
             this.chkActivo.Checked = true;
             this.chkActivo.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkActivo.Location = new System.Drawing.Point(274, 257);
+            this.chkActivo.Location = new System.Drawing.Point(383, 305);
             this.chkActivo.Name = "chkActivo";
             this.chkActivo.Size = new System.Drawing.Size(83, 27);
             this.chkActivo.TabIndex = 22;
@@ -226,9 +267,9 @@ namespace Gestor_Gimnasio
             this.btnGuardar.FlatAppearance.BorderSize = 0;
             this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(599, 290);
+            this.btnGuardar.Location = new System.Drawing.Point(727, 288);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(120, 35);
+            this.btnGuardar.Size = new System.Drawing.Size(100, 35);
             this.btnGuardar.TabIndex = 23;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = false;
@@ -240,9 +281,9 @@ namespace Gestor_Gimnasio
             this.btnCancelar.FlatAppearance.BorderSize = 0;
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
-            this.btnCancelar.Location = new System.Drawing.Point(774, 290);
+            this.btnCancelar.Location = new System.Drawing.Point(862, 288);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(120, 35);
+            this.btnCancelar.Size = new System.Drawing.Size(100, 35);
             this.btnCancelar.TabIndex = 24;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = false;
@@ -273,11 +314,11 @@ namespace Gestor_Gimnasio
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.tabla_profesores.DefaultCellStyle = dataGridViewCellStyle2;
             this.tabla_profesores.GridColor = System.Drawing.Color.GreenYellow;
-            this.tabla_profesores.Location = new System.Drawing.Point(183, 563);
+            this.tabla_profesores.Location = new System.Drawing.Point(74, 572);
             this.tabla_profesores.Name = "tabla_profesores";
             this.tabla_profesores.RowHeadersWidth = 51;
             this.tabla_profesores.RowTemplate.Height = 24;
-            this.tabla_profesores.Size = new System.Drawing.Size(907, 357);
+            this.tabla_profesores.Size = new System.Drawing.Size(1056, 357);
             this.tabla_profesores.TabIndex = 2;
             this.tabla_profesores.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tabla_profesores_CellContentClick_1);
             // 
@@ -352,5 +393,9 @@ namespace Gestor_Gimnasio
         private TextBox textBox_DniEntrenadores;
         private Button B_BuscarEntrenador;
         private Label label2;
+        private Label label3;
+        private TextBox textBoxCorreo;
+        private Label label5;
+        private DateTimePicker dtpFecha_nac;
     }
 }

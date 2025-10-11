@@ -24,12 +24,19 @@ namespace Gestor_Gimnasio
             tabla_profesores.MultiSelect = false;
             tabla_profesores.AllowUserToAddRows = false;
             tabla_profesores.AllowUserToResizeRows = false;
+            tabla_profesores.RowHeadersVisible = false;
         }
 
         private void ProfesorAgregarControl_Load(object sender, EventArgs e)
         {
             
             this.Dock = DockStyle.Fill;
+            
+            // DateTimePicker: formato, límites y check para permitir NULL
+            dtpFecha_nac.Format = DateTimePickerFormat.Short;
+            dtpFecha_nac.MaxDate = DateTime.Today;
+            dtpFecha_nac.MinDate = new DateTime(1900, 1, 1);
+            dtpFecha_nac.ShowCheckBox = true;   // si se destilda => NULL
 
             string cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
             const string sql = "SELECT id_turno, descripcion FROM dbo.Turno ORDER BY descripcion;";
@@ -64,6 +71,12 @@ namespace Gestor_Gimnasio
             numCupo.Value = 0;
             chkActivo.Checked = true;
             textBoxNombre.Focus();
+            textBoxCorreo.Clear();                
+            numCupo.Value = 0;
+            chkActivo.Checked = true;
+
+            dtpFecha_nac.Checked = false; //  sin fecha por defecto
+            textBoxNombre.Focus();
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -75,19 +88,65 @@ namespace Gestor_Gimnasio
             if (!int.TryParse(textBoxDNI.Text, out var dni))
             { MessageBox.Show("DNI inválido."); textBoxDNI.Focus(); return; }
 
-            if (!int.TryParse(textBoxTelefono.Text, out var tel))
-            { MessageBox.Show("Teléfono inválido."); textBoxTelefono.Focus(); return; }
+            //  limitá largo del textbox en el diseñador (p.ej. MaxLength = 15)
+            if (!long.TryParse(textBoxTelefono.Text.Trim(), out long tel))
+            {
+                MessageBox.Show("Teléfono inválido.");
+                textBoxTelefono.Focus();
+                return;
+            }
+
+            // (opcional) chequeo de longitud razonable
+            var len = textBoxTelefono.Text.Trim().Length;
+            if (len < 6 || len > 15)
+            {
+                MessageBox.Show("El teléfono debe tener entre 6 y 15 dígitos.");
+                textBoxTelefono.Focus();
+                return;
+            }
+
 
             if (comboBoxTurno.SelectedValue == null)
             { MessageBox.Show("Debes seleccionar un turno."); return; }
 
+           
+            string correo = textBoxCorreo.Text.Trim();
+            if (string.IsNullOrWhiteSpace(correo))
+            {
+                MessageBox.Show("El correo es obligatorio.");
+                textBoxCorreo.Focus();
+                return;
+            }
+
+            // Fecha (NULL si está destildado el checkbox)
+            DateTime? fechaNac = null;
+            if (dtpFecha_nac.ShowCheckBox)
+            {
+                if (dtpFecha_nac.Checked)
+                    fechaNac = dtpFecha_nac.Value.Date;
+            }
+            else
+            {
+                fechaNac = dtpFecha_nac.Value.Date;
+            }
+
+            // Regla opcional: edad mínima 18
+            if (fechaNac.HasValue && fechaNac.Value > DateTime.Today.AddYears(-18))
+            {
+                MessageBox.Show("La edad mínima es de 18 años.");
+                return;
+            }
+
+
             var cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
 
             //  Insertar entrenador sin id_turno
+           
             const string sqlEntrenador = @"
-        INSERT INTO dbo.Entrenador (cupo, nombre, estado, telefono, dni, domicilio)
-        VALUES (@cupo, @nombre, @estado, @telefono, @dni, @domicilio);
-        SELECT CAST(SCOPE_IDENTITY() AS int);";
+INSERT INTO dbo.Entrenador (cupo, nombre, estado, telefono, dni, domicilio, correo, fecha_nac)
+VALUES (@cupo, @nombre, @estado, @telefono, @dni, @domicilio, @correo, @fecha_nac);
+SELECT CAST(SCOPE_IDENTITY() AS int);";
+
 
             // vincula con turno
             const string sqlVinculo = @"
@@ -110,8 +169,9 @@ namespace Gestor_Gimnasio
                             cmd.Parameters.Add("@estado", SqlDbType.Bit).Value = chkActivo.Checked ? 1 : 0;
                             cmd.Parameters.Add("@telefono", SqlDbType.BigInt).Value = tel;               
                             cmd.Parameters.Add("@dni", SqlDbType.Int).Value = dni;                    // INT y UNIQUE
-                            cmd.Parameters.Add("@domicilio", SqlDbType.VarChar, 50).Value =
-                                (object)(textBoxDomicilio.Text?.Trim() ?? string.Empty);
+                            cmd.Parameters.Add("@domicilio", SqlDbType.VarChar, 50).Value = (object)(textBoxDomicilio.Text?.Trim() ?? string.Empty);
+                            cmd.Parameters.Add("@correo", SqlDbType.VarChar, 120).Value = correo;
+                            cmd.Parameters.Add("@fecha_nac", SqlDbType.Date).Value = fechaNac.HasValue ? (object)fechaNac.Value : DBNull.Value;
 
                             idNuevo = (int)cmd.ExecuteScalar();
                         }
@@ -148,15 +208,6 @@ namespace Gestor_Gimnasio
             }
         }
 
-        private void comboBoxTurno_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBoxNombre_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         // metodo para obtener todos los proesores
         
@@ -168,9 +219,21 @@ namespace Gestor_Gimnasio
             using (SqlConnection con = new SqlConnection(cs))
             {
                 string sql = @"
-        SELECT e.id_entrenador,e.nombre,e.dni,e.telefono,e.domicilio,e.cupo,e.estado,t.descripcion AS turno
-        FROM Entrenador e INNER JOIN Turno_Entrenador te ON e.id_entrenador = te.id_entrenador
-        INNER JOIN Turno t ON te.id_turno = t.id_turno";
+SELECT 
+    e.id_entrenador,
+    e.nombre,
+    e.dni,
+    e.telefono,
+    e.domicilio,
+    e.cupo,
+    e.estado,
+    e.correo,                 -- NUEVO
+    e.fecha_nac,      -- NUEVO
+    t.descripcion AS turno
+FROM Entrenador e
+INNER JOIN Turno_Entrenador te ON e.id_entrenador = te.id_entrenador
+INNER JOIN Turno t ON te.id_turno = t.id_turno";
+
 
                 using (SqlDataAdapter da = new SqlDataAdapter(sql, con))
                 {
@@ -180,9 +243,6 @@ namespace Gestor_Gimnasio
 
             return dt;
         }
-
-
-
 
         // cargar entrenadores en data grid view
         private void CargarEntrenadores()
@@ -201,7 +261,7 @@ namespace Gestor_Gimnasio
 
             tabla_profesores.DataSource = entrenadores;
 
-            // encabezados
+            // encabezados (agrego dos)
             tabla_profesores.Columns["id_entrenador"].HeaderText = "ID";
             tabla_profesores.Columns["nombre"].HeaderText = "NOMBRE";
             tabla_profesores.Columns["dni"].HeaderText = "DNI";
@@ -209,6 +269,15 @@ namespace Gestor_Gimnasio
             tabla_profesores.Columns["domicilio"].HeaderText = "DOMICILIO";
             tabla_profesores.Columns["turno"].HeaderText = "TURNO";
             tabla_profesores.Columns["cupo"].HeaderText = "CUPO";
+            tabla_profesores.Columns["estadoTexto"].HeaderText = "ESTADO";
+            tabla_profesores.Columns["correo"].HeaderText = "CORREO";
+            tabla_profesores.Columns["fecha_nac"].HeaderText = "FECHA NAC.";
+
+            // formato amigable de fecha
+            tabla_profesores.Columns["fecha_nac"].DefaultCellStyle.Format = "dd/MM/yyyy";
+            tabla_profesores.Columns["fecha_nac"].DefaultCellStyle.NullValue = "";
+
+
             tabla_profesores.Columns["estadoTexto"].HeaderText = "ESTADO";
 
             // ocultar columna real estado (bit)
@@ -284,8 +353,6 @@ namespace Gestor_Gimnasio
                 e.CellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             }
         }
-
-
 
 
         // click en botones del dgv
@@ -374,18 +441,6 @@ namespace Gestor_Gimnasio
             }
         }
 
-
-
-        private void textBoxDNI_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabla_profesores_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void textBoxNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Permitir solo letras
@@ -397,11 +452,7 @@ namespace Gestor_Gimnasio
 
         private void textBoxDomicilio_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permitir solo letras
-            if (!char.IsControl(e.KeyChar) && char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true; // Bloquea el carácter
-            }
+            
         }
 
         private void textBoxDNI_KeyPress(object sender, KeyPressEventArgs e)
@@ -420,6 +471,40 @@ namespace Gestor_Gimnasio
             {
                 e.Handled = true; // Bloquea el carácter
             }
+        }
+
+
+
+
+
+
+
+
+
+
+
+        //no eliminar porque se rompe el diseñador
+        private void groupBoxRegistroProf_Enter(object sender, EventArgs e)
+        {
+
+        }
+        private void comboBoxTurno_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxNombre_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void textBoxDNI_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabla_profesores_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

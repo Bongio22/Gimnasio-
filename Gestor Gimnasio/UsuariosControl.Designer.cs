@@ -43,10 +43,12 @@
             this.textBoxContrasena = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBoxDomicilio = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.BGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.lRegistro = new System.Windows.Forms.Label();
-            this.BGuardar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Usuarios)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -56,7 +58,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.label1.Location = new System.Drawing.Point(40, 49);
+            this.label1.Location = new System.Drawing.Point(40, 63);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(191, 28);
             this.label1.TabIndex = 0;
@@ -67,7 +69,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.label2.Location = new System.Drawing.Point(43, 149);
+            this.label2.Location = new System.Drawing.Point(40, 151);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(49, 28);
             this.label2.TabIndex = 1;
@@ -78,7 +80,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.label3.Location = new System.Drawing.Point(291, 149);
+            this.label3.Location = new System.Drawing.Point(300, 151);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(94, 28);
             this.label3.TabIndex = 2;
@@ -89,7 +91,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.label4.Location = new System.Drawing.Point(43, 258);
+            this.label4.Location = new System.Drawing.Point(390, 242);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(43, 28);
             this.label4.TabIndex = 3;
@@ -100,7 +102,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.label5.Location = new System.Drawing.Point(40, 345);
+            this.label5.Location = new System.Drawing.Point(77, 360);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(172, 28);
             this.label5.TabIndex = 4;
@@ -127,33 +129,33 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView_Usuarios.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridView_Usuarios.Location = new System.Drawing.Point(823, 262);
+            this.dataGridView_Usuarios.Location = new System.Drawing.Point(694, 250);
             this.dataGridView_Usuarios.Name = "dataGridView_Usuarios";
             this.dataGridView_Usuarios.RowHeadersWidth = 51;
             this.dataGridView_Usuarios.RowTemplate.Height = 24;
-            this.dataGridView_Usuarios.Size = new System.Drawing.Size(783, 473);
+            this.dataGridView_Usuarios.Size = new System.Drawing.Size(998, 473);
             this.dataGridView_Usuarios.TabIndex = 5;
             // 
             // textBoxNombre
             // 
             this.textBoxNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxNombre.Location = new System.Drawing.Point(45, 80);
+            this.textBoxNombre.Location = new System.Drawing.Point(45, 94);
             this.textBoxNombre.Name = "textBoxNombre";
-            this.textBoxNombre.Size = new System.Drawing.Size(512, 27);
+            this.textBoxNombre.Size = new System.Drawing.Size(521, 27);
             this.textBoxNombre.TabIndex = 6;
             // 
             // textBoxDni
             // 
             this.textBoxDni.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxDni.Location = new System.Drawing.Point(45, 180);
+            this.textBoxDni.Location = new System.Drawing.Point(42, 182);
             this.textBoxDni.Name = "textBoxDni";
-            this.textBoxDni.Size = new System.Drawing.Size(216, 27);
+            this.textBoxDni.Size = new System.Drawing.Size(221, 27);
             this.textBoxDni.TabIndex = 7;
             // 
             // textBoxTelefono
             // 
             this.textBoxTelefono.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxTelefono.Location = new System.Drawing.Point(296, 180);
+            this.textBoxTelefono.Location = new System.Drawing.Point(305, 182);
             this.textBoxTelefono.Name = "textBoxTelefono";
             this.textBoxTelefono.Size = new System.Drawing.Size(261, 27);
             this.textBoxTelefono.TabIndex = 8;
@@ -162,15 +164,15 @@
             // 
             this.comboBoxTipoRol.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBoxTipoRol.FormattingEnabled = true;
-            this.comboBoxTipoRol.Location = new System.Drawing.Point(102, 258);
+            this.comboBoxTipoRol.Location = new System.Drawing.Point(391, 273);
             this.comboBoxTipoRol.Name = "comboBoxTipoRol";
-            this.comboBoxTipoRol.Size = new System.Drawing.Size(283, 28);
+            this.comboBoxTipoRol.Size = new System.Drawing.Size(174, 28);
             this.comboBoxTipoRol.TabIndex = 9;
             // 
             // textBoxContrasena
             // 
             this.textBoxContrasena.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxContrasena.Location = new System.Drawing.Point(231, 346);
+            this.textBoxContrasena.Location = new System.Drawing.Point(265, 360);
             this.textBoxContrasena.Name = "textBoxContrasena";
             this.textBoxContrasena.Size = new System.Drawing.Size(244, 27);
             this.textBoxContrasena.TabIndex = 10;
@@ -178,6 +180,8 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
+            this.groupBox1.Controls.Add(this.textBoxDomicilio);
+            this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.BGuardar);
             this.groupBox1.Controls.Add(this.btnCancelar);
             this.groupBox1.Controls.Add(this.textBoxContrasena);
@@ -192,12 +196,46 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.groupBox1.Location = new System.Drawing.Point(151, 234);
+            this.groupBox1.Location = new System.Drawing.Point(59, 204);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(641, 501);
+            this.groupBox1.Size = new System.Drawing.Size(610, 533);
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos del Usuario";
+            // 
+            // textBoxDomicilio
+            // 
+            this.textBoxDomicilio.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxDomicilio.Location = new System.Drawing.Point(42, 273);
+            this.textBoxDomicilio.Name = "textBoxDomicilio";
+            this.textBoxDomicilio.Size = new System.Drawing.Size(326, 27);
+            this.textBoxDomicilio.TabIndex = 17;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.label7.Location = new System.Drawing.Point(40, 242);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(103, 28);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "Domicilio";
+            // 
+            // BGuardar
+            // 
+            this.BGuardar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.BGuardar.FlatAppearance.BorderSize = 0;
+            this.BGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BGuardar.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold);
+            this.BGuardar.ForeColor = System.Drawing.Color.White;
+            this.BGuardar.Location = new System.Drawing.Point(163, 458);
+            this.BGuardar.Name = "BGuardar";
+            this.BGuardar.Size = new System.Drawing.Size(116, 40);
+            this.BGuardar.TabIndex = 15;
+            this.BGuardar.Text = "Guardar";
+            this.BGuardar.UseVisualStyleBackColor = false;
+            this.BGuardar.Click += new System.EventHandler(this.BGuardar_Click);
             // 
             // btnCancelar
             // 
@@ -205,19 +243,20 @@
             this.btnCancelar.FlatAppearance.BorderSize = 0;
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
-            this.btnCancelar.Location = new System.Drawing.Point(323, 425);
+            this.btnCancelar.Location = new System.Drawing.Point(317, 458);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(116, 40);
             this.btnCancelar.TabIndex = 14;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = false;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.label6.Location = new System.Drawing.Point(818, 234);
+            this.label6.Location = new System.Drawing.Point(689, 219);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(93, 28);
             this.label6.TabIndex = 13;
@@ -234,21 +273,6 @@
             this.lRegistro.TabIndex = 14;
             this.lRegistro.Text = "REGISTRO DE USUARIOS";
             // 
-            // BGuardar
-            // 
-            this.BGuardar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.BGuardar.FlatAppearance.BorderSize = 0;
-            this.BGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BGuardar.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold);
-            this.BGuardar.ForeColor = System.Drawing.Color.White;
-            this.BGuardar.Location = new System.Drawing.Point(169, 425);
-            this.BGuardar.Name = "BGuardar";
-            this.BGuardar.Size = new System.Drawing.Size(116, 40);
-            this.BGuardar.TabIndex = 15;
-            this.BGuardar.Text = "Guardar";
-            this.BGuardar.UseVisualStyleBackColor = false;
-            this.BGuardar.Click += new System.EventHandler(this.BGuardar_Click);
-            // 
             // UsuariosControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -259,7 +283,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dataGridView_Usuarios);
             this.Name = "UsuariosControl";
-            this.Size = new System.Drawing.Size(1619, 941);
+            this.Size = new System.Drawing.Size(1734, 1293);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_Usuarios)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -287,5 +311,7 @@
         private System.Windows.Forms.Label lRegistro;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Button BGuardar;
+        private System.Windows.Forms.TextBox textBoxDomicilio;
+        private System.Windows.Forms.Label label7;
     }
 }

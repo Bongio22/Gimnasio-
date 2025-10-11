@@ -54,6 +54,18 @@
     <Compile Include="BackUp.Designer.cs">
       <DependentUpon>BackUp.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditarCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditarCliente.Designer.cs">
+      <DependentUpon>EditarCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditarUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditarUsuario.Designer.cs">
+      <DependentUpon>EditarUsuario.cs</DependentUpon>
+    </Compile>
     <Compile Include="EstadoCuotasControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -159,6 +171,12 @@
     </Compile>
     <EmbeddedResource Include="BackUp.resx">
       <DependentUpon>BackUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarCliente.resx">
+      <DependentUpon>EditarCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditarUsuario.resx">
+      <DependentUpon>EditarUsuario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EstadoCuotasControl.resx">
       <DependentUpon>EstadoCuotasControl.cs</DependentUpon>

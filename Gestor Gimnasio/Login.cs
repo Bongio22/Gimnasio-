@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;    // SqlConnection, SqlCommand
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,6 +24,7 @@ namespace Gestor_Gimnasio
 
         private void Login_Load(object sender, EventArgs e)
         {
+            txt_contrasena.UseSystemPasswordChar = true;
 
         }
 
@@ -30,90 +32,85 @@ namespace Gestor_Gimnasio
         {
 
         }
+        private static string HashSHA256(string input)
+        {
+            using (var sha = SHA256.Create())
+            {
+                var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(input));
+                var sb = new StringBuilder(bytes.Length * 2);
+                foreach (var b in bytes) sb.Append(b.ToString("x2"));
+                return sb.ToString(); // 64 chars hex
+            }
+        }
 
         private void Button_Ingresar_Click(object sender, EventArgs e)
         {
-            string dni = txt_user.Text.Trim();
-            string contrasena = txt_contrasena.Text.Trim();
+            string dniTxt = txt_user.Text.Trim();
+            string passTxt = txt_contrasena.Text;
 
-            if (string.IsNullOrEmpty(dni) || string.IsNullOrEmpty(contrasena))
+            if (string.IsNullOrWhiteSpace(dniTxt) || string.IsNullOrWhiteSpace(passTxt))
             {
                 MessageBox.Show("Debe ingresar DNI y contraseña.");
+                return;
+            }
+            if (!int.TryParse(dniTxt, out int dni))
+            {
+                MessageBox.Show("DNI inválido.");
                 return;
             }
 
             try
             {
-                // Obtener la conexión desde App.config (Key: "BaseDatos")
-                string conexionString = System.Configuration.ConfigurationManager
-                                            .ConnectionStrings["BaseDatos"].ConnectionString;
+                string cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
 
-                using (SqlConnection con = new SqlConnection(conexionString))
+                const string sql = @"
+SELECT TOP 1 u.id_usuario, u.nombre, u.dni, u.id_rol
+FROM dbo.Usuario AS u
+WHERE u.dni = @dni
+  AND u.contrasena = @hash
+  AND u.activo = 1;";
+
+                using (var con = new SqlConnection(cs))
+                using (var cmd = new SqlCommand(sql, con))
                 {
+                    cmd.Parameters.Add("@dni", SqlDbType.Int).Value = dni;
+                    cmd.Parameters.Add("@hash", SqlDbType.VarChar, 64).Value = HashSHA256(passTxt);
+
                     con.Open();
-
-                    string query = @"SELECT u.id_usuario, u.nombre, u.dni, r.id_rol
-                    FROM Usuario u
-                    INNER JOIN Rol r ON u.id_rol = r.id_rol
-                    WHERE u.dni = @dni AND u.contrasena = @contrasena;";
-
-
-                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    using (var rd = cmd.ExecuteReader())
                     {
-                        // Usar parámetros para evitar SQL Injection
-                        cmd.Parameters.AddWithValue("@dni", dni);
-                        cmd.Parameters.AddWithValue("@contrasena", contrasena);
-
-                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        if (rd.Read())
                         {
-                            if (reader.Read())
+                            int idUsuario = (int)rd["id_usuario"];
+                            int idRol = (int)rd["id_rol"];
+
+                            // Redirección según rol
+                            switch (idRol)
                             {
-                                int idUsuario = Convert.ToInt32(reader["id_usuario"]);
-                                string nombre = reader["nombre"].ToString();
-                                int idRol = Convert.ToInt32(reader["id_rol"]);  // 👈 acá tomamos el id_rol
-
-                                switch (idRol)
-                                {
-                                    case 1: // Super Admin
-                                        DashboardSuperAdmin superAdmin = new DashboardSuperAdmin();
-                                        superAdmin.Show();
-                                        this.Hide();
-                                        break;
-
-                                    case 2: // Admin
-                                        DashboardAdministrador admin = new DashboardAdministrador();
-                                        admin.Show();
-                                        this.Hide();
-                                        break;
-
-                                    case 3: // Dueño
-                                        DashboardDueño dueno = new DashboardDueño();
-                                        dueno.Show();
-                                        this.Hide();
-                                        break;
-
-                                    default:
-                                        MessageBox.Show("Rol no reconocido en la base de datos.");
-                                        break;
-                                }
+                                case 1:
+                                    new DashboardDueño().Show(); break;
+                                case 2:
+                                    new DashboardSuperAdmin().Show(); break;
+                                case 3:
+                                    new DashboardAdministrador().Show(); break;
+                                default:
+                                    MessageBox.Show("Rol no reconocido."); return;
                             }
-                            else
-                            {
-                                MessageBox.Show("DNI o contraseña incorrectos.");
-                            }
+                            this.Hide();
                         }
-
+                        else
+                        {
+                            MessageBox.Show("DNI o contraseña incorrectos, o usuario inactivo.");
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                // Manejo básico de errores: para debugging y producción lo ideal es loggear.
                 MessageBox.Show("Ocurrió un error al intentar iniciar sesión: " + ex.Message);
             }
-
-
         }
+
 
         private void BCerrar_Click(object sender, EventArgs e)
         {
