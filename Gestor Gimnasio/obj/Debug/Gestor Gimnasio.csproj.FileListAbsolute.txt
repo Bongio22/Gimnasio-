@@ -23,6 +23,7 @@ C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug
 C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.csproj.CoreCompileInputs.cache
 C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.exe
 C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.pdb
+<<<<<<< Updated upstream
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.DashboardDueño.resources
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.DashboardSuperAdmin.resources
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ProfesorAgregarControl.resources
@@ -42,3 +43,20 @@ C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.R
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.exe.config
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.EditarCliente.resources
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.EditarUsuario.resources
+=======
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.exe.config
+>>>>>>> Stashed changes
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.BackUp.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.EditarCliente.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.EditarUsuario.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.EstadoCuotasControl.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.DashboardAdministrador.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.EditarEntrenador.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.InicioBienvenidaControl.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ListaClientesControl.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ListaEntrenadoresControl.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.CobrosControl.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ReporteCliente.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ReporteEntrenador.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.ReportesControl.resources
+C:\Users\Iara Bongiovanni\source\repos\Gestor Gimnasio\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.UsuariosControl.resources

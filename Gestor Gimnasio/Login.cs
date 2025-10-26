@@ -88,9 +88,9 @@ WHERE u.dni = @dni
                             switch (idRol)
                             {
                                 case 1:
-                                    new DashboardDueño().Show(); break;
-                                case 2:
                                     new DashboardSuperAdmin().Show(); break;
+                                case 2:
+                                    new DashboardDueño().Show(); break;
                                 case 3:
                                     new DashboardAdministrador().Show(); break;
                                 default:
