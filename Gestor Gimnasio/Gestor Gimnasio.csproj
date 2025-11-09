@@ -48,11 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackUp.cs">
+    <Compile Include="BackupBD.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="BackUp.Designer.cs">
-      <DependentUpon>BackUp.cs</DependentUpon>
+    <Compile Include="BackupBD.Designer.cs">
+      <DependentUpon>BackupBD.cs</DependentUpon>
     </Compile>
     <Compile Include="EditarCliente.cs">
       <SubType>Form</SubType>
@@ -145,11 +145,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ReporteAdminControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ReporteAdminControl.Designer.cs">
+      <DependentUpon>ReporteAdminControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReporteCliente.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ReporteCliente.Designer.cs">
       <DependentUpon>ReporteCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReporteCobros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReporteCobros.Designer.cs">
+      <DependentUpon>ReporteCobros.cs</DependentUpon>
     </Compile>
     <Compile Include="ReporteEntrenador.cs">
       <SubType>Form</SubType>
@@ -163,14 +175,15 @@
     <Compile Include="ReportesControl.Designer.cs">
       <DependentUpon>ReportesControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserSession.cs" />
     <Compile Include="UsuariosControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UsuariosControl.Designer.cs">
       <DependentUpon>UsuariosControl.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="BackUp.resx">
-      <DependentUpon>BackUp.cs</DependentUpon>
+    <EmbeddedResource Include="BackupBD.resx">
+      <DependentUpon>BackupBD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditarCliente.resx">
       <DependentUpon>EditarCliente.cs</DependentUpon>
@@ -219,8 +232,14 @@
     <EmbeddedResource Include="ClienteAgregarControl.resx">
       <DependentUpon>ClienteAgregarControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ReporteAdminControl.resx">
+      <DependentUpon>ReporteAdminControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ReporteCliente.resx">
       <DependentUpon>ReporteCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteCobros.resx">
+      <DependentUpon>ReporteCobros.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ReporteEntrenador.resx">
       <DependentUpon>ReporteEntrenador.cs</DependentUpon>

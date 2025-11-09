@@ -314,11 +314,11 @@ namespace Gestor_Gimnasio
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.tabla_profesores.DefaultCellStyle = dataGridViewCellStyle2;
             this.tabla_profesores.GridColor = System.Drawing.Color.GreenYellow;
-            this.tabla_profesores.Location = new System.Drawing.Point(74, 572);
+            this.tabla_profesores.Location = new System.Drawing.Point(23, 572);
             this.tabla_profesores.Name = "tabla_profesores";
             this.tabla_profesores.RowHeadersWidth = 51;
             this.tabla_profesores.RowTemplate.Height = 24;
-            this.tabla_profesores.Size = new System.Drawing.Size(1056, 357);
+            this.tabla_profesores.Size = new System.Drawing.Size(1210, 357);
             this.tabla_profesores.TabIndex = 2;
             this.tabla_profesores.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tabla_profesores_CellContentClick_1);
             // 
@@ -377,7 +377,7 @@ namespace Gestor_Gimnasio
             this.Controls.Add(this.groupBoxRegistroProf);
             this.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.Name = "ProfesorAgregarControl";
-            this.Size = new System.Drawing.Size(1191, 941);
+            this.Size = new System.Drawing.Size(1258, 941);
             this.Load += new System.EventHandler(this.ProfesorAgregarControl_Load);
             this.groupBoxRegistroProf.ResumeLayout(false);
             this.groupBoxRegistroProf.PerformLayout();

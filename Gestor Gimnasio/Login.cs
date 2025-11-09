@@ -49,15 +49,11 @@ namespace Gestor_Gimnasio
             string passTxt = txt_contrasena.Text;
 
             if (string.IsNullOrWhiteSpace(dniTxt) || string.IsNullOrWhiteSpace(passTxt))
-            {
-                MessageBox.Show("Debe ingresar DNI y contraseña.");
-                return;
-            }
-            if (!int.TryParse(dniTxt, out int dni))
-            {
-                MessageBox.Show("DNI inválido.");
-                return;
-            }
+            { MessageBox.Show("Debe ingresar DNI y contraseña."); return; }
+
+            int dni;
+            if (!int.TryParse(dniTxt, out dni))
+            { MessageBox.Show("DNI inválido."); return; }
 
             try
             {
@@ -70,6 +66,10 @@ WHERE u.dni = @dni
   AND u.contrasena = @hash
   AND u.activo = 1;";
 
+                int idUsuario = 0;
+                int idRol = 0;
+                string nombre = null;
+
                 using (var con = new SqlConnection(cs))
                 using (var cmd = new SqlCommand(sql, con))
                 {
@@ -79,38 +79,57 @@ WHERE u.dni = @dni
                     con.Open();
                     using (var rd = cmd.ExecuteReader())
                     {
-                        if (rd.Read())
-                        {
-                            int idUsuario = (int)rd["id_usuario"];
-                            int idRol = (int)rd["id_rol"];
-
-                            // Redirección según rol
-                            switch (idRol)
-                            {
-                                case 1:
-                                    new DashboardSuperAdmin().Show(); break;
-                                case 2:
-                                    new DashboardDueño().Show(); break;
-                                case 3:
-                                    new DashboardAdministrador().Show(); break;
-                                default:
-                                    MessageBox.Show("Rol no reconocido."); return;
-                            }
-                            this.Hide();
-                        }
-                        else
+                        if (!rd.Read())
                         {
                             MessageBox.Show("DNI o contraseña incorrectos, o usuario inactivo.");
+                            return;
                         }
+
+                        idUsuario = (int)rd["id_usuario"];
+                        idRol = (int)rd["id_rol"];
+                        nombre = rd["nombre"].ToString();
+                    }
+
+                    // (OPCIONAL) Propagar IdUsuario al SESSION_CONTEXT (para triggers en SQL)
+                    using (var ctx = new SqlCommand(
+                        "EXEC sys.sp_set_session_context @key=N'current_user_id', @value=@id", con))
+                    {
+                        ctx.Parameters.Add("@id", SqlDbType.Int).Value = idUsuario;
+                        ctx.ExecuteNonQuery();
                     }
                 }
+
+                RolSistema rol = RolSistema.Administrador;
+
+                switch (idRol)
+                {
+                    case 1: rol = RolSistema.SuperAdmin; break;
+                    case 2: rol = RolSistema.Dueño; break;
+                    case 3: rol = RolSistema.Administrador; break;
+                }
+
+                // Guardar sesión ANTES de abrir dashboards
+                UserSession.IdUsuario = idUsuario;
+                UserSession.Nombre = nombre ?? string.Empty;
+                UserSession.Rol = rol;
+
+                // Redirección según rol
+                Form dashboard = null;
+                switch (rol)
+                {
+                    case RolSistema.SuperAdmin: dashboard = new DashboardSuperAdmin(); break;
+                    case RolSistema.Dueño: dashboard = new DashboardDueño(); break;
+                    case RolSistema.Administrador: dashboard = new DashboardAdministrador(); break;
+                }
+
+                this.Hide();
+                dashboard.Show();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Ocurrió un error al intentar iniciar sesión: " + ex.Message);
             }
         }
-
 
         private void BCerrar_Click(object sender, EventArgs e)
         {

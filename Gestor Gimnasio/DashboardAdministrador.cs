@@ -61,8 +61,6 @@ namespace Gestor_Gimnasio
         }
 
 
-      
-
 
         private void InicioBienvenida()
         {
@@ -92,6 +90,11 @@ namespace Gestor_Gimnasio
         private void B_Cobros_Click(object sender, EventArgs e)
         {
             AbrirControlEnPanel(new CobrosControl());
+        }
+
+        private void button_reportesAlta_Click(object sender, EventArgs e)
+        {
+            AbrirControlEnPanel(new ReporteAdminControl());
         }
     }
 }

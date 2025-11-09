@@ -22,6 +22,7 @@ namespace Gestor_Gimnasio
             CargarListaClientes();
             comboBoxTurno.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxProfesor.DropDownStyle = ComboBoxStyle.DropDownList;
+            ConfigurarDataGridView(dataGridView_ListaClientes); 
         }
 
         private void ClienteAgregarControl_Load(object sender, EventArgs e)
@@ -196,7 +197,6 @@ namespace Gestor_Gimnasio
             // fechas
             DateTime fechaAlta = dtpFechaAlta.Value.Date;
 
-            // fecha de nacimiento (NULL si checkbox destildado)
             DateTime? fechaNac = null;
             if (dtpFecha_nac.ShowCheckBox)
             {
@@ -213,66 +213,81 @@ namespace Gestor_Gimnasio
             string nombre = textBoxNombre.Text.Trim();
             string domicilio = textBoxDomicilio.Text.Trim();
             int idTurno = Convert.ToInt32(comboBoxTurno.SelectedValue);
-            int idProfesor = Convert.ToInt32(comboBoxProfesor.SelectedValue); // por si lo usás más adelante
+            int idProfesor = Convert.ToInt32(comboBoxProfesor.SelectedValue);
+
+            // === CHEQUEO DE CUPO (por si cambió algo antes de Guardar) ===
+            var (cupo, ocupados) = ObtenerCupoYOcupadosEntrenador(idProfesor);
+            if (cupo > 0 && ocupados >= cupo)
+            {
+                MessageBox.Show($"El entrenador seleccionado alcanzó su cupo ({ocupados}/{cupo}).",
+                    "Cupo completo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                comboBoxProfesor.Focus();
+                return;
+            }
 
             string cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
-
-            const string sqlInsAlumno = @"
-INSERT INTO dbo.Alumno
-    (estado, dni, nombre, telefono, domicilio, correo, fecha_nac, id_turno, fecha_alta)
-VALUES
-    (@estado, @dni, @nombre, @telefono, @domicilio, @correo, @fecha_nac, @id_turno, @fecha_alta);
-SELECT CAST(SCOPE_IDENTITY() AS int);";
 
             try
             {
                 using (var cn = new SqlConnection(cs))
-                using (var cmd = new SqlCommand(sqlInsAlumno, cn))
+                using (var cmd = new SqlCommand("dbo.sp_Alumno_Crear", cn))
                 {
                     cn.Open();
 
+                    // (opcional) contexto de sesión para tu trigger de creado_por
+                    using (var ctx = cn.CreateCommand())
+                    {
+                        ctx.CommandText = "EXEC sys.sp_set_session_context @key=N'current_user_id', @value=@id;";
+                        ctx.Parameters.Add("@id", SqlDbType.Int).Value = UserSession.IdUsuario;   // admin logueado
+                        ctx.ExecuteNonQuery();
+                    }
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // === PARÁMETROS DEL SP (incluye @id_entrenador) ===
+                    cmd.Parameters.Add("@admin_id", SqlDbType.Int).Value = UserSession.IdUsuario;
                     cmd.Parameters.Add("@estado", SqlDbType.Bit).Value = 1;
                     cmd.Parameters.Add("@dni", SqlDbType.Int).Value = dni;
                     cmd.Parameters.Add("@nombre", SqlDbType.VarChar, 50).Value = nombre;
-                    cmd.Parameters.Add("@telefono", SqlDbType.BigInt).Value = telefono;          // BIGINT
+                    cmd.Parameters.Add("@telefono", SqlDbType.BigInt).Value = telefono;
                     cmd.Parameters.Add("@domicilio", SqlDbType.VarChar, 50).Value = domicilio;
-                    cmd.Parameters.Add("@correo", SqlDbType.VarChar, 150).Value = correo;        // NUEVO
-                    cmd.Parameters.Add("@fecha_nac", SqlDbType.Date).Value =                     // NUEVO
-                        fechaNac.HasValue ? (object)fechaNac.Value : DBNull.Value;
+                    cmd.Parameters.Add("@fecha_nac", SqlDbType.Date).Value = fechaNac.HasValue ? (object)fechaNac.Value : DBNull.Value;
+                    cmd.Parameters.Add("@correo", SqlDbType.VarChar, 150).Value = correo;
                     cmd.Parameters.Add("@id_turno", SqlDbType.Int).Value = idTurno;
-                    cmd.Parameters.Add("@fecha_alta", SqlDbType.Date).Value = fechaAlta;         // NUEVO
+                    cmd.Parameters.Add("@id_entrenador", SqlDbType.Int).Value = idProfesor; // <<--- AQUÍ PASÁS EL ENTRENADOR
+                    cmd.Parameters.Add("@monto_mensual", SqlDbType.Decimal).Value = DBNull.Value;
 
-                    var resultado = cmd.ExecuteScalar();
-                    if (resultado != null && int.TryParse(resultado.ToString(), out int idAlumno))
+                    var result = cmd.ExecuteScalar();
+                    if (result != null && int.TryParse(result.ToString(), out int idAlumno))
                     {
                         MessageBox.Show(
-                            $"¡Alumno guardado!\n\nID: {idAlumno}\nNombre: {nombre}\nTurno: {comboBoxTurno.Text}\nProfesor: {comboBoxProfesor.Text}\nFecha alta: {fechaAlta:dd/MM/yyyy}",
+                            $"¡Cliente guardado!\n\nID: {idAlumno}\nNombre: {nombre}\nTurno: {comboBoxTurno.Text}\nProfesor: {comboBoxProfesor.Text}",
                             "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         LimpiarFormulario();
                     }
                     else
                     {
-                        MessageBox.Show("No se pudo obtener el ID del alumno creado.", "Error",
+                        MessageBox.Show("No se pudo obtener el ID del cliente creado.", "Error",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
             catch (SqlException ex) when (ex.Number == 2627 || ex.Number == 2601)
             {
-                MessageBox.Show("Ya existe un alumno registrado con el DNI ingresado.",
-                    "DNI Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Ya existe un cliente/alumno con ese DNI.",
+                    "DNI duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxDNI.Focus();
                 textBoxDNI.SelectAll();
             }
             catch (SqlException ex)
             {
-                MessageBox.Show($"Error de base de datos al guardar el alumno:\n\nCódigo: {ex.Number}\nMensaje: {ex.Message}",
+                MessageBox.Show($"Error SQL al guardar el cliente.\n\nCódigo: {ex.Number}\nMensaje: {ex.Message}",
                     "Error SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error inesperado al guardar el alumno:\n\n{ex.Message}",
+                MessageBox.Show("Error al guardar cliente: " + ex.Message,
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -285,16 +300,6 @@ SELECT CAST(SCOPE_IDENTITY() AS int);";
         {
             var dgv = dataGridView_ListaClientes;
 
-            dgv.AutoGenerateColumns = false;
-            dgv.Columns.Clear();
-            dgv.ReadOnly = true; // los botones igual funcionan
-            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv.MultiSelect = false;
-            dgv.AllowUserToAddRows = false;
-            dgv.AllowUserToDeleteRows = false;
-            dgv.RowHeadersVisible = false;
-            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             // id oculto
             dgv.Columns.Add(new DataGridViewTextBoxColumn
@@ -360,18 +365,20 @@ SELECT CAST(SCOPE_IDENTITY() AS int);";
                 Name = "colEditar",
                 HeaderText = "Editar",
                 Text = "Editar",
-                UseColumnTextForButtonValue = true
+                UseColumnTextForButtonValue = true,
+                FlatStyle = FlatStyle.Flat            // <- importante
             };
             dgv.Columns.Add(colEditar);
 
-            // 
             var colToggle = new DataGridViewButtonColumn
             {
                 Name = "colToggle",
                 HeaderText = "Acción",
-                UseColumnTextForButtonValue = false // lo seteo en DataBindingComplete
+                UseColumnTextForButtonValue = false,  // lo seteo o dibujo luego
+                FlatStyle = FlatStyle.Flat            // <- importante
             };
             dgv.Columns.Add(colToggle);
+
 
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
@@ -393,6 +400,20 @@ SELECT CAST(SCOPE_IDENTITY() AS int);";
 
             dgv.CellContentClick -= dataGridView_ListaClientes_CellContentClick;
             dgv.CellContentClick += dataGridView_ListaClientes_CellContentClick;
+
+            dgv.CellPainting -= dataGridView_ListaClientes_CellPainting;
+            dgv.CellPainting += dataGridView_ListaClientes_CellPainting;
+
+            // (opcional) manito sobre botones
+            dgv.CellMouseMove += (s, ev) =>
+            {
+                if (ev.RowIndex >= 0)
+                {
+                    string n = dgv.Columns[ev.ColumnIndex].Name;
+                    dgv.Cursor = (n == "colEditar" || n == "colToggle") ? Cursors.Hand : Cursors.Default;
+                }
+            };
+
         }
 
         public void CargarListaClientes()
@@ -473,21 +494,42 @@ ORDER BY a.nombre;";
         private void dataGridView_ListaClientes_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             var dgv = dataGridView_ListaClientes;
+
+            // Actualiza el texto del botón de acción si existiera (defensivo)
             foreach (DataGridViewRow row in dgv.Rows)
             {
                 if (row.IsNewRow) continue;
 
-                bool activo = false;
-                if (row.Cells["colEstadoBit"].Value != null && row.Cells["colEstadoBit"].Value != DBNull.Value)
-                    activo = Convert.ToBoolean(row.Cells["colEstadoBit"].Value);
+                if (dgv.Columns.Contains("colToggle"))
+                {
+                    bool activo = false;
+                    var c = row.Cells["colEstadoBit"];
+                    if (c?.Value != null && c.Value != DBNull.Value) activo = Convert.ToBoolean(c.Value);
 
-                var cell = (DataGridViewButtonCell)row.Cells["colToggle"];
-                cell.Value = activo ? "Dar de baja" : "Dar de alta";
-                cell.Style.BackColor = activo ? Color.Red : Color.Green;
-                cell.Style.ForeColor = Color.White;
-                cell.Style.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+                    var btnCell = (DataGridViewButtonCell)row.Cells["colToggle"];
+                    btnCell.Value = activo ? "Dar de baja" : "Dar de alta";
+                }
             }
+
+            // --- Orden final de columnas ---
+            int last = dgv.Columns.Count - 1;
+
+            // 1) Último = Editar
+            if (dgv.Columns.Contains("colEditar"))
+                dgv.Columns["colEditar"].DisplayIndex = last--;
+
+            // 2) Penúltimo = Estado (texto)
+            if (dgv.Columns.Contains("colEstadoTxt"))
+                dgv.Columns["colEstadoTxt"].DisplayIndex = last--;
+
+            // 3) (Opcional) Antepenúltimo = Acción (Dar de alta/baja), si existe
+            if (dgv.Columns.Contains("colToggle"))
+                dgv.Columns["colToggle"].DisplayIndex = last;
+
+            // Sin selección inicial
+            dgv.ClearSelection();
         }
+
 
         // 
         private void dataGridView_ListaClientes_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -544,6 +586,54 @@ ORDER BY a.nombre;";
             }
         }
 
+        private void dataGridView_ListaClientes_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            var dgv = (DataGridView)sender;
+            string colName = dgv.Columns[e.ColumnIndex].Name;
+            if (colName != "colEditar" && colName != "colToggle") return;
+
+            // Limpia el fondo de la celda (sin color)
+            e.PaintBackground(e.CellBounds, true);
+            e.Handled = true;
+
+            // Texto y color del "botón"
+            string text;
+            Color bg;
+
+            if (colName == "colEditar")
+            {
+                text = "Editar";
+                bg = Color.FromArgb(33, 150, 243);    // Azul Material
+            }
+            else
+            {
+                bool activo = false;
+                if (dgv.Rows[e.RowIndex].Cells["colEstadoBit"].Value != null &&
+                    dgv.Rows[e.RowIndex].Cells["colEstadoBit"].Value != DBNull.Value)
+                {
+                    activo = Convert.ToBoolean(dgv.Rows[e.RowIndex].Cells["colEstadoBit"].Value);
+                }
+
+                text = activo ? "Dar de baja" : "Dar de alta";
+                bg = activo ? Color.FromArgb(220, 53, 69) : Color.FromArgb(40, 167, 69); // Rojo / Verde
+            }
+
+            // Rectángulo del botón (márgenes internos)
+            var rect = new Rectangle(e.CellBounds.X + 8, e.CellBounds.Y + 6,
+                                     e.CellBounds.Width - 16, e.CellBounds.Height - 12);
+
+            using (var br = new SolidBrush(bg))
+                e.Graphics.FillRectangle(br, rect);
+
+            using (var pen = new Pen(ControlPaint.Dark(bg), 1))
+                e.Graphics.DrawRectangle(pen, rect);
+
+            TextRenderer.DrawText(e.Graphics, text, new Font("Segoe UI", 9, FontStyle.Bold),
+                                  rect, Color.White,
+                                  TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis);
+        }
 
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -592,6 +682,89 @@ ORDER BY a.nombre;";
         }
 
 
+        // DIBUJA los profesores SIN CUPO en gris + itálica
+        private void comboBoxProfesor_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            var combo = (ComboBox)sender;
+            e.DrawBackground();
+            if (e.Index < 0) { e.DrawFocusRectangle(); return; }
+
+            var drv = combo.Items[e.Index] as DataRowView;
+            string text = drv?["label"]?.ToString() ?? combo.Items[e.Index].ToString();
+
+            bool inaccesible = drv != null
+                               && drv.Row.Table.Columns.Contains("inaccesible")
+                               && Convert.ToBoolean(drv["inaccesible"]);
+
+            Color fore = inaccesible
+                ? SystemColors.GrayText
+                : ((e.State & DrawItemState.Selected) == DrawItemState.Selected
+                    ? SystemColors.HighlightText
+                    : SystemColors.WindowText);
+
+            using (var foreBr = new SolidBrush(fore))
+            {
+                var font = inaccesible ? new Font(e.Font, FontStyle.Italic) : e.Font;
+                TextRenderer.DrawText(e.Graphics, text, font, e.Bounds, fore,
+                    TextFormatFlags.Left | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis);
+            }
+            e.DrawFocusRectangle();
+        }
+
+        // BLOQUEA selección de profesores SIN CUPO y avisa
+        private void comboBoxProfesor_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            var combo = (ComboBox)sender;
+            if (combo.SelectedIndex < 0) return;
+
+            var drv = combo.SelectedItem as DataRowView;
+            if (drv == null) return;
+
+            bool inaccesible = drv.Row.Table.Columns.Contains("inaccesible")
+                               && Convert.ToBoolean(drv["inaccesible"]);
+            if (inaccesible)
+            {
+                string nombre = Convert.ToString(drv["nombre"]);
+                int cupo = drv["cupo"] == DBNull.Value ? 0 : Convert.ToInt32(drv["cupo"]);
+                int ocupados = drv["ocupados"] == DBNull.Value ? 0 : Convert.ToInt32(drv["ocupados"]);
+                MessageBox.Show($"{nombre} no tiene cupo disponible ({ocupados}/{cupo}).", "Sin cupo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                combo.SelectedIndex = -1;
+                combo.Text = "Seleccioná un profesor";
+                combo.DroppedDown = true; // reabre para elegir otro
+            }
+        }
+
+        // Helper para contar cupo/ocupados de un entrenador
+        private (int cupo, int ocupados) ObtenerCupoYOcupadosEntrenador(int idEntrenador)
+        {
+            string cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
+            const string sql = @"
+SELECT e.cupo,
+       ocupados = COUNT(CASE WHEN a.estado = 1 THEN 1 END)
+FROM dbo.Entrenador e
+LEFT JOIN dbo.Alumno a ON a.id_entrenador = e.id_entrenador
+WHERE e.id_entrenador = @id
+GROUP BY e.cupo;";
+
+            int cupo = 0, ocup = 0;
+            using (var cn = new SqlConnection(cs))
+            using (var cmd = new SqlCommand(sql, cn))
+            {
+                cmd.Parameters.Add("@id", SqlDbType.Int).Value = idEntrenador;
+                cn.Open();
+                using (var rd = cmd.ExecuteReader())
+                {
+                    if (rd.Read())
+                    {
+                        cupo = rd["cupo"] == DBNull.Value ? 0 : Convert.ToInt32(rd["cupo"]);
+                        ocup = rd["ocupados"] == DBNull.Value ? 0 : Convert.ToInt32(rd["ocupados"]);
+                    }
+                }
+            }
+            return (cupo, ocup);
+        }
 
 
         //Permitir solo letras y/o numeros, espacios y backspace
@@ -626,6 +799,96 @@ ORDER BY a.nombre;";
         private void textBoxDomicilio_KeyPress(object sender, KeyPressEventArgs e)
         {
            
+        }
+
+        private void ConfigurarDataGridView(DataGridView dgv)
+        {
+
+            Color verdeEncabezado = ColorTranslator.FromHtml("#014A16"); // verde bosque apagado
+            Color verdeSeleccion = ColorTranslator.FromHtml("#7BAE7F"); // verde medio selección
+            Color verdeAlterna = ColorTranslator.FromHtml("#EDFFEF"); // verde muy claro alternado
+            Color grisBorde = ColorTranslator.FromHtml("#C8D3C4"); // gris verdoso claro
+            Color hoverSuave = ColorTranslator.FromHtml("#DCEFE6"); // verde pastel para hover
+
+            // --- Comportamiento ---
+            dgv.ReadOnly = true;
+            dgv.MultiSelect = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.RowHeadersVisible = false;
+            dgv.AllowUserToResizeColumns = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.ScrollBars = ScrollBars.Both;
+            dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgv.EnableHeadersVisualStyles = false;
+
+            // --- Autoajuste ---
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgv.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            // --- Estética general ---
+            dgv.BackgroundColor = Color.White;
+            dgv.BorderStyle = BorderStyle.None;
+            dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv.GridColor = grisBorde;
+
+            // Encabezado
+            dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = verdeEncabezado;
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 11f, FontStyle.Bold);
+            dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgv.ColumnHeadersHeight = 36;
+
+            // Celdas
+            dgv.DefaultCellStyle.BackColor = Color.White;
+            dgv.DefaultCellStyle.ForeColor = Color.Black;
+            dgv.DefaultCellStyle.Font = new Font("Segoe UI", 10f, FontStyle.Regular);
+            dgv.DefaultCellStyle.SelectionBackColor = verdeSeleccion;
+            dgv.DefaultCellStyle.SelectionForeColor = Color.White;
+            dgv.DefaultCellStyle.Padding = new Padding(4, 6, 4, 6);
+
+            // Filas alternadas
+            dgv.AlternatingRowsDefaultCellStyle.BackColor = verdeAlterna;
+
+            // --- Sin selección inicial ---
+            dgv.ClearSelection();
+            dgv.DataBindingComplete += (s, e) => ((DataGridView)s).ClearSelection();
+
+            // --- Hover suave (efecto al pasar el mouse) ---
+            Color originalBackColor = dgv.DefaultCellStyle.BackColor;
+            Color originalAltColor = dgv.AlternatingRowsDefaultCellStyle.BackColor;
+            int lastRow = -1;
+
+            dgv.CellMouseEnter += (s, e) =>
+            {
+                if (e.RowIndex >= 0 && e.RowIndex != lastRow)
+                {
+                    var fila = dgv.Rows[e.RowIndex];
+                    fila.DefaultCellStyle.BackColor = hoverSuave;
+                    lastRow = e.RowIndex;
+                }
+            };
+
+            dgv.CellMouseLeave += (s, e) =>
+            {
+                if (e.RowIndex >= 0)
+                {
+                    var fila = dgv.Rows[e.RowIndex];
+                    fila.DefaultCellStyle.BackColor = (e.RowIndex % 2 == 0) ? originalBackColor : originalAltColor;
+                }
+            };
+
+            // --- Doble buffer (scroll suave) ---
+            try
+            {
+                typeof(DataGridView)
+                    .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                    ?.SetValue(dgv, true, null);
+            }
+            catch { }
         }
     }
 }

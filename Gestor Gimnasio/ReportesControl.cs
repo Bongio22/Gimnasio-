@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Globalization;
+using System.Linq;
+using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Gestor_Gimnasio
@@ -22,18 +18,123 @@ namespace Gestor_Gimnasio
         {
             InitializeComponent();
 
-            comboBox_IngresosMes.DropDownStyle = ComboBoxStyle.DropDownList;
-
+            // === UI inicial ===
             ConfigurarGrilla();
-            ConfigurarChart();           // usa chart1 internamente
-            CargarPeriodos();            // llena comboBox_IngresosMes
-            comboBox_IngresosMes.SelectedIndex = 0;
-            RefrescarDatosPeriodoActual();
+            ConfigurarChart();
+            ConfigurarDemandaUI();   // llena cboMesDemanda con el mes actual en índice 0
+            ConfigurarDataGridView(dataGridView_Ingresos);
+            // Date pickers (rango ingresos)
+            if (dtpDesde != null)
+            {
+                dtpDesde.Format = DateTimePickerFormat.Custom;
+                dtpDesde.CustomFormat = "dd/MM/yyyy";
+                dtpDesde.Value = DateTime.Today.AddDays(-30);
+            }
+            if (dtpHasta != null)
+            {
+                dtpHasta.Format = DateTimePickerFormat.Custom;
+                dtpHasta.CustomFormat = "dd/MM/yyyy";
+                dtpHasta.Value = DateTime.Today;
+            }
 
-            // C# 7.3 compatible
-            B_BuscarIngresosMes.Click += (s, e) => BuscarPeriodoSeleccionado();
-            B_VerReporteClientes.Click += B_VerReporteClientes_Click;
-            B_VerReporteEntrenadores.Click += B_VerReporteEntrenadores_Click;
+            // Botones
+            B_BuscarIngresosMes.Click += (s, e) => BuscarPorRango();           // SOLO grilla + total
+            B_BuscarTurnosMes.Click += (s, e) => ActualizarGraficoDemanda();  // ÚNICO que toca el gráfico
+
+
+            // === Primera carga ===
+            BuscarPorRango();           // ingresos por rango (no toca gráfico)
+            ActualizarGraficoDemanda(); // gráfico del MES ACTUAL sin tocar ningún botón
+        }
+
+        private void ConfigurarDataGridView(DataGridView dgv)
+        {
+
+            Color verdeEncabezado = ColorTranslator.FromHtml("#014A16"); // verde bosque apagado
+            Color verdeSeleccion = ColorTranslator.FromHtml("#7BAE7F"); // verde medio selección
+            Color verdeAlterna = ColorTranslator.FromHtml("#EDFFEF"); // verde muy claro alternado
+            Color grisBorde = ColorTranslator.FromHtml("#C8D3C4"); // gris verdoso claro
+            Color hoverSuave = ColorTranslator.FromHtml("#DCEFE6"); // verde pastel para hover
+
+            // --- Comportamiento ---
+            dgv.ReadOnly = true;
+            dgv.MultiSelect = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.RowHeadersVisible = false;
+            dgv.AllowUserToResizeColumns = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.ScrollBars = ScrollBars.Both;
+            dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgv.EnableHeadersVisualStyles = false;
+
+            // --- Autoajuste ---
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgv.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            // --- Estética general ---
+            dgv.BackgroundColor = Color.White;
+            dgv.BorderStyle = BorderStyle.None;
+            dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv.GridColor = grisBorde;
+
+            // Encabezado
+            dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = verdeEncabezado;
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 11f, FontStyle.Bold);
+            dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgv.ColumnHeadersHeight = 36;
+
+            // Celdas
+            dgv.DefaultCellStyle.BackColor = Color.White;
+            dgv.DefaultCellStyle.ForeColor = Color.Black;
+            dgv.DefaultCellStyle.Font = new Font("Segoe UI", 10f, FontStyle.Regular);
+            dgv.DefaultCellStyle.SelectionBackColor = verdeSeleccion;
+            dgv.DefaultCellStyle.SelectionForeColor = Color.White;
+            dgv.DefaultCellStyle.Padding = new Padding(4, 6, 4, 6);
+
+            // Filas alternadas
+            dgv.AlternatingRowsDefaultCellStyle.BackColor = verdeAlterna;
+
+            // --- Sin selección inicial ---
+            dgv.ClearSelection();
+            dgv.DataBindingComplete += (s, e) => ((DataGridView)s).ClearSelection();
+
+            // --- Hover suave (efecto al pasar el mouse) ---
+            Color originalBackColor = dgv.DefaultCellStyle.BackColor;
+            Color originalAltColor = dgv.AlternatingRowsDefaultCellStyle.BackColor;
+            int lastRow = -1;
+
+            dgv.CellMouseEnter += (s, e) =>
+            {
+                if (e.RowIndex >= 0 && e.RowIndex != lastRow)
+                {
+                    var fila = dgv.Rows[e.RowIndex];
+                    fila.DefaultCellStyle.BackColor = hoverSuave;
+                    lastRow = e.RowIndex;
+                }
+            };
+
+            dgv.CellMouseLeave += (s, e) =>
+            {
+                if (e.RowIndex >= 0)
+                {
+                    var fila = dgv.Rows[e.RowIndex];
+                    fila.DefaultCellStyle.BackColor = (e.RowIndex % 2 == 0) ? originalBackColor : originalAltColor;
+                }
+            };
+
+            // --- Doble buffer (scroll suave) ---
+            try
+            {
+                typeof(DataGridView)
+                    .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                    ?.SetValue(dgv, true, null);
+            }
+            catch { }
         }
 
         private void B_VerReporteClientes_Click(object sender, EventArgs e)
@@ -47,21 +148,19 @@ namespace Gestor_Gimnasio
             var frm = new ReporteEntrenador { StartPosition = FormStartPosition.CenterParent };
             frm.Show(this.FindForm());
         }
+        private void B_Admin_Click(object sender, EventArgs e)
+        {
+            var frm = new ReporteCobros
+            {
+                StartPosition = FormStartPosition.CenterParent
+            };
 
-        // =============== UI ===============
+            frm.Show(this.FindForm()); 
+        }
+
         private void ConfigurarGrilla()
         {
             var dgv = dataGridView_Ingresos;
-
-            dgv.AutoGenerateColumns = false;
-            dgv.Columns.Clear();
-            dgv.ReadOnly = true;
-            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv.MultiSelect = false;
-            dgv.AllowUserToAddRows = false;
-            dgv.AllowUserToDeleteRows = false;
-            dgv.RowHeadersVisible = false;
-            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             // ocultas (ids)
             dgv.Columns.Add(new DataGridViewTextBoxColumn
@@ -105,80 +204,198 @@ namespace Gestor_Gimnasio
                 Width = 100
             });
         }
+
         private void ConfigurarChart()
         {
-            // Limpia cualquier configuración previa
-            chart1.Series.Clear();
-            chart1.ChartAreas.Clear();
-            chart1.Legends.Clear();
+            grafico.Series.Clear();
+            grafico.ChartAreas.Clear();
+            grafico.Legends.Clear();
 
-            // Área principal del gráfico
             var area = new ChartArea("main");
-            chart1.ChartAreas.Add(area);
+            grafico.ChartAreas.Add(area);
 
-            // Serie principal tipo pastel
-            var series = new Series("Pagos por turno")
+            var series = new Series("Distribución por turno")
             {
                 ChartType = SeriesChartType.Pie,
                 IsValueShownAsLabel = true,
-                LabelFormat = "P0" // muestra porcentajes sin decimales
+                // Etiqueta: "Turno: cantidad (porcentaje)"
+                Label = "#VALX: #VALY (#PERCENT{P0})"
             };
-            chart1.Series.Add(series);
+            grafico.Series.Add(series);
 
-            // Leyenda
-            chart1.Legends.Add(new Legend("leyenda"));
+            grafico.Legends.Add(new Legend("leyenda"));
+
         }
 
-
-        private void CargarPeriodos()
+        // =============== DEMANDA (mes actual o seleccionado) ===============
+        // Handler separado para evitar duplicar suscripciones
+        private void Checkbox_Pagaron_CheckedChanged(object sender, EventArgs e)
         {
-            // Últimos 12 meses (index 0 = mes actual)
-            comboBox_IngresosMes.Items.Clear();
-            var hoy = DateTime.Today;
+            ActualizarGraficoDemanda();
+        }
 
-            for (int i = 0; i < 12; i++)
+        private void ConfigurarDemandaUI()
+        {
+            // Cargar últimos 12 meses (index 0 = mes actual)
+            if (cboMesDemanda != null)
             {
-                var dt = new DateTime(hoy.Year, hoy.Month, 1).AddMonths(-i);
-                var texto = CultureInfo.GetCultureInfo("es-AR")
-                             .TextInfo.ToTitleCase(dt.ToString("MMMM yyyy", new CultureInfo("es-AR")));
-                comboBox_IngresosMes.Items.Add(new PeriodoItem(texto, dt.Year, dt.Month));
+                cboMesDemanda.DropDownStyle = ComboBoxStyle.DropDownList;
+                cboMesDemanda.Items.Clear();
+
+                var hoy = DateTime.Today;
+                for (int i = 0; i < 12; i++)
+                {
+                    var dt = new DateTime(hoy.Year, hoy.Month, 1).AddMonths(-i);
+                    var texto = CultureInfo.GetCultureInfo("es-AR")
+                                 .TextInfo.ToTitleCase(dt.ToString("MMMM yyyy", new CultureInfo("es-AR")));
+                    cboMesDemanda.Items.Add(new PeriodoItem(texto, dt.Year, dt.Month));
+                }
+
+                if (cboMesDemanda.Items.Count > 0)
+                    cboMesDemanda.SelectedIndex = 0;
+
+            }
+
+            // El checkbox SÍ refresca inmediatamente el gráfico
+            if (checkbox_pagaron != null)
+            {
+                // Evita múltiple-suscripción si el método se llamara más de una vez
+                checkbox_pagaron.CheckedChanged -= Checkbox_Pagaron_CheckedChanged;
+                checkbox_pagaron.CheckedChanged += Checkbox_Pagaron_CheckedChanged;
             }
         }
 
-        private void RefrescarDatosPeriodoActual()
+
+        private (DateTime desde, DateTime hasta) RangoMensual(int year, int month)
         {
-            if (comboBox_IngresosMes.Items.Count == 0) return;
-            comboBox_IngresosMes.SelectedIndex = 0;
-            BuscarPeriodoSeleccionado();
+            var desde = new DateTime(year, month, 1);
+            var hasta = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+            return (desde, hasta);
         }
 
-
-        private void BuscarPeriodoSeleccionado()
+        /// <summary>
+        /// Dibuja el gráfico circular con la distribución por turno para el mes seleccionado en cboMesDemanda.
+        /// Respeta el check "checkbox_pagaron". NO se llama desde BuscarPorRango().
+        /// </summary>
+        private void ActualizarGraficoDemanda()
         {
-            // obtengo el ítem seleccionado del combo real
-            var per = comboBox_IngresosMes.SelectedItem as PeriodoItem;
+            var per = cboMesDemanda?.SelectedItem as PeriodoItem;
             if (per == null) return;
 
-            var desde = new DateTime(per.Year, per.Month, 1);
-            var hasta = new DateTime(per.Year, per.Month, DateTime.DaysInMonth(per.Year, per.Month));
+            var (desde, hasta) = RangoMensual(per.Year, per.Month);
+            bool soloPagaron = checkbox_pagaron?.Checked ?? false;
+
+            // Trae los datos según la opción
+            DataTable dt = soloPagaron
+                ? ObtenerDemanda_PagaronMes(desde, hasta)
+                : ObtenerDemanda_AsignadosAlCierre(hasta);
+
+            // Si no hay datos, limpiar y salir
+            if (dt == null || dt.Rows.Count == 0)
+            {
+                if (grafico.Series.Count > 0)
+                    grafico.Series[0].Points.Clear();
+                return;
+            }
+
+            var serie = grafico.Series[0];
+            serie.Points.Clear();
+            serie.ChartType = SeriesChartType.Pie;
+            serie.IsValueShownAsLabel = true;
+            serie.Label = "#VALX: #VALY (#PERCENT{P0})";
+            serie.LegendText = "#VALX";
+
+            foreach (DataRow r in dt.Rows)
+                serie.Points.AddXY(r["turno"].ToString(), Convert.ToInt32(r["cant"]));
+
+            grafico.Invalidate(); // fuerza repintado
+                                  // === Colores personalizados (idénticos a los del ejemplo) ===
+            string[] coloresVerdes =
+            { "#698B2E","#7FFF00", "#ADFF2F" };
+            int i = 0;
+            foreach (DataPoint p in serie.Points)
+            {
+                p.Color = System.Drawing.ColorTranslator.FromHtml(coloresVerdes[i % coloresVerdes.Length]);
+                i++;
+            }
+
+        }
+
+        private DataTable ObtenerDemanda_AsignadosAlCierre(DateTime finMes)
+        {
+            const string sql = @"
+SELECT
+    t.descripcion AS turno,
+    COUNT(*)      AS cant
+FROM dbo.Alumno a
+JOIN dbo.Turno  t ON t.id_turno = a.id_turno
+WHERE a.activo = 1
+  AND a.fecha_alta <= @finMes
+GROUP BY t.descripcion
+ORDER BY cant DESC;";
+
+            var dt = new DataTable();
+            using (var cn = new SqlConnection(CS))
+            using (var da = new SqlDataAdapter(sql, cn))
+            {
+                da.SelectCommand.Parameters.Add("@finMes", SqlDbType.Date).Value = finMes.Date;
+                da.Fill(dt);
+            }
+            return dt;
+        }
+
+        private DataTable ObtenerDemanda_PagaronMes(DateTime desde, DateTime hasta)
+        {
+            const string sql = @"
+SELECT
+    t.descripcion AS turno,
+    COUNT(DISTINCT c.id_alumno) AS cant
+FROM dbo.Pago   p
+JOIN dbo.Cuota  c ON c.id_cuota = p.id_cuota
+JOIN dbo.Alumno a ON a.id_alumno = c.id_alumno
+JOIN dbo.Turno  t ON t.id_turno  = a.id_turno
+WHERE p.fecha_pago >= @desde
+  AND p.fecha_pago <  DATEADD(DAY, 1, @hasta)
+GROUP BY t.descripcion
+ORDER BY cant DESC;";
+
+            var dt = new DataTable();
+            using (var cn = new SqlConnection(CS))
+            using (var da = new SqlDataAdapter(sql, cn))
+            {
+                da.SelectCommand.Parameters.Add("@desde", SqlDbType.Date).Value = desde.Date;
+                da.SelectCommand.Parameters.Add("@hasta", SqlDbType.Date).Value = hasta.Date;
+                da.Fill(dt);
+            }
+            return dt;
+        }
+
+        // =============== RANGO (grilla/total) ===============
+        private void BuscarPorRango()
+        {
+            var desde = (dtpDesde?.Value ?? DateTime.Today.AddDays(-30)).Date;
+            var hasta = (dtpHasta?.Value ?? DateTime.Today).Date;
+
+            if (hasta < desde)
+            {
+                MessageBox.Show("La fecha 'hasta' no puede ser menor que 'desde'.", "Rango inválido",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             var tabla = ObtenerIngresos(desde, hasta);
             dataGridView_Ingresos.DataSource = tabla;
 
-            // Si no hay datos, limpiamos el gráfico y el total
             if (tabla.Rows.Count == 0)
             {
                 textBox_TotalIngresos.Text = "0,00";
-                chart1.Series[0].Points.Clear();
+                // No tocar el gráfico acá
                 return;
             }
 
             ActualizarTotal(tabla);
-            ActualizarGrafico(tabla);
+            // No tocar el gráfico acá
         }
-
-
-        // =============== Datos ===============
 
         private DataTable ObtenerIngresos(DateTime desde, DateTime hasta)
         {
@@ -214,45 +431,15 @@ ORDER BY p.fecha_pago DESC, a.nombre;";
 
         private void ActualizarTotal(DataTable tabla)
         {
-            // Calcula la suma de la columna 'monto'
-            var total = tabla.AsEnumerable().Sum(r => r.Field<decimal>("monto"));
+            decimal total = 0m;
+            foreach (DataRow r in tabla.Rows)
+            {
+                if (r["monto"] != DBNull.Value)
+                    total += Convert.ToDecimal(r["monto"]);
+            }
 
-            // Muestra el total formateado con separadores decimales locales
             textBox_TotalIngresos.Text = total.ToString("N2", new CultureInfo("es-AR"));
         }
-
-
-        private void ActualizarGrafico(DataTable tabla)
-        {
-            // Obtenemos la primera serie del gráfico (la que configuraste en ConfigurarChart)
-            var serie = chart1.Series[0];
-            serie.Points.Clear();
-
-            // Agrupamos los registros por "turno" y contamos la cantidad de pagos
-            var grupos = tabla.AsEnumerable()
-                              .GroupBy(r => r.Field<string>("turno"))
-                              .Select(g => new { Turno = g.Key, Cant = g.Count() })
-                              .OrderByDescending(x => x.Cant)
-                              .ToList();
-
-            // Cargamos los datos en el gráfico
-            foreach (var g in grupos)
-                serie.Points.AddXY(g.Turno, g.Cant);
-
-            // Si querés que muestre porcentajes basados en el monto total, 
-            // cambiá el GroupBy por esto:
-            //
-            // var grupos = tabla.AsEnumerable()
-            //                   .GroupBy(r => r.Field<string>("turno"))
-            //                   .Select(g => new { Turno = g.Key, Importe = g.Sum(r => r.Field<decimal>("monto")) })
-            //                   .OrderByDescending(x => x.Importe)
-            //                   .ToList();
-            //
-            // Y después:
-            // foreach (var g in grupos)
-            //     serie.Points.AddXY(g.Turno, g.Importe);
-        }
-
 
         // =============== Helper ===============
         private sealed class PeriodoItem
@@ -265,8 +452,3 @@ ORDER BY p.fecha_pago DESC, a.nombre;";
         }
     }
 }
-
-
-
-
-  

@@ -25,6 +25,7 @@ namespace Gestor_Gimnasio
             tabla_profesores.AllowUserToAddRows = false;
             tabla_profesores.AllowUserToResizeRows = false;
             tabla_profesores.RowHeadersVisible = false;
+            ConfigurarDataGridView(tabla_profesores);
         }
 
         private void ProfesorAgregarControl_Load(object sender, EventArgs e)
@@ -78,7 +79,95 @@ namespace Gestor_Gimnasio
             dtpFecha_nac.Checked = false; //  sin fecha por defecto
             textBoxNombre.Focus();
         }
+        private void ConfigurarDataGridView(DataGridView dgv)
+        {
 
+            Color verdeEncabezado = ColorTranslator.FromHtml("#014A16"); // verde bosque apagado
+            Color verdeSeleccion = ColorTranslator.FromHtml("#7BAE7F"); // verde medio selección
+            Color verdeAlterna = ColorTranslator.FromHtml("#EDFFEF"); // verde muy claro alternado
+            Color grisBorde = ColorTranslator.FromHtml("#C8D3C4"); // gris verdoso claro
+            Color hoverSuave = ColorTranslator.FromHtml("#DCEFE6"); // verde pastel para hover
+
+            // --- Comportamiento ---
+            dgv.ReadOnly = true;
+            dgv.MultiSelect = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.RowHeadersVisible = false;
+            dgv.AllowUserToResizeColumns = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.ScrollBars = ScrollBars.Both;
+            dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgv.EnableHeadersVisualStyles = false;
+
+            // --- Autoajuste ---
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgv.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            // --- Estética general ---
+            dgv.BackgroundColor = Color.White;
+            dgv.BorderStyle = BorderStyle.None;
+            dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv.GridColor = grisBorde;
+
+            // Encabezado
+            dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = verdeEncabezado;
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 11f, FontStyle.Bold);
+            dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgv.ColumnHeadersHeight = 36;
+
+            // Celdas
+            dgv.DefaultCellStyle.BackColor = Color.White;
+            dgv.DefaultCellStyle.ForeColor = Color.Black;
+            dgv.DefaultCellStyle.Font = new Font("Segoe UI", 10f, FontStyle.Regular);
+            dgv.DefaultCellStyle.SelectionBackColor = verdeSeleccion;
+            dgv.DefaultCellStyle.SelectionForeColor = Color.White;
+            dgv.DefaultCellStyle.Padding = new Padding(4, 6, 4, 6);
+
+            // Filas alternadas
+            dgv.AlternatingRowsDefaultCellStyle.BackColor = verdeAlterna;
+
+            // --- Sin selección inicial ---
+            dgv.ClearSelection();
+            dgv.DataBindingComplete += (s, e) => ((DataGridView)s).ClearSelection();
+
+            // --- Hover suave (efecto al pasar el mouse) ---
+            Color originalBackColor = dgv.DefaultCellStyle.BackColor;
+            Color originalAltColor = dgv.AlternatingRowsDefaultCellStyle.BackColor;
+            int lastRow = -1;
+
+            dgv.CellMouseEnter += (s, e) =>
+            {
+                if (e.RowIndex >= 0 && e.RowIndex != lastRow)
+                {
+                    var fila = dgv.Rows[e.RowIndex];
+                    fila.DefaultCellStyle.BackColor = hoverSuave;
+                    lastRow = e.RowIndex;
+                }
+            };
+
+            dgv.CellMouseLeave += (s, e) =>
+            {
+                if (e.RowIndex >= 0)
+                {
+                    var fila = dgv.Rows[e.RowIndex];
+                    fila.DefaultCellStyle.BackColor = (e.RowIndex % 2 == 0) ? originalBackColor : originalAltColor;
+                }
+            };
+
+            // --- Doble buffer (scroll suave) ---
+            try
+            {
+                typeof(DataGridView)
+                    .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                    ?.SetValue(dgv, true, null);
+            }
+            catch { }
+        }
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             // validaciones
@@ -130,13 +219,7 @@ namespace Gestor_Gimnasio
                 fechaNac = dtpFecha_nac.Value.Date;
             }
 
-            // Regla opcional: edad mínima 18
-            if (fechaNac.HasValue && fechaNac.Value > DateTime.Today.AddYears(-18))
-            {
-                MessageBox.Show("La edad mínima es de 18 años.");
-                return;
-            }
-
+        
 
             var cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
 
@@ -249,7 +332,7 @@ INNER JOIN Turno t ON te.id_turno = t.id_turno";
         {
             DataTable entrenadores = ObtenerEntrenadores();
 
-            // agregar columna calculada de estado (texto)
+            // Columna calculada de estado (texto)
             if (!entrenadores.Columns.Contains("estadoTexto"))
                 entrenadores.Columns.Add("estadoTexto", typeof(string));
 
@@ -261,7 +344,7 @@ INNER JOIN Turno t ON te.id_turno = t.id_turno";
 
             tabla_profesores.DataSource = entrenadores;
 
-            // encabezados (agrego dos)
+            // Encabezados
             tabla_profesores.Columns["id_entrenador"].HeaderText = "ID";
             tabla_profesores.Columns["nombre"].HeaderText = "NOMBRE";
             tabla_profesores.Columns["dni"].HeaderText = "DNI";
@@ -273,85 +356,149 @@ INNER JOIN Turno t ON te.id_turno = t.id_turno";
             tabla_profesores.Columns["correo"].HeaderText = "CORREO";
             tabla_profesores.Columns["fecha_nac"].HeaderText = "FECHA NAC.";
 
-            // formato amigable de fecha
+            // Formato fecha
             tabla_profesores.Columns["fecha_nac"].DefaultCellStyle.Format = "dd/MM/yyyy";
             tabla_profesores.Columns["fecha_nac"].DefaultCellStyle.NullValue = "";
 
-
-            tabla_profesores.Columns["estadoTexto"].HeaderText = "ESTADO";
-
-            // ocultar columna real estado (bit)
+            // Ocultos
             tabla_profesores.Columns["estado"].Visible = false;
             tabla_profesores.Columns["id_entrenador"].Visible = false;
 
-            // eliminar columnas si ya estaban
+            // Quitar botones si ya estaban
             if (tabla_profesores.Columns.Contains("Editar")) tabla_profesores.Columns.Remove("Editar");
             if (tabla_profesores.Columns.Contains("Accion")) tabla_profesores.Columns.Remove("Accion");
 
-            // boton editar estilos
-            DataGridViewButtonColumn btnEditar = new DataGridViewButtonColumn();
-            btnEditar.Name = "Editar";
-            btnEditar.HeaderText = "Editar";
-            btnEditar.Text = "Editar";
-            btnEditar.UseColumnTextForButtonValue = true;
-            btnEditar.FlatStyle = FlatStyle.Flat;
-            btnEditar.DefaultCellStyle.BackColor = Color.DodgerBlue;
-            btnEditar.DefaultCellStyle.ForeColor = Color.White;
-            btnEditar.Width = 120;
+            // 
+            var btnEditar = new DataGridViewButtonColumn
+            {
+                Name = "Editar",
+                HeaderText = "Editar",
+                FlatStyle = FlatStyle.Flat,
+                UseColumnTextForButtonValue = false, // lo pinto y escribo yo
+                Width = 120
+            };
             tabla_profesores.Columns.Add(btnEditar);
 
-            // boton de alta/baja (accion) estilos
-            DataGridViewButtonColumn btnAccion = new DataGridViewButtonColumn();
-            btnAccion.Name = "Accion";
-            btnAccion.HeaderText = "Acción";
-            btnAccion.FlatStyle = FlatStyle.Flat;
-            btnAccion.Width = 150;
+            // 
+            var btnAccion = new DataGridViewButtonColumn
+            {
+                Name = "Accion",
+                HeaderText = "Acción",
+                FlatStyle = FlatStyle.Flat,
+                UseColumnTextForButtonValue = false, // lo pinto y escribo yo
+                Width = 150
+            };
             tabla_profesores.Columns.Add(btnAccion);
 
-            // altura de filas
+            // Estética/medidas
             tabla_profesores.RowTemplate.Height = 40;
-
-            // ajuste columnas
             tabla_profesores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
-            //  aplicar estilos a los botones según estado
-            tabla_profesores.CellFormatting -= tabla_profesores_CellFormatting; // evitar doble suscripción
+            //  Eventos 
+            tabla_profesores.CellFormatting -= tabla_profesores_CellFormatting;
             tabla_profesores.CellFormatting += tabla_profesores_CellFormatting;
 
-            //  refresco para que cell formating se aplique al cargar
-            tabla_profesores.Refresh();
+            tabla_profesores.CellPainting -= tabla_profesores_CellPainting;
+            tabla_profesores.CellPainting += tabla_profesores_CellPainting;
+
+            // Cursor mano en botones 
+            tabla_profesores.CellMouseMove += (s, ev) =>
+            {
+                if (ev.RowIndex >= 0)
+                {
+                    string n = tabla_profesores.Columns[ev.ColumnIndex].Name;
+                    tabla_profesores.Cursor = (n == "Editar" || n == "Accion") ? Cursors.Hand : Cursors.Default;
+                }
+            };
+
+            // 
+            int last = tabla_profesores.Columns.Count - 1;
+            if (tabla_profesores.Columns.Contains("Editar"))
+                tabla_profesores.Columns["Editar"].DisplayIndex = last--;
+            if (tabla_profesores.Columns.Contains("Accion"))
+                tabla_profesores.Columns["Accion"].DisplayIndex = last--;
+            if (tabla_profesores.Columns.Contains("estadoTexto"))
+                tabla_profesores.Columns["estadoTexto"].DisplayIndex = last--;
+
+            tabla_profesores.ClearSelection();
         }
+
 
         //metodo para personalizar apariencia de las celdas en el dgv
         private void tabla_profesores_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (tabla_profesores.Columns[e.ColumnIndex].Name == "Accion" && e.RowIndex >= 0)
+            if (e.RowIndex < 0) return;
+
+            string col = tabla_profesores.Columns[e.ColumnIndex].Name;
+
+            if (col == "Accion")
             {
                 var estado = tabla_profesores.Rows[e.RowIndex].Cells["estadoTexto"].Value?.ToString();
-
-                //botones de dar de baja y dar de alta personalizados y mostrandose dependiendo de su estado
-                if (estado == "Activo")
-                {
-                    e.Value = "Dar de Baja";
-                    e.CellStyle.BackColor = Color.Red;
-                    e.CellStyle.ForeColor = Color.White;
-                    e.CellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-                }
-                else
-                {
-                    e.Value = "Dar de Alta";
-                    e.CellStyle.BackColor = Color.Green;
-                    e.CellStyle.ForeColor = Color.White;
-                    e.CellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-                }
+                e.Value = (string.Equals(estado, "Activo", StringComparison.OrdinalIgnoreCase))
+                          ? "Dar de Baja"
+                          : "Dar de Alta";
+                
             }
-            else if (tabla_profesores.Columns[e.ColumnIndex].Name == "Editar" && e.RowIndex >= 0)
+            else if (col == "Editar")
             {
-                // estilo del botón Editar
-                e.CellStyle.BackColor = Color.SteelBlue;
-                e.CellStyle.ForeColor = Color.White;
-                e.CellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+                e.Value = "Editar";
+              
             }
+        }
+
+        private void tabla_profesores_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            var grid = (DataGridView)sender;
+            string col = grid.Columns[e.ColumnIndex].Name;
+            if (col != "Editar" && col != "Accion") return;
+
+            // Pinta el fondo normal de la celda (mantiene alternado, selección, etc.)
+            e.PaintBackground(e.CellBounds, true);
+            e.Handled = true;
+
+            // Texto y color del botón
+            string text;
+            Color bg;
+
+            if (col == "Editar")
+            {
+                text = "Editar";
+                bg = Color.FromArgb(33, 150, 243);           // Azul
+            }
+            else
+            {
+                var estado = grid.Rows[e.RowIndex].Cells["estadoTexto"].Value?.ToString();
+                bool activo = string.Equals(estado, "Activo", StringComparison.OrdinalIgnoreCase);
+
+                text = activo ? "Dar de Baja" : "Dar de Alta";
+                bg = activo ? Color.FromArgb(220, 53, 69)    // Rojo
+                              : Color.FromArgb(40, 167, 69);   // Verde
+            }
+
+            // Rectángulo del "botón" (márgenes internos para no llenar la celda)
+            Rectangle rect = new Rectangle(
+                e.CellBounds.X + 10,
+                e.CellBounds.Y + 6,
+                e.CellBounds.Width - 20,
+                e.CellBounds.Height - 12
+            );
+
+            using (var br = new SolidBrush(bg))
+                e.Graphics.FillRectangle(br, rect);
+
+            using (var pen = new Pen(ControlPaint.Dark(bg), 1))
+                e.Graphics.DrawRectangle(pen, rect);
+
+            TextRenderer.DrawText(
+                e.Graphics,
+                text,
+                new Font("Segoe UI", 9, FontStyle.Bold),
+                rect,
+                Color.White,
+                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis
+            );
         }
 
 

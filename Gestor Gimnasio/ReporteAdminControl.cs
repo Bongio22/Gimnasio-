@@ -1,83 +1,100 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Gestor_Gimnasio
 {
-    public partial class ListaEntrenadoresControl : UserControl
+    public partial class ReporteAdminControl : UserControl
     {
-        public ListaEntrenadoresControl()
+        private readonly string _cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
+
+        public ReporteAdminControl()
         {
             InitializeComponent();
-            ConfigurarDataGridView(lista_Entrenadores); 
+            this.Load += ReporteAdminControl_Load;
+            ConfigurarDataGridView(dgv_lista_alumnos);
         }
-        // metodo público para cargar los entrenadores
-        public void CargarEntrenadores()
+
+        private void ReporteAdminControl_Load(object sender, EventArgs e)
         {
+            if (!UserSession.IsLogged || UserSession.Rol != RolSistema.Administrador)
+            {
+                MessageBox.Show("Solo administradores pueden ver este reporte.");
+                return;
+            }
+
+            CargarClientesDelAdmin(UserSession.IdUsuario);
+        }
+
+        private void CargarClientesDelAdmin(int adminId)
+        {
+            // 👉 Ya devuelvo el estado en texto desde SQL
+            const string sql = @"
+SELECT 
+    a.id_alumno,
+    a.nombre,
+    a.dni,
+    a.telefono,
+    a.domicilio,
+    a.correo,
+    a.fecha_nac,
+    CASE WHEN a.estado = 1 THEN 'Activo' ELSE 'Inactivo' END AS estado_texto,
+    t.descripcion AS turno
+FROM dbo.Alumno a
+LEFT JOIN dbo.Turno t ON t.id_turno = a.id_turno
+WHERE a.creado_por = @adminId
+ORDER BY a.nombre;";
+
             try
             {
-                string cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
-
-                string sql = @"SELECT e.id_entrenador, e.nombre, e.dni, e.telefono, e.domicilio, e.cupo, e.estado,
-                           t.descripcion AS Turno
-                    FROM Entrenador e
-                    LEFT JOIN Turno_Entrenador te ON e.id_entrenador = te.id_entrenador
-                    LEFT JOIN Turno t ON te.id_turno = t.id_turno
-                    ORDER BY e.nombre;
-                ";
-
-                DataTable dt = new DataTable();
-                using (SqlConnection cn = new SqlConnection(cs))
-                using (SqlDataAdapter da = new SqlDataAdapter(sql, cn))
+                using (var cn = new SqlConnection(_cs))
+                using (var da = new SqlDataAdapter(sql, cn))
                 {
+                    da.SelectCommand.Parameters.Add("@adminId", SqlDbType.Int).Value = adminId;
+                    var dt = new DataTable();
                     da.Fill(dt);
+
+                    dgv_lista_alumnos.DataSource = dt;
+                    Estilos_Grid();   // (acentos en nombres de métodos pueden fallar en algunos entornos)
                 }
-
-                // columna para estado
-                //recorre y convierte los estados que eran bool en texto
-                if (!dt.Columns.Contains("EstadoTexto"))
-                    dt.Columns.Add("EstadoTexto", typeof(string));
-
-
-                foreach (DataRow row in dt.Rows)
-                {
-                    bool activo = Convert.ToBoolean(row["estado"]);
-                    row["EstadoTexto"] = activo ? "Activo" : "Inactivo";
-                }
-
-                // limpia y muestra los datos
-                lista_Entrenadores.DataSource = null;
-                lista_Entrenadores.Rows.Clear();
-                lista_Entrenadores.Columns.Clear();
-                lista_Entrenadores.DataSource = dt;
-
-                // encabezados
-                lista_Entrenadores.Columns["id_entrenador"].HeaderText = "ID";
-                lista_Entrenadores.Columns["nombre"].HeaderText = "NOMBRE";
-                lista_Entrenadores.Columns["dni"].HeaderText = "DNI";
-                lista_Entrenadores.Columns["telefono"].HeaderText = "TELÉFONO";
-                lista_Entrenadores.Columns["domicilio"].HeaderText = "DOMICILIO";
-                lista_Entrenadores.Columns["cupo"].HeaderText = "CUPO";
-                lista_Entrenadores.Columns["EstadoTexto"].HeaderText = "ESTADO";
-                lista_Entrenadores.Columns["Turno"].HeaderText = "TURNO";
-
-                // oculta columna BIT original
-                lista_Entrenadores.Columns["estado"].Visible = false;
-
-                
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar entrenadores: " + ex.Message);
+                MessageBox.Show("Error al cargar clientes: " + ex.Message);
             }
+        }
+
+        private void Estilos_Grid()
+        {
+            var dgv = dgv_lista_alumnos;
+
+            // Ocultar columna “vacía” de la izquierda
+            dgv.RowHeadersVisible = false;
+
+           
+            // Ocultar ID si existe
+            if (dgv.Columns.Contains("id_alumno"))
+                dgv.Columns["id_alumno"].Visible = false;
+
+            // Asegurar encabezado amigable para el estado
+            if (dgv.Columns.Contains("estado_texto"))
+                dgv.Columns["estado_texto"].HeaderText = "Estado";
+
+
+            dgv.ClearSelection();
+            
+            dgv.CurrentCell = null;
+        }
+
+
+        private void dgv_lista_alumnos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            dgv_lista_alumnos.ClearSelection();
+            dgv_lista_alumnos.CurrentCell = null;
+
         }
 
         private void ConfigurarDataGridView(DataGridView dgv)
@@ -169,10 +186,10 @@ namespace Gestor_Gimnasio
             }
             catch { }
         }
-        private void ListaEntrenadores_Load(object sender, EventArgs e)
-        {
-            CargarEntrenadores();
-        }
 
+        private void ReporteAdminControl_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

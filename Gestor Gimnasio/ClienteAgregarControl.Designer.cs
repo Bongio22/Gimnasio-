@@ -124,7 +124,7 @@
             this.dtpFechaAlta.CalendarTitleForeColor = System.Drawing.Color.GreenYellow;
             this.dtpFechaAlta.Location = new System.Drawing.Point(550, 271);
             this.dtpFechaAlta.Name = "dtpFechaAlta";
-            this.dtpFechaAlta.Size = new System.Drawing.Size(200, 30);
+            this.dtpFechaAlta.Size = new System.Drawing.Size(327, 30);
             this.dtpFechaAlta.TabIndex = 16;
             // 
             // label3
@@ -312,11 +312,11 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView_ListaClientes.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridView_ListaClientes.Location = new System.Drawing.Point(149, 561);
+            this.dataGridView_ListaClientes.Location = new System.Drawing.Point(51, 561);
             this.dataGridView_ListaClientes.Name = "dataGridView_ListaClientes";
             this.dataGridView_ListaClientes.RowHeadersWidth = 51;
             this.dataGridView_ListaClientes.RowTemplate.Height = 24;
-            this.dataGridView_ListaClientes.Size = new System.Drawing.Size(941, 365);
+            this.dataGridView_ListaClientes.Size = new System.Drawing.Size(1083, 365);
             this.dataGridView_ListaClientes.TabIndex = 2;
             // 
             // label1

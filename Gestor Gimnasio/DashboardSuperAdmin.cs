@@ -102,7 +102,7 @@ namespace Gestor_Gimnasio
 
         private void B_backup_Click(object sender, EventArgs e)
         {
-            AbrirControlEnPanel(new BackUp()); 
+            AbrirControlEnPanel(new BackupBD()); 
         }
     }
 }

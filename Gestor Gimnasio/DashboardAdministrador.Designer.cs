@@ -29,13 +29,14 @@
         private void InitializeComponent()
         {
             this.panel_admin = new System.Windows.Forms.Panel();
-            this.panel_DashBoardAdm = new System.Windows.Forms.Panel();
             this.B_Cobros = new System.Windows.Forms.Button();
             this.B_Entrenadores = new System.Windows.Forms.Button();
             this.B_EstadoCuota = new System.Windows.Forms.Button();
             this.B_Clientes = new System.Windows.Forms.Button();
             this.BSalir = new System.Windows.Forms.Button();
             this.pbox_logo = new System.Windows.Forms.PictureBox();
+            this.panel_DashBoardAdm = new System.Windows.Forms.Panel();
+            this.button_reportesAlta = new System.Windows.Forms.Button();
             this.panel_admin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbox_logo)).BeginInit();
             this.SuspendLayout();
@@ -43,6 +44,7 @@
             // panel_admin
             // 
             this.panel_admin.BackColor = System.Drawing.Color.DarkSlateGray;
+            this.panel_admin.Controls.Add(this.button_reportesAlta);
             this.panel_admin.Controls.Add(this.B_Cobros);
             this.panel_admin.Controls.Add(this.B_Entrenadores);
             this.panel_admin.Controls.Add(this.B_EstadoCuota);
@@ -54,15 +56,6 @@
             this.panel_admin.Name = "panel_admin";
             this.panel_admin.Size = new System.Drawing.Size(362, 784);
             this.panel_admin.TabIndex = 1;
-            // 
-            // panel_DashBoardAdm
-            // 
-            this.panel_DashBoardAdm.AutoScroll = true;
-            this.panel_DashBoardAdm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel_DashBoardAdm.Location = new System.Drawing.Point(362, 0);
-            this.panel_DashBoardAdm.Name = "panel_DashBoardAdm";
-            this.panel_DashBoardAdm.Size = new System.Drawing.Size(845, 784);
-            this.panel_DashBoardAdm.TabIndex = 2;
             // 
             // B_Cobros
             // 
@@ -168,6 +161,33 @@
             this.pbox_logo.TabIndex = 2;
             this.pbox_logo.TabStop = false;
             // 
+            // panel_DashBoardAdm
+            // 
+            this.panel_DashBoardAdm.AutoScroll = true;
+            this.panel_DashBoardAdm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel_DashBoardAdm.Location = new System.Drawing.Point(362, 0);
+            this.panel_DashBoardAdm.Name = "panel_DashBoardAdm";
+            this.panel_DashBoardAdm.Size = new System.Drawing.Size(845, 784);
+            this.panel_DashBoardAdm.TabIndex = 2;
+            // 
+            // button_reportesAlta
+            // 
+            this.button_reportesAlta.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.button_reportesAlta.FlatAppearance.BorderSize = 0;
+            this.button_reportesAlta.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_reportesAlta.Font = new System.Drawing.Font("Malgun Gothic", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_reportesAlta.ForeColor = System.Drawing.Color.GreenYellow;
+            this.button_reportesAlta.Image = global::Gestor_Gimnasio.Properties.Resources.users;
+            this.button_reportesAlta.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button_reportesAlta.Location = new System.Drawing.Point(24, 436);
+            this.button_reportesAlta.Name = "button_reportesAlta";
+            this.button_reportesAlta.Size = new System.Drawing.Size(216, 61);
+            this.button_reportesAlta.TabIndex = 9;
+            this.button_reportesAlta.Text = "MIS ALTAS";
+            this.button_reportesAlta.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button_reportesAlta.UseVisualStyleBackColor = true;
+            this.button_reportesAlta.Click += new System.EventHandler(this.button_reportesAlta_Click);
+            // 
             // DashboardAdministrador
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -195,5 +215,6 @@
         private System.Windows.Forms.Panel panel_DashBoardAdm;
         private System.Windows.Forms.Button B_Cobros;
         private System.Windows.Forms.Button B_EstadoCuota;
+        private System.Windows.Forms.Button button_reportesAlta;
     }
 }

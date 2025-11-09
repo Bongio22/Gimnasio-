@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.cb_turno = new System.Windows.Forms.ComboBox();
+            this.cb_cuotas = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.B_Buscar = new System.Windows.Forms.Button();
@@ -42,23 +42,23 @@
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // comboBox1
+            // cb_turno
             // 
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(161, 16);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(224, 28);
-            this.comboBox1.TabIndex = 7;
+            this.cb_turno.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_turno.FormattingEnabled = true;
+            this.cb_turno.Location = new System.Drawing.Point(161, 16);
+            this.cb_turno.Name = "cb_turno";
+            this.cb_turno.Size = new System.Drawing.Size(224, 28);
+            this.cb_turno.TabIndex = 7;
             // 
-            // comboBox2
+            // cb_cuotas
             // 
-            this.comboBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(502, 17);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(224, 28);
-            this.comboBox2.TabIndex = 8;
+            this.cb_cuotas.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_cuotas.FormattingEnabled = true;
+            this.cb_cuotas.Location = new System.Drawing.Point(502, 17);
+            this.cb_cuotas.Name = "cb_cuotas";
+            this.cb_cuotas.Size = new System.Drawing.Size(224, 28);
+            this.cb_cuotas.TabIndex = 8;
             // 
             // label1
             // 
@@ -136,8 +136,8 @@
             this.panel2.Controls.Add(this.B_Buscar);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.label1);
-            this.panel2.Controls.Add(this.comboBox2);
-            this.panel2.Controls.Add(this.comboBox1);
+            this.panel2.Controls.Add(this.cb_cuotas);
+            this.panel2.Controls.Add(this.cb_turno);
             this.panel2.Location = new System.Drawing.Point(26, 85);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(895, 487);
@@ -164,8 +164,8 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox cb_turno;
+        private System.Windows.Forms.ComboBox cb_cuotas;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button B_Buscar;

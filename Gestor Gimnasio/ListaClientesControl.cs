@@ -17,6 +17,7 @@ namespace Gestor_Gimnasio
         public ListaClientesControl()
         {
             InitializeComponent();
+            ConfigurarDataGridView(lista_Clientes);
         }
 
         public void CargarClientes()
@@ -78,20 +79,104 @@ namespace Gestor_Gimnasio
                 if (lista_Clientes.Columns.Contains("id_turno"))
                     lista_Clientes.Columns["id_turno"].Visible = false;
 
-                // Ajustes visuales (mismos que usaste)
-                lista_Clientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                lista_Clientes.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                lista_Clientes.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                lista_Clientes.AllowUserToResizeColumns = false;
-                lista_Clientes.AllowUserToResizeRows = false;
-                lista_Clientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                lista_Clientes.MultiSelect = false;
-                lista_Clientes.ReadOnly = true;
+         
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar clientes: " + ex.Message);
             }
+
+
+        }
+
+        private void ConfigurarDataGridView(DataGridView dgv)
+        {
+
+            Color verdeEncabezado = ColorTranslator.FromHtml("#014A16"); // verde bosque apagado
+            Color verdeSeleccion = ColorTranslator.FromHtml("#7BAE7F"); // verde medio selección
+            Color verdeAlterna = ColorTranslator.FromHtml("#EDFFEF"); // verde muy claro alternado
+            Color grisBorde = ColorTranslator.FromHtml("#C8D3C4"); // gris verdoso claro
+            Color hoverSuave = ColorTranslator.FromHtml("#DCEFE6"); // verde pastel para hover
+
+            // --- Comportamiento ---
+            dgv.ReadOnly = true;
+            dgv.MultiSelect = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.RowHeadersVisible = false;
+            dgv.AllowUserToResizeColumns = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.ScrollBars = ScrollBars.Both;
+            dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgv.EnableHeadersVisualStyles = false;
+
+            // --- Autoajuste ---
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgv.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            // --- Estética general ---
+            dgv.BackgroundColor = Color.White;
+            dgv.BorderStyle = BorderStyle.None;
+            dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv.GridColor = grisBorde;
+
+            // Encabezado
+            dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = verdeEncabezado;
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 11f, FontStyle.Bold);
+            dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgv.ColumnHeadersHeight = 36;
+
+            // Celdas
+            dgv.DefaultCellStyle.BackColor = Color.White;
+            dgv.DefaultCellStyle.ForeColor = Color.Black;
+            dgv.DefaultCellStyle.Font = new Font("Segoe UI", 10f, FontStyle.Regular);
+            dgv.DefaultCellStyle.SelectionBackColor = verdeSeleccion;
+            dgv.DefaultCellStyle.SelectionForeColor = Color.White;
+            dgv.DefaultCellStyle.Padding = new Padding(4, 6, 4, 6);
+
+            // Filas alternadas
+            dgv.AlternatingRowsDefaultCellStyle.BackColor = verdeAlterna;
+
+            // --- Sin selección inicial ---
+            dgv.ClearSelection();
+            dgv.DataBindingComplete += (s, e) => ((DataGridView)s).ClearSelection();
+
+            // --- Hover suave (efecto al pasar el mouse) ---
+            Color originalBackColor = dgv.DefaultCellStyle.BackColor;
+            Color originalAltColor = dgv.AlternatingRowsDefaultCellStyle.BackColor;
+            int lastRow = -1;
+
+            dgv.CellMouseEnter += (s, e) =>
+            {
+                if (e.RowIndex >= 0 && e.RowIndex != lastRow)
+                {
+                    var fila = dgv.Rows[e.RowIndex];
+                    fila.DefaultCellStyle.BackColor = hoverSuave;
+                    lastRow = e.RowIndex;
+                }
+            };
+
+            dgv.CellMouseLeave += (s, e) =>
+            {
+                if (e.RowIndex >= 0)
+                {
+                    var fila = dgv.Rows[e.RowIndex];
+                    fila.DefaultCellStyle.BackColor = (e.RowIndex % 2 == 0) ? originalBackColor : originalAltColor;
+                }
+            };
+
+            // --- Doble buffer (scroll suave) ---
+            try
+            {
+                typeof(DataGridView)
+                    .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                    ?.SetValue(dgv, true, null);
+            }
+            catch { }
         }
     }
 }

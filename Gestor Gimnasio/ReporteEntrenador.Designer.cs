@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cb_nombre_entrenador = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.B_Buscar = new System.Windows.Forms.Button();
             this.dataGridView_Entrenadores = new System.Windows.Forms.DataGridView();
@@ -40,14 +40,14 @@
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // comboBox1
+            // cb_nombre_entrenador
             // 
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(520, 15);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(224, 28);
-            this.comboBox1.TabIndex = 0;
+            this.cb_nombre_entrenador.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_nombre_entrenador.FormattingEnabled = true;
+            this.cb_nombre_entrenador.Location = new System.Drawing.Point(520, 15);
+            this.cb_nombre_entrenador.Name = "cb_nombre_entrenador";
+            this.cb_nombre_entrenador.Size = new System.Drawing.Size(224, 28);
+            this.cb_nombre_entrenador.TabIndex = 0;
             // 
             // label1
             // 
@@ -113,7 +113,7 @@
             this.panel2.Controls.Add(this.dataGridView_Entrenadores);
             this.panel2.Controls.Add(this.B_Buscar);
             this.panel2.Controls.Add(this.label1);
-            this.panel2.Controls.Add(this.comboBox1);
+            this.panel2.Controls.Add(this.cb_nombre_entrenador);
             this.panel2.Location = new System.Drawing.Point(18, 84);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(905, 496);
@@ -140,7 +140,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cb_nombre_entrenador;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button B_Buscar;
         private System.Windows.Forms.DataGridView dataGridView_Entrenadores;

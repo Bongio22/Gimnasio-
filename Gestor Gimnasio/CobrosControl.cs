@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;          // LicenseManager
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -11,35 +12,53 @@ namespace Gestor_Gimnasio
 {
     public partial class CobrosControl : UserControl
     {
-        private readonly string _cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
+        private readonly string _cs;
 
         public int CurrentAdminId { get; set; }
 
-        // Estado del alumno buscado
         private DataTable _estadoAlumno = new DataTable();
         private int? _alumnoIdActual = null;
         private DateTime? _fechaAltaAlumno = null;
 
-        // Política: sin cuotas acumulables. Cada pago = 1 mes desde la fecha del pago.
-        // (Si quisieras tolerancias/rebase, acá pondrías constantes.)
+        // Seguro para diseñador
+        private bool IsDesignMode =>
+            LicenseManager.UsageMode == LicenseUsageMode.Designtime || DesignMode;
 
         public CobrosControl(int currentAdminId = 0)
         {
             InitializeComponent();
-            CurrentAdminId = currentAdminId;
 
+            if (IsDesignMode) return; // no DB ni eventos en diseñador
+
+            var csCfg = ConfigurationManager.ConnectionStrings["BaseDatos"];
+            if (csCfg == null || string.IsNullOrWhiteSpace(csCfg.ConnectionString))
+                throw new InvalidOperationException("Falta la cadena de conexión 'BaseDatos' en app.config.");
+
+            _cs = csCfg.ConnectionString;
+
+            CurrentAdminId = (currentAdminId > 0)
+                ? currentAdminId
+                : (UserSession.IsLogged ? UserSession.IdUsuario : 0);
+
+            // Configuración UI
             dgvPendientes.AutoGenerateColumns = false;
+            ConfigurarDataGridView(dgvPendientes);
             ApplyTheme();
 
+            // Eventos
             btnBuscar.Click += (s, e) => BuscarPorDni();
-            txtDni.KeyDown += (s, e) => { if (e.KeyCode == Keys.Enter) { e.SuppressKeyPress = true; BuscarPorDni(); } };
+            txtDni.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Enter) { e.SuppressKeyPress = true; BuscarPorDni(); }
+            };
             btnPagar.Click += (s, e) => RegistrarPago();
 
-            // Vista global al abrir (estado de cobertura)
+            // Vista inicial
             CargarCoberturaGlobal();
+            SetControlesPago(false);
         }
 
-        #region UI helpers
+        // ========= UI =========
         private void ApplyTheme()
         {
             Color primary = Color.FromArgb(0, 100, 0);
@@ -52,18 +71,89 @@ namespace Gestor_Gimnasio
 
             btnBuscar.BackColor = primary; btnBuscar.ForeColor = Color.White;
             btnPagar.BackColor = primary; btnPagar.ForeColor = Color.White;
+        }
 
-            dgvPendientes.EnableHeadersVisualStyles = false;
-            dgvPendientes.ColumnHeadersDefaultCellStyle.BackColor = header;
-            dgvPendientes.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            dgvPendientes.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            dgvPendientes.DefaultCellStyle.Font = new Font("Segoe UI", 9.5f);
-            dgvPendientes.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 248, 248);
+        private void ConfigurarDataGridView(DataGridView dgv)
+        {
+            Color verdeEncabezado = ColorTranslator.FromHtml("#014A16");
+            Color verdeSeleccion = ColorTranslator.FromHtml("#7BAE7F");
+            Color verdeAlterna = ColorTranslator.FromHtml("#EDFFEF");
+            Color grisBorde = ColorTranslator.FromHtml("#C8D3C4");
+            Color hoverSuave = ColorTranslator.FromHtml("#DCEFE6");
 
-            // Sin selección visual
-            dgvPendientes.DefaultCellStyle.SelectionBackColor = dgvPendientes.DefaultCellStyle.BackColor;
-            dgvPendientes.DefaultCellStyle.SelectionForeColor = dgvPendientes.DefaultCellStyle.ForeColor;
-            dgvPendientes.SelectionChanged += (s, e) => dgvPendientes.ClearSelection();
+            dgv.ReadOnly = true;
+            dgv.MultiSelect = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.RowHeadersVisible = false;
+            dgv.AllowUserToResizeColumns = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.ScrollBars = ScrollBars.Both;
+            dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgv.EnableHeadersVisualStyles = false;
+
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgv.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            dgv.BackgroundColor = Color.White;
+            dgv.BorderStyle = BorderStyle.None;
+            dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv.GridColor = grisBorde;
+
+            dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = verdeEncabezado;
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 11f, FontStyle.Bold);
+            dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgv.ColumnHeadersHeight = 36;
+
+            dgv.DefaultCellStyle.BackColor = Color.White;
+            dgv.DefaultCellStyle.ForeColor = Color.Black;
+            dgv.DefaultCellStyle.Font = new Font("Segoe UI", 10f, FontStyle.Regular);
+            dgv.DefaultCellStyle.SelectionBackColor = verdeSeleccion;
+            dgv.DefaultCellStyle.SelectionForeColor = Color.White;
+            dgv.DefaultCellStyle.Padding = new Padding(4, 6, 4, 6);
+
+            dgv.AlternatingRowsDefaultCellStyle.BackColor = verdeAlterna;
+
+            dgv.ClearSelection();
+            dgv.DataBindingComplete += (s, e) => ((DataGridView)s).ClearSelection();
+
+            // Hover suave
+            Color originalBackColor = dgv.DefaultCellStyle.BackColor;
+            Color originalAltColor = dgv.AlternatingRowsDefaultCellStyle.BackColor;
+            int lastRow = -1;
+
+            dgv.CellMouseEnter += (s, e) =>
+            {
+                if (e.RowIndex >= 0 && e.RowIndex != lastRow)
+                {
+                    var fila = dgv.Rows[e.RowIndex];
+                    fila.DefaultCellStyle.BackColor = hoverSuave;
+                    lastRow = e.RowIndex;
+                }
+            };
+
+            dgv.CellMouseLeave += (s, e) =>
+            {
+                if (e.RowIndex >= 0)
+                {
+                    var fila = dgv.Rows[e.RowIndex];
+                    fila.DefaultCellStyle.BackColor =
+                        (e.RowIndex % 2 == 0) ? originalBackColor : originalAltColor;
+                }
+            };
+
+            // Doble buffer
+            try
+            {
+                typeof(DataGridView)
+                    .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                    ?.SetValue(dgv, true, null);
+            }
+            catch { }
         }
 
         private void SetControlesPago(bool enabled)
@@ -71,14 +161,16 @@ namespace Gestor_Gimnasio
             txtMonto.Enabled = enabled;
             btnPagar.Enabled = enabled;
         }
-        #endregion
 
-        #region Util general
+        // ========= Util general =========
         private static int ToInt(object value, int fallback)
-            => (value == null || value == DBNull.Value) ? fallback : Convert.ToInt32(value, CultureInfo.InvariantCulture);
-        #endregion
+        {
+            return (value == null || value == DBNull.Value)
+                ? fallback
+                : Convert.ToInt32(value, CultureInfo.InvariantCulture);
+        }
 
-        #region Util DB (helpers)
+        // ========= DB helpers =========
         private bool ColumnaExiste(string tabla, string columna)
         {
             const string q = @"SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID(@t) AND name = @c;";
@@ -88,11 +180,21 @@ namespace Gestor_Gimnasio
                 cmd.Parameters.Add("@t", SqlDbType.NVarChar, 256).Value = tabla;
                 cmd.Parameters.Add("@c", SqlDbType.NVarChar, 128).Value = columna;
                 cn.Open();
-                return cmd.ExecuteScalar() != null;
+                object r = cmd.ExecuteScalar();
+                return r != null;
             }
         }
 
-        // Asegura cuota para (anio, mes) con un VTO explícito (política: fechaPago + 1 mes)
+        private void SetSessionContext(SqlConnection cn)
+        {
+            if (CurrentAdminId <= 0) return;
+            using (var cmd = new SqlCommand("EXEC sys.sp_set_session_context @key=N'current_user_id', @value=@id", cn))
+            {
+                cmd.Parameters.Add("@id", SqlDbType.Int).Value = CurrentAdminId;
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         private int AsegurarCuotaConVto(SqlConnection cn, SqlTransaction tx, int idAlumno, int anio, int mes, decimal monto, DateTime vto)
         {
             // ¿Existe?
@@ -103,16 +205,16 @@ namespace Gestor_Gimnasio
                 sel.Parameters.Add("@y", SqlDbType.Int).Value = anio;
                 sel.Parameters.Add("@m", SqlDbType.TinyInt).Value = mes;
 
-                var r = sel.ExecuteScalar();
+                object r = sel.ExecuteScalar();
                 if (r != null && r != DBNull.Value)
                 {
-                    // Actualizar monto/vto si hiciera falta (sin romper pagos previos)
                     using (var up = new SqlCommand(
-                        @"UPDATE dbo.Cuota SET monto = CASE WHEN monto<=0 THEN @mon ELSE monto END,
-                                                fecha_vencimiento = @vto
+                        @"UPDATE dbo.Cuota
+                          SET monto = CASE WHEN monto<=0 THEN @mon ELSE monto END,
+                              fecha_vencimiento = @vto
                           WHERE id_cuota = @id;", cn, tx))
                     {
-                        up.Parameters.Add("@mon", SqlDbType.Decimal).Value = monto;
+                        var pMon = up.Parameters.Add("@mon", SqlDbType.Decimal); pMon.Precision = 10; pMon.Scale = 2; pMon.Value = monto;
                         up.Parameters.Add("@vto", SqlDbType.Date).Value = vto.Date;
                         up.Parameters.Add("@id", SqlDbType.Int).Value = Convert.ToInt32(r);
                         up.ExecuteNonQuery();
@@ -129,22 +231,21 @@ namespace Gestor_Gimnasio
             {
                 ins.Parameters.Add("@y", SqlDbType.Int).Value = anio;
                 ins.Parameters.Add("@m", SqlDbType.TinyInt).Value = mes;
-                var pMon = ins.Parameters.Add("@mon", SqlDbType.Decimal);
-                pMon.Precision = 10; pMon.Scale = 2; pMon.Value = monto;
+                var pMon = ins.Parameters.Add("@mon", SqlDbType.Decimal); pMon.Precision = 10; pMon.Scale = 2; pMon.Value = monto;
                 ins.Parameters.Add("@vto", SqlDbType.Date).Value = vto.Date;
                 ins.Parameters.Add("@a", SqlDbType.Int).Value = idAlumno;
 
-                return Convert.ToInt32(ins.ExecuteScalar());
+                object nuevoId = ins.ExecuteScalar();
+                return Convert.ToInt32(nuevoId);
             }
         }
-        #endregion
 
-        #region Búsqueda y pago (modelo sin acumulación)
+        // ========= Búsqueda y pago =========
         private void BuscarPorDni()
         {
             ResetUI();
 
-            if (!int.TryParse(txtDni.Text.Trim(), out var dni))
+            if (!int.TryParse(txtDni.Text.Trim(), out int dni))
             {
                 MessageBox.Show("Ingresá un DNI numérico.", "Dato inválido",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -152,8 +253,11 @@ namespace Gestor_Gimnasio
                 return;
             }
 
-            // Alumno activo (soporta 'activo' o 'estado')
-            (int? idAlumno, string nombre, DateTime? fechaAlta) = ObtenerAlumnoActivoPorDni(dni);
+            var tupla = ObtenerAlumnoActivoPorDni(dni);
+            int? idAlumno = tupla.idAlumno;
+            string nombre = tupla.nombre;
+            DateTime? fechaAlta = tupla.fechaAlta;
+
             if (idAlumno == null)
             {
                 lblAlumnoNombre.Text = "No se encontró un alumno activo con ese DNI.";
@@ -164,28 +268,33 @@ namespace Gestor_Gimnasio
 
             _alumnoIdActual = idAlumno;
             _fechaAltaAlumno = fechaAlta;
-            lblAlumnoNombre.Text = $"{nombre}  •  Alta: {fechaAlta:dd/MM/yyyy}";
 
-            // No generamos cuotas por calendario
-            // GenerarCuotasFaltantesHastaHoy(...)  // <-- ELIMINADO
+            lblAlumnoNombre.Text = string.Format("{0}  •  Alta: {1:dd/MM/yyyy}", nombre, fechaAlta);
 
-            // Mostrar estado actual del alumno (cubre hasta / pagada o no)
+            // Monto sugerido
+            decimal sugerido = ObtenerMontoMensualPreferido(_alumnoIdActual.Value);
+            if (sugerido > 0) txtMonto.Text = sugerido.ToString("N2", new CultureInfo("es-AR"));
+
+            // Estado individual
             _estadoAlumno = ObtenerEstadoAlumnoHoy(_alumnoIdActual.Value);
             dgvPendientes.DataSource = _estadoAlumno;
 
-            string estado = (_estadoAlumno.Rows.Count > 0) ? (_estadoAlumno.Rows[0]["estado_texto"]?.ToString() ?? "—") : "—";
+            // Leyenda
+            string estado = (_estadoAlumno.Rows.Count > 0)
+                ? (_estadoAlumno.Rows[0]["estado_texto"] == DBNull.Value ? "—" : _estadoAlumno.Rows[0]["estado_texto"].ToString())
+                : "—";
             DateTime? vto = null;
             if (_estadoAlumno.Rows.Count > 0 && _estadoAlumno.Rows[0]["fecha_vencimiento"] != DBNull.Value)
                 vto = Convert.ToDateTime(_estadoAlumno.Rows[0]["fecha_vencimiento"]);
 
-            lblProximoPeriodo.Text = estado == "Pagada"
-                ? $"Cubre hasta: {vto:dd/MM/yyyy}"
-                : (vto.HasValue ? $"Sin cobertura (último vencimiento: {vto:dd/MM/yyyy})" : "Sin cobertura");
+            lblProximoPeriodo.Text = (estado == "Pagada")
+                ? string.Format("Cubre hasta: {0:dd/MM/yyyy}", vto)
+                : (vto.HasValue ? string.Format("Sin cobertura (último vencimiento: {0:dd/MM/yyyy})", vto) : "Sin cobertura");
 
             SetControlesPago(true);
             txtMonto.Focus();
 
-            // Refrescar vista global
+            // Resumen global (no pisa el DataSource del estado individual)
             CargarCoberturaGlobal();
         }
 
@@ -198,8 +307,14 @@ namespace Gestor_Gimnasio
                 return;
             }
 
-            if (!decimal.TryParse(txtMonto.Text.Trim(), NumberStyles.Any, new CultureInfo("es-AR"),
-                    out var monto) || monto <= 0)
+            if (CurrentAdminId <= 0)
+            {
+                MessageBox.Show("No se detectó un administrador en sesión. Cerrá y volvete a iniciar sesión.",
+                    "Sesión requerida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!decimal.TryParse(txtMonto.Text.Trim(), NumberStyles.Any, new CultureInfo("es-AR"), out decimal monto) || monto <= 0)
             {
                 MessageBox.Show("Ingresá un monto válido mayor a 0.",
                     "Dato inválido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -207,17 +322,18 @@ namespace Gestor_Gimnasio
                 return;
             }
 
-            // === NUEVO: período según FECHA DE PAGO (sin acumulación) ===
-            var fechaPago = DateTime.Today;                  // o DateTime.Now.Date
+            // Período a cobrar = mes y año de HOY (tu app trabaja así)
+            DateTime fechaPago = DateTime.Today;
             int anio = fechaPago.Year;
             int mes = fechaPago.Month;
 
-            // vto = fechaPago + 1 mes (clamp al fin de mes, respetando el día del pago)
-            DateTime tmp = fechaPago.AddMonths(1);
-            int lastDay = DateTime.DaysInMonth(tmp.Year, tmp.Month);
-            DateTime vto = new DateTime(tmp.Year, tmp.Month, Math.Min(fechaPago.Day, lastDay));
+            // vto: mismo día del mes siguiente (clamp a último día)
+            DateTime siguienteMes = fechaPago.AddMonths(1);
+            int lastDay = DateTime.DaysInMonth(siguienteMes.Year, siguienteMes.Month);
+            DateTime vto = new DateTime(siguienteMes.Year, siguienteMes.Month, Math.Min(fechaPago.Day, lastDay));
 
             string periodoTxt = $"{NombreMes(mes)} {anio}";
+
             if (MessageBox.Show(
                     $"¿Confirmás registrar el pago de {periodoTxt} por ${monto:N2}?\nCobertura: {fechaPago:dd/MM/yyyy} → {vto:dd/MM/yyyy}",
                     "Confirmar pago", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
@@ -228,42 +344,53 @@ namespace Gestor_Gimnasio
                 using (var cn = new SqlConnection(_cs))
                 {
                     cn.Open();
+                    SetSessionContext(cn);
+
                     bool tieneIdAdmin = ColumnaExiste("dbo.Pago", "id_admin");
 
                     using (var tx = cn.BeginTransaction(IsolationLevel.ReadCommitted))
                     {
-                        // Crear/Asegurar la cuota del mes lógico del pago con VTO explícito
-                        int idCuota = AsegurarCuotaConVto(cn, tx, _alumnoIdActual.Value, anio, mes, monto, vto);
-
-                        // Verificar que no esté ya paga (caso reintento)
-                        using (var chk = new SqlCommand("SELECT 1 FROM dbo.Pago WHERE id_cuota = @c", cn, tx))
+                        // No permitir pagar dos veces el mismo período
+                        using (var chkDup = new SqlCommand(
+                            @"SELECT p.id_pago
+                              FROM dbo.Pago p
+                              JOIN dbo.Cuota c ON c.id_cuota = p.id_cuota
+                              WHERE c.id_alumno = @al
+                                AND c.anio = @y AND c.mes = @m;", cn, tx))
                         {
-                            chk.Parameters.Add("@c", SqlDbType.Int).Value = idCuota;
-                            if (chk.ExecuteScalar() != null)
+                            chkDup.Parameters.Add("@al", SqlDbType.Int).Value = _alumnoIdActual.Value;
+                            chkDup.Parameters.Add("@y", SqlDbType.Int).Value = anio;
+                            chkDup.Parameters.Add("@m", SqlDbType.TinyInt).Value = mes;
+
+                            var dup = chkDup.ExecuteScalar();
+                            if (dup != null)
                             {
                                 tx.Rollback();
-                                MessageBox.Show($"La cuota de {periodoTxt} ya está paga.",
-                                    "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                MessageBox.Show($"La cuota de {periodoTxt} ya está paga.", "Aviso",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 BuscarPorDni();
                                 return;
                             }
                         }
 
-                        // Insert pago
+                        // Asegurar cuota y registrar pago
+                        int idCuota = AsegurarCuotaConVto(cn, tx, _alumnoIdActual.Value, anio, mes, monto, vto);
+
                         string insertSql = tieneIdAdmin
-                            ? @"INSERT INTO dbo.Pago (monto, id_cuota, fecha_pago, id_admin)
-                               VALUES (@m, @c, @fp, @a);"
-                            : @"INSERT INTO dbo.Pago (monto, id_cuota, fecha_pago)
-                               VALUES (@m, @c, @fp);";
+                            ? @"INSERT INTO dbo.Pago (fecha_pago, monto, id_cuota, id_admin)
+                               VALUES (@fp, @m, @c, @a);"
+                            : @"INSERT INTO dbo.Pago (fecha_pago, monto, id_cuota)
+                               VALUES (@fp, @m, @c);";
 
                         using (var cmd = new SqlCommand(insertSql, cn, tx))
                         {
-                            var pMonto = cmd.Parameters.Add("@m", SqlDbType.Decimal);
-                            pMonto.Precision = 10; pMonto.Scale = 2; pMonto.Value = monto;
-                            cmd.Parameters.Add("@c", SqlDbType.Int).Value = idCuota;
                             cmd.Parameters.Add("@fp", SqlDbType.Date).Value = fechaPago.Date;
-                            if (tieneIdAdmin)
-                                cmd.Parameters.Add("@a", SqlDbType.Int).Value = CurrentAdminId;
+                            var pMonto = cmd.Parameters.Add("@m", SqlDbType.Decimal); pMonto.Precision = 10; pMonto.Scale = 2; pMonto.Value = monto;
+                            cmd.Parameters.Add("@c", SqlDbType.Int).Value = idCuota;
+                            if (tieneIdAdmin) cmd.Parameters.Add("@a", SqlDbType.Int).Value = CurrentAdminId;
+
+                            System.Diagnostics.Debug.WriteLine(
+                                $"[RegistrarPago] alumno={_alumnoIdActual} cuota={idCuota} monto={monto} admin={CurrentAdminId}");
 
                             cmd.ExecuteNonQuery();
                         }
@@ -275,20 +402,18 @@ namespace Gestor_Gimnasio
                 MessageBox.Show("Pago registrado correctamente.", "OK",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Refrescar alumno + global
                 BuscarPorDni();
                 CargarCoberturaGlobal();
                 txtMonto.Clear();
             }
             catch (SqlException ex)
             {
-                MessageBox.Show($"Error al registrar el pago:\n{ex.Message}",
+                MessageBox.Show("Error al registrar el pago:\n" + ex.Message,
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        #endregion
 
-        #region Consultas Alumno / Global (por cobertura real)
+        // ========= Consultas Alumno / Global =========
         private (int? idAlumno, string nombre, DateTime? fechaAlta) ObtenerAlumnoActivoPorDni(int dni)
         {
             bool tieneActivo = ColumnaExiste("dbo.Alumno", "activo");
@@ -297,14 +422,14 @@ namespace Gestor_Gimnasio
             string sql = tieneActivo
                 ? @"SELECT TOP 1 id_alumno, nombre, fecha_alta
                     FROM dbo.Alumno WHERE dni = @dni AND activo = 1;"
-                : tieneEstado
+                : (tieneEstado
                     ? @"SELECT TOP 1 id_alumno, nombre, fecha_alta
                         FROM dbo.Alumno
                         WHERE dni = @dni AND
                               (TRY_CAST(estado AS int) = 1 OR
                                UPPER(LTRIM(RTRIM(CAST(estado AS nvarchar(20))))) IN ('A','ACTIVO','TRUE','SI','S'));"
                     : @"SELECT TOP 1 id_alumno, nombre, fecha_alta
-                        FROM dbo.Alumno WHERE dni = @dni;";
+                        FROM dbo.Alumno WHERE dni = @dni;");
 
             using (var cn = new SqlConnection(_cs))
             using (var cmd = new SqlCommand(sql, cn))
@@ -314,15 +439,19 @@ namespace Gestor_Gimnasio
                 using (var rd = cmd.ExecuteReader())
                 {
                     if (rd.Read())
-                        return (rd.GetInt32(0),
-                                rd.GetString(1),
-                                rd.IsDBNull(2) ? (DateTime?)null : rd.GetDateTime(2).Date);
+                    {
+                        return (
+                            rd.GetInt32(0),
+                            rd.GetString(1),
+                            rd.IsDBNull(2) ? (DateTime?)null : rd.GetDateTime(2).Date
+                        );
+                    }
                 }
             }
+
             return (null, null, null);
         }
 
-        // Estado actual del alumno (sin generar cuotas por calendario)
         private DataTable ObtenerEstadoAlumnoHoy(int idAlumno)
         {
             const string sql = @"
@@ -352,19 +481,20 @@ WHERE a.id_alumno = @id;";
             return t;
         }
 
-        // Global: quiénes hoy están/no están cubiertos (sin crear cuotas)
         private void CargarCoberturaGlobal()
         {
+            if (IsDesignMode) return;
+
             var tabla = ObtenerCoberturaGlobal();
 
-            // La grilla ya tiene columnas (Nombre, DNI, VTO, Estado)
-            dgvPendientes.DataSource = tabla;
+            // Si NO estoy mostrando el estado individual, uso la global.
+            if (_alumnoIdActual == null) dgvPendientes.DataSource = tabla;
 
-            // Estilo suave si no cubre
+            // Remarcar "No pagada" con cuidado de columnas nulas
             dgvPendientes.CellFormatting -= DgvImpagos_CellFormatting;
             dgvPendientes.CellFormatting += DgvImpagos_CellFormatting;
 
-            int noPagadas = tabla.AsEnumerable().Count(r => (r["estado_texto"]?.ToString() ?? "") == "No pagada");
+            int noPagadas = tabla.AsEnumerable().Count(r => (r["estado_texto"] == DBNull.Value ? "" : r["estado_texto"].ToString()) == "No pagada");
             int pagadas = tabla.Rows.Count - noPagadas;
             lblTotal.Text = $"Pagadas: {pagadas}  •  No pagas: {noPagadas}";
         }
@@ -372,20 +502,26 @@ WHERE a.id_alumno = @id;";
         private void DgvImpagos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0) return;
-            if (dgvPendientes.Columns[e.ColumnIndex].Name != "colEstado") return;
 
-            var estado = dgvPendientes.Rows[e.RowIndex].Cells["colEstado"].Value?.ToString();
+            var grid = (DataGridView)sender;
+            // Si no existe la columna "colEstado" salgo
+            if (!grid.Columns.Contains("colEstado")) return;
+
+            if (grid.Columns[e.ColumnIndex].Name != "colEstado") return;
+
+            var estadoObj = grid.Rows[e.RowIndex].Cells["colEstado"].Value;
+            var estado = estadoObj?.ToString();
+
             if (estado == "No pagada")
             {
-                var row = dgvPendientes.Rows[e.RowIndex];
+                var row = grid.Rows[e.RowIndex];
                 row.DefaultCellStyle.ForeColor = Color.FromArgb(120, 0, 0);
-                row.Cells["colEstado"].Style.Font = new Font(dgvPendientes.Font, FontStyle.Bold);
+                row.Cells["colEstado"].Style.Font = new Font(grid.Font, FontStyle.Bold);
             }
         }
 
         private DataTable ObtenerCoberturaGlobal()
         {
-            // Filtro de activos: tolera 'activo' o 'estado'
             bool tieneActivo = ColumnaExiste("dbo.Alumno", "activo");
             bool tieneEstado = ColumnaExiste("dbo.Alumno", "estado");
             string filtroActivo = tieneActivo
@@ -432,9 +568,8 @@ ORDER BY nombre;";
             }
             return t;
         }
-        #endregion
 
-        #region Utilidades varias
+        // ========= Utilidades varias =========
         private static string NombreMes(int mes)
         {
             var cultura = new CultureInfo("es-AR");
@@ -448,20 +583,13 @@ ORDER BY nombre;";
             lblAlumnoNombre.Text = "—";
             lblProximoPeriodo.Text = "—";
             lblTotal.Text = "—";
-            dgvPendientes.DataSource = null;
+            // No tocar DataSource aquí para no borrar el global
             SetControlesPago(false);
             txtMonto.Clear();
         }
-        #endregion
-
-        #region (OBSOLETO) Generación por calendario
-        // Mantengo estos métodos por si los usabas en otro lado,
-        // pero YA NO se llaman en este control.
-        private void GenerarCuotasFaltantesHastaHoy(int idAlumno, DateTime fechaAlta) { /* obsoleto, no usar */ }
 
         private decimal ObtenerMontoMensualPreferido(int idAlumno)
         {
-            // Se mantiene igual: si guardás monto_mensual en Alumno o traes el último monto.
             bool tieneMontoMensual = ColumnaExiste("dbo.Alumno", "monto_mensual");
 
             using (var cn = new SqlConnection(_cs))
@@ -473,26 +601,25 @@ ORDER BY nombre;";
                     using (var cmd = new SqlCommand("SELECT monto_mensual FROM dbo.Alumno WHERE id_alumno = @id;", cn))
                     {
                         cmd.Parameters.Add("@id", SqlDbType.Int).Value = idAlumno;
-                        var r = cmd.ExecuteScalar();
+                        object r = cmd.ExecuteScalar();
                         if (r != null && r != DBNull.Value &&
-                            decimal.TryParse(r.ToString(), out var m1) && m1 > 0)
+                            decimal.TryParse(r.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out decimal m1) && m1 > 0)
                             return m1;
                     }
                 }
 
                 using (var cmd2 = new SqlCommand(
-                           @"SELECT TOP 1 monto FROM dbo.Cuota WHERE id_alumno = @id ORDER BY id_cuota DESC;", cn))
+                    @"SELECT TOP 1 monto FROM dbo.Cuota WHERE id_alumno = @id ORDER BY id_cuota DESC;", cn))
                 {
                     cmd2.Parameters.Add("@id", SqlDbType.Int).Value = idAlumno;
-                    var r2 = cmd2.ExecuteScalar();
+                    object r2 = cmd2.ExecuteScalar();
                     if (r2 != null && r2 != DBNull.Value &&
-                        decimal.TryParse(r2.ToString(), out var m2) && m2 > 0)
+                        decimal.TryParse(r2.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out decimal m2) && m2 > 0)
                         return m2;
                 }
             }
 
             return -1m; // sin referencia válida
         }
-        #endregion
     }
 }
