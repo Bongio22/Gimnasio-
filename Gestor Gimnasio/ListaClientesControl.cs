@@ -14,10 +14,43 @@ namespace Gestor_Gimnasio
 {
     public partial class ListaClientesControl : UserControl
     {
+        // Cache + binding para filtrar en memoria
+        private DataTable _dtClientes;
+        private readonly BindingSource _bs = new BindingSource();
+
         public ListaClientesControl()
         {
             InitializeComponent();
             ConfigurarDataGridView(lista_Clientes);
+
+            // Cargar al iniciar
+            this.Load += (s, e) =>
+            {
+                CargarClientes();
+                // Enlazo sólo una vez
+                _bs.DataSource = _dtClientes;
+                lista_Clientes.DataSource = _bs;
+                AplicarEncabezados();
+            };
+
+            // Buscar por botón
+            if (BBuscar != null) BBuscar.Click += (s, e) => BuscarPorDni();
+
+            // Enter en el textbox también busca
+            if (textBoxdni != null)
+            {
+                textBoxdni.KeyDown += (s, e) =>
+                {
+                    if (e.KeyCode == Keys.Enter)
+                    {
+                        e.SuppressKeyPress = true;
+                        BuscarPorDni();
+                    }
+                };
+            }
+
+            // Limpiar filtro y restaurar lista completa
+            if (BLimpiar != null) BLimpiar.Click += (s, e) => LimpiarBusqueda();
         }
 
         public void CargarClientes()
@@ -27,28 +60,28 @@ namespace Gestor_Gimnasio
                 string cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
 
                 string sql = @"
-            SELECT 
-                a.id_alumno,
-                a.nombre,
-                a.dni,
-                a.telefono,
-                a.domicilio,
-                a.estado,          -- BIT
-                a.id_turno,        -- FK (puede ocultarse)
-                t.descripcion AS Turno
-            FROM Alumno a
-            LEFT JOIN Turno t      ON a.id_turno = t.id_turno
-            ORDER BY a.nombre;
-        ";
+                    SELECT 
+                        a.id_alumno,
+                        a.nombre,
+                        a.dni,
+                        a.telefono,
+                        a.domicilio,
+                        a.estado,          -- BIT
+                        a.id_turno,        -- FK (puede ocultarse)
+                        t.descripcion AS Turno
+                    FROM Alumno a
+                    LEFT JOIN Turno t ON a.id_turno = t.id_turno
+                    ORDER BY a.nombre;
+                ";
 
-                DataTable dt = new DataTable();
-                using (SqlConnection cn = new SqlConnection(cs))
-                using (SqlDataAdapter da = new SqlDataAdapter(sql, cn))
+                var dt = new DataTable();
+                using (var cn = new SqlConnection(cs))
+                using (var da = new SqlDataAdapter(sql, cn))
                 {
                     da.Fill(dt);
                 }
 
-                // Agrego columna de estado en texto (Activo/Inactivo)
+                // Columna Estado en texto
                 if (!dt.Columns.Contains("EstadoTexto"))
                     dt.Columns.Add("EstadoTexto", typeof(string));
 
@@ -58,40 +91,109 @@ namespace Gestor_Gimnasio
                     row["EstadoTexto"] = activo ? "Activo" : "Inactivo";
                 }
 
-                // Bind al grid
-                lista_Clientes.DataSource = null;
-                lista_Clientes.Rows.Clear();
-                lista_Clientes.Columns.Clear();
-                lista_Clientes.DataSource = dt;
+                // Guardamos en cache
+                _dtClientes = dt;
 
-                // Encabezados
-                lista_Clientes.Columns["id_alumno"].HeaderText = "ID";
-                lista_Clientes.Columns["nombre"].HeaderText = "NOMBRE";
-                lista_Clientes.Columns["dni"].HeaderText = "DNI";
-                lista_Clientes.Columns["telefono"].HeaderText = "TELÉFONO";
-                lista_Clientes.Columns["domicilio"].HeaderText = "DOMICILIO";
-                lista_Clientes.Columns["EstadoTexto"].HeaderText = "ESTADO";
-                lista_Clientes.Columns["Turno"].HeaderText = "TURNO";
-
-                // Oculto columnas internas
-                if (lista_Clientes.Columns.Contains("estado"))
-                    lista_Clientes.Columns["estado"].Visible = false;
-                if (lista_Clientes.Columns.Contains("id_turno"))
-                    lista_Clientes.Columns["id_turno"].Visible = false;
-
-         
+                // Si ya estaba enlazado, solo refrescamos el BindingSource
+                if (lista_Clientes.DataSource is BindingSource)
+                    _bs.DataSource = _dtClientes;
+                else
+                {
+                    lista_Clientes.DataSource = null;
+                    lista_Clientes.Rows.Clear();
+                    lista_Clientes.Columns.Clear();
+                    lista_Clientes.DataSource = _dtClientes;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar clientes: " + ex.Message);
             }
+        }
 
+        // Encabezados/visibilidades separados para reusar
+        private void AplicarEncabezados()
+        {
+            if (lista_Clientes.Columns.Contains("id_alumno"))
+                lista_Clientes.Columns["id_alumno"].HeaderText = "ID";
+            if (lista_Clientes.Columns.Contains("nombre"))
+                lista_Clientes.Columns["nombre"].HeaderText = "NOMBRE";
+            if (lista_Clientes.Columns.Contains("dni"))
+                lista_Clientes.Columns["dni"].HeaderText = "DNI";
+            if (lista_Clientes.Columns.Contains("telefono"))
+                lista_Clientes.Columns["telefono"].HeaderText = "TELÉFONO";
+            if (lista_Clientes.Columns.Contains("domicilio"))
+                lista_Clientes.Columns["domicilio"].HeaderText = "DOMICILIO";
+            if (lista_Clientes.Columns.Contains("EstadoTexto"))
+                lista_Clientes.Columns["EstadoTexto"].HeaderText = "ESTADO";
+            if (lista_Clientes.Columns.Contains("Turno"))
+                lista_Clientes.Columns["Turno"].HeaderText = "TURNO";
 
+            if (lista_Clientes.Columns.Contains("estado"))
+                lista_Clientes.Columns["estado"].Visible = false;
+            if (lista_Clientes.Columns.Contains("id_turno"))
+                lista_Clientes.Columns["id_turno"].Visible = false;
+
+            lista_Clientes.ClearSelection();
+        }
+
+        // ----------- FILTRO POR DNI -----------
+        private void BuscarPorDni()
+        {
+            string dniTxt = (textBoxdni?.Text ?? "").Trim();
+
+            if (string.IsNullOrEmpty(dniTxt))
+            {
+                MessageBox.Show("Ingresá un DNI para buscar.", "Atención",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Validación numérica simple
+            foreach (char c in dniTxt)
+            {
+                if (!char.IsDigit(c))
+                {
+                    MessageBox.Show("El DNI debe ser numérico.", "Dato inválido",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBoxdni.Focus();
+                    return;
+                }
+            }
+
+            // Filtro exacto por 'dni' (numérica -> Convert a string)
+            _bs.RemoveFilter();
+            _bs.Filter = $"Convert(dni, 'System.String') = '{dniTxt}'";
+
+            if (_bs.Count == 0)
+            {
+                MessageBox.Show("No se encontró un cliente con ese DNI.", "Sin coincidencias",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                lista_Clientes.ClearSelection();
+                lista_Clientes.CurrentCell = null;
+            }
+        }
+
+        // ----------- LIMPIAR Y RESTAURAR LISTA -----------
+        private void LimpiarBusqueda()
+        {
+            _bs.RemoveFilter();
+            textBoxdni?.Clear();
+
+            if (lista_Clientes.Rows.Count > 0)
+            {
+                lista_Clientes.ClearSelection();
+                lista_Clientes.CurrentCell = null;
+            }
+
+            textBoxdni?.Focus();
         }
 
         private void ConfigurarDataGridView(DataGridView dgv)
         {
-
             Color verdeEncabezado = ColorTranslator.FromHtml("#014A16"); // verde bosque apagado
             Color verdeSeleccion = ColorTranslator.FromHtml("#7BAE7F"); // verde medio selección
             Color verdeAlterna = ColorTranslator.FromHtml("#EDFFEF"); // verde muy claro alternado
