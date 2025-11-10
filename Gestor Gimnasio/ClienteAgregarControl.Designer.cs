@@ -57,6 +57,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBox_DniClientes = new System.Windows.Forms.TextBox();
             this.B_BuscarCliente = new System.Windows.Forms.Button();
+            this.BLimpiar = new System.Windows.Forms.Button();
             this.groupBoxRegistro.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ListaClientes)).BeginInit();
             this.SuspendLayout();
@@ -85,7 +86,7 @@
             this.groupBoxRegistro.Controls.Add(this.Lnombre);
             this.groupBoxRegistro.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxRegistro.ForeColor = System.Drawing.Color.DarkGreen;
-            this.groupBoxRegistro.Location = new System.Drawing.Point(100, 119);
+            this.groupBoxRegistro.Location = new System.Drawing.Point(139, 119);
             this.groupBoxRegistro.Name = "groupBoxRegistro";
             this.groupBoxRegistro.Size = new System.Drawing.Size(967, 387);
             this.groupBoxRegistro.TabIndex = 0;
@@ -312,11 +313,11 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView_ListaClientes.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridView_ListaClientes.Location = new System.Drawing.Point(51, 561);
+            this.dataGridView_ListaClientes.Location = new System.Drawing.Point(58, 594);
             this.dataGridView_ListaClientes.Name = "dataGridView_ListaClientes";
             this.dataGridView_ListaClientes.RowHeadersWidth = 51;
             this.dataGridView_ListaClientes.RowTemplate.Height = 24;
-            this.dataGridView_ListaClientes.Size = new System.Drawing.Size(1083, 365);
+            this.dataGridView_ListaClientes.Size = new System.Drawing.Size(1165, 365);
             this.dataGridView_ListaClientes.TabIndex = 2;
             // 
             // label1
@@ -335,7 +336,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.DarkGreen;
-            this.label2.Location = new System.Drawing.Point(661, 523);
+            this.label2.Location = new System.Drawing.Point(560, 561);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(120, 25);
             this.label2.TabIndex = 4;
@@ -343,7 +344,7 @@
             // 
             // textBox_DniClientes
             // 
-            this.textBox_DniClientes.Location = new System.Drawing.Point(787, 520);
+            this.textBox_DniClientes.Location = new System.Drawing.Point(686, 558);
             this.textBox_DniClientes.Name = "textBox_DniClientes";
             this.textBox_DniClientes.Size = new System.Drawing.Size(201, 30);
             this.textBox_DniClientes.TabIndex = 5;
@@ -354,12 +355,25 @@
             this.B_BuscarCliente.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.B_BuscarCliente.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.B_BuscarCliente.ForeColor = System.Drawing.Color.White;
-            this.B_BuscarCliente.Location = new System.Drawing.Point(994, 518);
+            this.B_BuscarCliente.Location = new System.Drawing.Point(893, 556);
             this.B_BuscarCliente.Name = "B_BuscarCliente";
             this.B_BuscarCliente.Size = new System.Drawing.Size(96, 32);
             this.B_BuscarCliente.TabIndex = 6;
             this.B_BuscarCliente.Text = "Buscar";
             this.B_BuscarCliente.UseVisualStyleBackColor = false;
+            // 
+            // BLimpiar
+            // 
+            this.BLimpiar.BackColor = System.Drawing.Color.Gray;
+            this.BLimpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BLimpiar.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BLimpiar.ForeColor = System.Drawing.Color.White;
+            this.BLimpiar.Location = new System.Drawing.Point(1010, 556);
+            this.BLimpiar.Name = "BLimpiar";
+            this.BLimpiar.Size = new System.Drawing.Size(96, 32);
+            this.BLimpiar.TabIndex = 7;
+            this.BLimpiar.Text = "Borrar";
+            this.BLimpiar.UseVisualStyleBackColor = false;
             // 
             // ClienteAgregarControl
             // 
@@ -367,6 +381,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.BLimpiar);
             this.Controls.Add(this.B_BuscarCliente);
             this.Controls.Add(this.textBox_DniClientes);
             this.Controls.Add(this.label2);
@@ -376,7 +391,7 @@
             this.Controls.Add(this.groupBoxRegistro);
             this.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.Name = "ClienteAgregarControl";
-            this.Size = new System.Drawing.Size(1191, 941);
+            this.Size = new System.Drawing.Size(1257, 1017);
             this.Load += new System.EventHandler(this.ClienteAgregarControl_Load);
             this.groupBoxRegistro.ResumeLayout(false);
             this.groupBoxRegistro.PerformLayout();
@@ -415,5 +430,6 @@
         private System.Windows.Forms.TextBox textBoxCorreo;
         private System.Windows.Forms.DateTimePicker dtpFecha_nac;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button BLimpiar;
     }
 }

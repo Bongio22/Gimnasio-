@@ -61,6 +61,7 @@ namespace Gestor_Gimnasio
             this.textBox_DniEntrenadores = new System.Windows.Forms.TextBox();
             this.B_BuscarEntrenador = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.BLimpiar = new System.Windows.Forms.Button();
             this.groupBoxRegistroProf.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCupo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabla_profesores)).BeginInit();
@@ -335,7 +336,7 @@ namespace Gestor_Gimnasio
             // 
             // textBox_DniEntrenadores
             // 
-            this.textBox_DniEntrenadores.Location = new System.Drawing.Point(787, 525);
+            this.textBox_DniEntrenadores.Location = new System.Drawing.Point(682, 523);
             this.textBox_DniEntrenadores.Name = "textBox_DniEntrenadores";
             this.textBox_DniEntrenadores.Size = new System.Drawing.Size(201, 30);
             this.textBox_DniEntrenadores.TabIndex = 6;
@@ -346,7 +347,7 @@ namespace Gestor_Gimnasio
             this.B_BuscarEntrenador.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.B_BuscarEntrenador.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.B_BuscarEntrenador.ForeColor = System.Drawing.Color.White;
-            this.B_BuscarEntrenador.Location = new System.Drawing.Point(994, 521);
+            this.B_BuscarEntrenador.Location = new System.Drawing.Point(889, 519);
             this.B_BuscarEntrenador.Name = "B_BuscarEntrenador";
             this.B_BuscarEntrenador.Size = new System.Drawing.Size(96, 36);
             this.B_BuscarEntrenador.TabIndex = 7;
@@ -358,16 +359,30 @@ namespace Gestor_Gimnasio
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.DarkGreen;
-            this.label2.Location = new System.Drawing.Point(661, 530);
+            this.label2.Location = new System.Drawing.Point(556, 528);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(120, 25);
             this.label2.TabIndex = 8;
             this.label2.Text = "Ingresar DNI";
             // 
+            // BLimpiar
+            // 
+            this.BLimpiar.BackColor = System.Drawing.Color.Gray;
+            this.BLimpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BLimpiar.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BLimpiar.ForeColor = System.Drawing.Color.White;
+            this.BLimpiar.Location = new System.Drawing.Point(1011, 519);
+            this.BLimpiar.Name = "BLimpiar";
+            this.BLimpiar.Size = new System.Drawing.Size(96, 36);
+            this.BLimpiar.TabIndex = 9;
+            this.BLimpiar.Text = "Borrar";
+            this.BLimpiar.UseVisualStyleBackColor = false;
+            // 
             // ProfesorAgregarControl
             // 
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.BLimpiar);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.B_BuscarEntrenador);
             this.Controls.Add(this.textBox_DniEntrenadores);
@@ -397,5 +412,6 @@ namespace Gestor_Gimnasio
         private TextBox textBoxCorreo;
         private Label label5;
         private DateTimePicker dtpFecha_nac;
+        private Button BLimpiar;
     }
 }

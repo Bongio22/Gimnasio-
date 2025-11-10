@@ -1,3 +1,6 @@
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\bin\Debug\Gestor Gimnasio.exe.config
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\bin\Debug\Gestor Gimnasio.exe
+C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\bin\Debug\Gestor Gimnasio.pdb
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.csproj.AssemblyReference.cache
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.BackupBD.resources
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.EditarCliente.resources
@@ -23,8 +26,5 @@ C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.R
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor_Gimnasio.UsuariosControl.resources
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.csproj.GenerateResource.cache
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.csproj.CoreCompileInputs.cache
-C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\bin\Debug\Gestor Gimnasio.exe.config
-C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\bin\Debug\Gestor Gimnasio.exe
-C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\bin\Debug\Gestor Gimnasio.pdb
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.exe
 C:\Users\Agos\Source\Repos\Gimnasio-\Gestor Gimnasio\obj\Debug\Gestor Gimnasio.pdb

@@ -26,12 +26,15 @@ namespace Gestor_Gimnasio
             ConfigurarGrid();
             CargarCombos();
 
-            // Eventos
+            // Eventos de filtro/búsqueda
             B_BuscarCuotasDni.Click += (s, e) => Buscar();
             comboBoxMes.SelectedIndexChanged += (s, e) => Buscar();
             comboBoxAnio.SelectedIndexChanged += (s, e) => Buscar();
             txtPersona.TextChanged += (s, e) => Buscar();
             txtPersona.KeyDown += (s, e) => { if (e.KeyCode == Keys.Enter) { e.SuppressKeyPress = true; Buscar(); } };
+
+            // NUEVO: botón limpiar (restaura lista completa y borra el DNI/nombre)
+            if (BLimpiar != null) BLimpiar.Click += BLimpiar_Click;
 
             this.Load += (s, e) =>
             {
@@ -42,6 +45,9 @@ namespace Gestor_Gimnasio
             Buscar();
         }
 
+        // =======================
+        //  Estilos del DataGrid
+        // =======================
         private void ConfigurarDataGridView(DataGridView dgv)
         {
 
@@ -131,6 +137,7 @@ namespace Gestor_Gimnasio
             }
             catch { }
         }
+
         #region UI
         private void ConfigurarGrid()
         {
@@ -196,7 +203,12 @@ namespace Gestor_Gimnasio
 
             B_BuscarCuotasDni.Left = comboBoxAnio.Right + 30;
 
-           
+            // NUEVO: ubicar BLimpiar a la derecha del botón Buscar si existe
+            if (BLimpiar != null)
+            {
+                BLimpiar.Left = B_BuscarCuotasDni.Right + 10;
+                BLimpiar.Top = B_BuscarCuotasDni.Top;
+            }
         }
         #endregion
 
@@ -210,13 +222,7 @@ DECLARE @mes   tinyint       = @pMes;   -- 0 = Todos
 DECLARE @anio  int           = @pAnio;  -- 0 = Todos
 
 WITH alumnos AS (
-    SELECT a.id_alumno, a.nombre, a.dni, t.descripcion AS turno,
-           CASE 
-             WHEN COLUMNPROPERTY(OBJECT_ID('dbo.Alumno'),'activo','ColumnId') IS NOT NULL THEN CAST(a.activo AS int)
-             WHEN COLUMNPROPERTY(OBJECT_ID('dbo.Alumno'),'estado','ColumnId') IS NOT NULL 
-                  THEN CASE WHEN TRY_CAST(a.estado AS int)=1 OR UPPER(LTRIM(RTRIM(CAST(a.estado AS nvarchar(20))))) IN ('A','ACTIVO','TRUE','SI','S') THEN 1 ELSE 0 END
-             ELSE 1
-           END AS es_activo
+    SELECT a.id_alumno, a.nombre, a.dni, t.descripcion AS turno
     FROM dbo.Alumno a
     LEFT JOIN dbo.Turno t ON t.id_turno = a.id_turno
     WHERE
@@ -235,9 +241,9 @@ SELECT
 FROM alumnos a
 JOIN dbo.Cuota c ON c.id_alumno = a.id_alumno
 JOIN dbo.Pago  p ON p.id_cuota  = c.id_cuota
-WHERE a.es_activo = 1
-  AND (@mes  = 0 OR c.mes  = @mes)
-  AND (@anio = 0 OR c.anio = @anio)
+WHERE
+    (@mes  = 0 OR c.mes  = @mes)
+    AND (@anio = 0 OR c.anio = @anio)
 ORDER BY a.nombre, p.fecha_pago DESC;";
 
             var tabla = new DataTable();
@@ -251,6 +257,7 @@ ORDER BY a.nombre, p.fecha_pago DESC;";
             }
             return tabla;
         }
+
         #endregion
 
         #region Acciones
@@ -266,6 +273,43 @@ ORDER BY a.nombre, p.fecha_pago DESC;";
 
             var tabla = BuscarPagos(persona, mes, anio);
             dataGridView_Cuotas.DataSource = tabla;
+
+            // limpia la selección visual luego de cargar
+            dataGridView_Cuotas.ClearSelection();
+        }
+
+        // =========================
+        // NUEVO: Limpiar filtros
+        // =========================
+        private void BLimpiar_Click(object sender, EventArgs e)
+        {
+            LimpiarFiltros();
+            Buscar();                 // recarga toda la lista (sin filtros)
+            dataGridView_Cuotas.ClearSelection();
+            txtPersona.Focus();
+        }
+
+        private void LimpiarFiltros()
+        {
+            // “cliente cargado por DNI/nombre”: vaciamos el textbox
+            if (txtPersona != null) txtPersona.Text = string.Empty;
+
+            // Mes y Año a “Todos” (0)
+            if (comboBoxMes != null && comboBoxMes.DataSource != null)
+            {
+                // si existe el valor 0, seleccionarlo; si no, dejar como está
+                if (comboBoxMes.Items.Count > 0)
+                {
+                    try { comboBoxMes.SelectedValue = 0; } catch { /* ignora si el DS aún no está listo */ }
+                }
+            }
+
+            if (comboBoxAnio != null && comboBoxAnio.DataSource != null)
+            {
+                // insertar 0 ya se hizo en CargarCombos; acá seleccionamos 0 si está
+                if (comboBoxAnio.Items.Contains(0))
+                    comboBoxAnio.SelectedItem = 0;
+            }
         }
         #endregion
     }

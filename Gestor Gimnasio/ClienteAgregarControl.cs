@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +14,10 @@ namespace Gestor_Gimnasio
 {
     public partial class ClienteAgregarControl : UserControl
     {
+        // ==== NUEVO: cache y binding para filtrar en memoria ====
+        private DataTable _dtClientes;                    // cache de clientes
+        private readonly BindingSource _bsClientes = new BindingSource(); // binding del grid
+
         public ClienteAgregarControl()
         {
             InitializeComponent();
@@ -22,15 +25,16 @@ namespace Gestor_Gimnasio
             CargarListaClientes();
             comboBoxTurno.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxProfesor.DropDownStyle = ComboBoxStyle.DropDownList;
-            ConfigurarDataGridView(dataGridView_ListaClientes); 
+            ConfigurarDataGridView(dataGridView_ListaClientes);
+
+            // ==== NUEVO: enganchar búsqueda y limpiar (si existen en el diseñador) ====
+            WireSearchUI();
         }
 
         private void ClienteAgregarControl_Load(object sender, EventArgs e)
         {
- 
             string cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
 
-            // consulta para obtener los turnos disponibles
             const string sqlTurnos = @"SELECT id_turno, descripcion FROM dbo.Turno ORDER BY descripcion;";
 
             try
@@ -45,8 +49,8 @@ namespace Gestor_Gimnasio
                     {
                         comboBoxTurno.Enabled = true;
                         comboBoxTurno.DataSource = tablaTurnos;
-                        comboBoxTurno.DisplayMember = "descripcion";  // lo que se ve 
-                        comboBoxTurno.ValueMember = "id_turno";       // el ID real
+                        comboBoxTurno.DisplayMember = "descripcion";
+                        comboBoxTurno.ValueMember = "id_turno";
                         comboBoxTurno.SelectedIndex = 0;
                     }
                     else
@@ -64,7 +68,6 @@ namespace Gestor_Gimnasio
                 MessageBox.Show("Error al cargar turnos: " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                // en caso de error, deshabilitar controles
                 comboBoxTurno.DataSource = null;
                 comboBoxTurno.Items.Clear();
                 comboBoxTurno.Items.Add("Error al cargar turnos");
@@ -72,34 +75,26 @@ namespace Gestor_Gimnasio
                 comboBoxTurno.Enabled = false;
             }
 
-            // deshabilitamos profesores hasta que se elija un turno
             comboBoxProfesor.DataSource = null;
             comboBoxProfesor.Items.Clear();
             comboBoxProfesor.Items.Add("Seleccioná un turno primero");
             comboBoxProfesor.SelectedIndex = 0;
             comboBoxProfesor.Enabled = false;
 
-            // fechas
             dtpFechaAlta.Value = DateTime.Today;
 
-            // Configurar dtp de nacimiento (asegurate que el control exista con ese nombre)
             dtpFecha_nac.Format = DateTimePickerFormat.Short;
             dtpFecha_nac.MaxDate = DateTime.Today;
             dtpFecha_nac.MinDate = new DateTime(1900, 1, 1);
-            dtpFecha_nac.ShowCheckBox = true;   // si se destilda => NULL
+            dtpFecha_nac.ShowCheckBox = true;
 
-            // evento del Turno (por si el diseñador no lo enganchó)
             comboBoxTurno.SelectedIndexChanged -= comboBoxTurno_SelectedIndexChanged;
             comboBoxTurno.SelectedIndexChanged += comboBoxTurno_SelectedIndexChanged;
 
-            // que NO quede turno “forzado”
             comboBoxTurno.SelectedIndex = -1;
             comboBoxTurno.Text = "Seleccioná un turno";
-
-           
         }
 
-        //el disable de los entrenadores correspomdientes al turno elegido
         private void comboBoxTurno_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!comboBoxTurno.Enabled || comboBoxTurno.SelectedValue == null) return;
@@ -182,19 +177,18 @@ namespace Gestor_Gimnasio
             if (!comboBoxProfesor.Enabled || comboBoxProfesor.SelectedValue == null)
             { MessageBox.Show("Debes seleccionar un profesor válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning); comboBoxProfesor.Focus(); return; }
 
-            // numéricos
-            if (!int.TryParse(textBoxDNI.Text.Trim(), out var dni) || dni <= 0)
-            { MessageBox.Show("El DNI debe ser un número válido mayor a 0.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning); textBoxDNI.Focus(); return; }
+            int dni;
+            if (!int.TryParse(textBoxDNI.Text.Trim(), out dni) || dni <= 0)
+            { MessageBox.Show("El DNI debe ser numérico y mayor a 0.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning); textBoxDNI.Focus(); return; }
 
-            if (!long.TryParse(textBoxTelefono.Text.Trim(), out long telefono) || telefono <= 0)
-            { MessageBox.Show("El teléfono debe ser un número válido mayor a 0.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning); textBoxTelefono.Focus(); return; }
+            long telefono;
+            if (!long.TryParse(textBoxTelefono.Text.Trim(), out telefono) || telefono <= 0)
+            { MessageBox.Show("El teléfono debe ser numérico y mayor a 0.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning); textBoxTelefono.Focus(); return; }
 
-            // correo obligatorio (sin validar formato)
             string correo = textBoxCorreo.Text.Trim();
             if (string.IsNullOrWhiteSpace(correo))
             { MessageBox.Show("El correo es obligatorio.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning); textBoxCorreo.Focus(); return; }
 
-            // fechas
             DateTime fechaAlta = dtpFechaAlta.Value.Date;
 
             DateTime? fechaNac = null;
@@ -209,17 +203,16 @@ namespace Gestor_Gimnasio
             if (fechaNac.HasValue && fechaNac.Value > DateTime.Today)
             { MessageBox.Show("La fecha de nacimiento no puede ser futura.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning); dtpFecha_nac.Focus(); return; }
 
-            // datos finales
             string nombre = textBoxNombre.Text.Trim();
             string domicilio = textBoxDomicilio.Text.Trim();
             int idTurno = Convert.ToInt32(comboBoxTurno.SelectedValue);
             int idProfesor = Convert.ToInt32(comboBoxProfesor.SelectedValue);
 
-            // === CHEQUEO DE CUPO (por si cambió algo antes de Guardar) ===
-            var (cupo, ocupados) = ObtenerCupoYOcupadosEntrenador(idProfesor);
-            if (cupo > 0 && ocupados >= cupo)
+            // chequear cupo (si lo manejás en otro lado, esto es defensivo)
+            var cupoInfo = ObtenerCupoYOcupadosEntrenador(idProfesor);
+            if (cupoInfo.cupo > 0 && cupoInfo.ocupados >= cupoInfo.cupo)
             {
-                MessageBox.Show($"El entrenador seleccionado alcanzó su cupo ({ocupados}/{cupo}).",
+                MessageBox.Show(string.Format("El entrenador seleccionado alcanzó su cupo ({0}/{1}).", cupoInfo.ocupados, cupoInfo.cupo),
                     "Cupo completo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 comboBoxProfesor.Focus();
                 return;
@@ -234,17 +227,15 @@ namespace Gestor_Gimnasio
                 {
                     cn.Open();
 
-                    // (opcional) contexto de sesión para tu trigger de creado_por
                     using (var ctx = cn.CreateCommand())
                     {
                         ctx.CommandText = "EXEC sys.sp_set_session_context @key=N'current_user_id', @value=@id;";
-                        ctx.Parameters.Add("@id", SqlDbType.Int).Value = UserSession.IdUsuario;   // admin logueado
+                        ctx.Parameters.Add("@id", SqlDbType.Int).Value = UserSession.IdUsuario;
                         ctx.ExecuteNonQuery();
                     }
 
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    // === PARÁMETROS DEL SP (incluye @id_entrenador) ===
                     cmd.Parameters.Add("@admin_id", SqlDbType.Int).Value = UserSession.IdUsuario;
                     cmd.Parameters.Add("@estado", SqlDbType.Bit).Value = 1;
                     cmd.Parameters.Add("@dni", SqlDbType.Int).Value = dni;
@@ -254,14 +245,18 @@ namespace Gestor_Gimnasio
                     cmd.Parameters.Add("@fecha_nac", SqlDbType.Date).Value = fechaNac.HasValue ? (object)fechaNac.Value : DBNull.Value;
                     cmd.Parameters.Add("@correo", SqlDbType.VarChar, 150).Value = correo;
                     cmd.Parameters.Add("@id_turno", SqlDbType.Int).Value = idTurno;
-                    cmd.Parameters.Add("@id_entrenador", SqlDbType.Int).Value = idProfesor; // <<--- AQUÍ PASÁS EL ENTRENADOR
+                    cmd.Parameters.Add("@id_entrenador", SqlDbType.Int).Value = idProfesor;
                     cmd.Parameters.Add("@monto_mensual", SqlDbType.Decimal).Value = DBNull.Value;
+                    cmd.Parameters.Add("@fecha_alta", SqlDbType.Date).Value = fechaAlta;
+                    cmd.Parameters.Add("@activo_desde", SqlDbType.Date).Value = fechaAlta;
 
                     var result = cmd.ExecuteScalar();
-                    if (result != null && int.TryParse(result.ToString(), out int idAlumno))
+                    int idAlumno;
+                    if (result != null && int.TryParse(result.ToString(), out idAlumno))
                     {
                         MessageBox.Show(
-                            $"¡Cliente guardado!\n\nID: {idAlumno}\nNombre: {nombre}\nTurno: {comboBoxTurno.Text}\nProfesor: {comboBoxProfesor.Text}",
+                            string.Format("¡Cliente guardado!\n\nID: {0}\nNombre: {1}\nTurno: {2}\nProfesor: {3}",
+                                idAlumno, nombre, comboBoxTurno.Text, comboBoxProfesor.Text),
                             "Registro Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         LimpiarFormulario();
@@ -282,7 +277,7 @@ namespace Gestor_Gimnasio
             }
             catch (SqlException ex)
             {
-                MessageBox.Show($"Error SQL al guardar el cliente.\n\nCódigo: {ex.Number}\nMensaje: {ex.Message}",
+                MessageBox.Show(string.Format("Error SQL al guardar el cliente.\n\nCódigo: {0}\nMensaje: {1}", ex.Number, ex.Message),
                     "Error SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
@@ -294,14 +289,12 @@ namespace Gestor_Gimnasio
             CargarListaClientes();
         }
 
-
-
         private void Agregar_ListaClientes()
         {
             var dgv = dataGridView_ListaClientes;
 
+            dgv.Columns.Clear();
 
-            // id oculto
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colId",
@@ -309,7 +302,6 @@ namespace Gestor_Gimnasio
                 DataPropertyName = "id_alumno",
                 Visible = false
             });
-            // guardar bit real para usarlo en los botones
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colEstadoBit",
@@ -318,7 +310,6 @@ namespace Gestor_Gimnasio
                 Visible = false
             });
 
-            // visibles
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colNombre",
@@ -359,14 +350,13 @@ namespace Gestor_Gimnasio
                 Width = 90
             });
 
-            // acciones
             var colEditar = new DataGridViewButtonColumn
             {
                 Name = "colEditar",
                 HeaderText = "Editar",
                 Text = "Editar",
                 UseColumnTextForButtonValue = true,
-                FlatStyle = FlatStyle.Flat            // <- importante
+                FlatStyle = FlatStyle.Flat
             };
             dgv.Columns.Add(colEditar);
 
@@ -374,11 +364,10 @@ namespace Gestor_Gimnasio
             {
                 Name = "colToggle",
                 HeaderText = "Acción",
-                UseColumnTextForButtonValue = false,  // lo seteo o dibujo luego
-                FlatStyle = FlatStyle.Flat            // <- importante
+                UseColumnTextForButtonValue = false,
+                FlatStyle = FlatStyle.Flat
             };
             dgv.Columns.Add(colToggle);
-
 
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
@@ -394,7 +383,6 @@ namespace Gestor_Gimnasio
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "dd/MM/yyyy", NullValue = "" }
             });
 
-            // Eventos
             dgv.DataBindingComplete -= dataGridView_ListaClientes_DataBindingComplete;
             dgv.DataBindingComplete += dataGridView_ListaClientes_DataBindingComplete;
 
@@ -404,7 +392,6 @@ namespace Gestor_Gimnasio
             dgv.CellPainting -= dataGridView_ListaClientes_CellPainting;
             dgv.CellPainting += dataGridView_ListaClientes_CellPainting;
 
-            // (opcional) manito sobre botones
             dgv.CellMouseMove += (s, ev) =>
             {
                 if (ev.RowIndex >= 0)
@@ -413,7 +400,6 @@ namespace Gestor_Gimnasio
                     dgv.Cursor = (n == "colEditar" || n == "colToggle") ? Cursors.Hand : Cursors.Default;
                 }
             };
-
         }
 
         public void CargarListaClientes()
@@ -427,14 +413,13 @@ SELECT
     a.dni,
     a.telefono,
     a.domicilio,
-    a.correo,          
-    a.fecha_nac,      
+    a.correo,
+    a.fecha_nac,
     a.estado,
     t.descripcion AS turno
 FROM dbo.Alumno a
 LEFT JOIN dbo.Turno t ON t.id_turno = a.id_turno
 ORDER BY a.nombre;";
-
 
             var dt = new DataTable();
             try
@@ -445,7 +430,6 @@ ORDER BY a.nombre;";
                     da.Fill(dt);
                 }
 
-                // col EstadoTexto (Activo/Inactivo)
                 if (!dt.Columns.Contains("EstadoTexto"))
                     dt.Columns.Add("EstadoTexto", typeof(string));
 
@@ -455,7 +439,10 @@ ORDER BY a.nombre;";
                     r["EstadoTexto"] = activo ? "Activo" : "Inactivo";
                 }
 
-                dataGridView_ListaClientes.DataSource = dt;
+                // ==== NUEVO: cache y binding para filtrar sin re-consultar SQL ====
+                _dtClientes = dt;
+                _bsClientes.DataSource = _dtClientes;
+                dataGridView_ListaClientes.DataSource = _bsClientes;
             }
             catch (Exception ex)
             {
@@ -464,19 +451,36 @@ ORDER BY a.nombre;";
             }
         }
 
-
         private void CambiarEstadoAlumno(int idAlumno, bool activar)
         {
             string cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
-            const string sql = "UPDATE dbo.Alumno SET estado = @estado WHERE id_alumno = @id;";
+
+            var sets = new List<string>();
+            if (ColumnaExiste("dbo.Alumno", "estado")) sets.Add("estado = @b");
+            if (ColumnaExiste("dbo.Alumno", "activo")) sets.Add("activo = @b");
+
+            if (ColumnaExiste("dbo.Alumno", "fecha_baja"))
+                sets.Add(activar ? "fecha_baja = NULL" : "fecha_baja = CAST(GETDATE() AS date)");
+
+            if (ColumnaExiste("dbo.Alumno", "activo_desde"))
+                sets.Add(activar ? "activo_desde = CAST(GETDATE() AS date)" : "activo_desde = activo_desde");
+
+            if (sets.Count == 0)
+            {
+                MessageBox.Show("No encontré columnas de estado en dbo.Alumno.", "Esquema incompatible",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string sql = "UPDATE dbo.Alumno SET " + string.Join(", ", sets) + " WHERE id_alumno = @id;";
 
             try
             {
                 using (var cn = new SqlConnection(cs))
                 using (var cmd = new SqlCommand(sql, cn))
                 {
-                    cmd.Parameters.Add("@estado", SqlDbType.Bit).Value = activar ? 1 : 0;
                     cmd.Parameters.Add("@id", SqlDbType.Int).Value = idAlumno;
+                    cmd.Parameters.Add("@b", SqlDbType.Bit).Value = activar ? 1 : 0;
                     cn.Open();
                     cmd.ExecuteNonQuery();
                 }
@@ -488,14 +492,10 @@ ORDER BY a.nombre;";
             }
         }
 
-
-
-        // ajustar el texto del botón según el estado (por cada fila)
         private void dataGridView_ListaClientes_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             var dgv = dataGridView_ListaClientes;
 
-            // Actualiza el texto del botón de acción si existiera (defensivo)
             foreach (DataGridViewRow row in dgv.Rows)
             {
                 if (row.IsNewRow) continue;
@@ -511,33 +511,25 @@ ORDER BY a.nombre;";
                 }
             }
 
-            // --- Orden final de columnas ---
             int last = dgv.Columns.Count - 1;
 
-            // 1) Último = Editar
             if (dgv.Columns.Contains("colEditar"))
                 dgv.Columns["colEditar"].DisplayIndex = last--;
 
-            // 2) Penúltimo = Estado (texto)
             if (dgv.Columns.Contains("colEstadoTxt"))
                 dgv.Columns["colEstadoTxt"].DisplayIndex = last--;
 
-            // 3) (Opcional) Antepenúltimo = Acción (Dar de alta/baja), si existe
             if (dgv.Columns.Contains("colToggle"))
                 dgv.Columns["colToggle"].DisplayIndex = last;
 
-            // Sin selección inicial
             dgv.ClearSelection();
         }
 
-
-        // 
         private void dataGridView_ListaClientes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
             var dgv = dataGridView_ListaClientes;
 
-            // Botón Editar (lo tuyo)
             if (dgv.Columns[e.ColumnIndex].Name == "colEditar")
             {
                 int idAlumno = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["colId"].Value);
@@ -546,16 +538,14 @@ ORDER BY a.nombre;";
                 {
                     if (frm.ShowDialog() == DialogResult.OK)
                     {
-                        CargarListaClientes();         // refresca la grilla
-                        dgv.ClearSelection();          // opcional
+                        CargarListaClientes();
+                        dgv.ClearSelection();
                         dgv.CurrentCell = null;
                     }
                 }
                 return;
             }
 
-
-            // Botón Alta/Baja
             if (dgv.Columns[e.ColumnIndex].Name == "colToggle")
             {
                 int idAlumno = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["colId"].Value);
@@ -573,13 +563,8 @@ ORDER BY a.nombre;";
                 var r = MessageBox.Show(msg, "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (r == DialogResult.Yes)
                 {
-                    // Toggle: si está activo lo bajo, si está inactivo lo doy de alta
                     CambiarEstadoAlumno(idAlumno, !activo);
-
-                    // recargar la grilla para ver el nuevo estado y botón actualizado
                     CargarListaClientes();
-
-                    // opcional: sin selección visible
                     dataGridView_ListaClientes.ClearSelection();
                     dataGridView_ListaClientes.CurrentCell = null;
                 }
@@ -594,18 +579,16 @@ ORDER BY a.nombre;";
             string colName = dgv.Columns[e.ColumnIndex].Name;
             if (colName != "colEditar" && colName != "colToggle") return;
 
-            // Limpia el fondo de la celda (sin color)
             e.PaintBackground(e.CellBounds, true);
             e.Handled = true;
 
-            // Texto y color del "botón"
             string text;
             Color bg;
 
             if (colName == "colEditar")
             {
                 text = "Editar";
-                bg = Color.FromArgb(33, 150, 243);    // Azul Material
+                bg = Color.FromArgb(33, 150, 243);
             }
             else
             {
@@ -617,10 +600,9 @@ ORDER BY a.nombre;";
                 }
 
                 text = activo ? "Dar de baja" : "Dar de alta";
-                bg = activo ? Color.FromArgb(220, 53, 69) : Color.FromArgb(40, 167, 69); // Rojo / Verde
+                bg = activo ? Color.FromArgb(220, 53, 69) : Color.FromArgb(40, 167, 69);
             }
 
-            // Rectángulo del botón (márgenes internos)
             var rect = new Rectangle(e.CellBounds.X + 8, e.CellBounds.Y + 6,
                                      e.CellBounds.Width - 16, e.CellBounds.Height - 12);
 
@@ -635,10 +617,8 @@ ORDER BY a.nombre;";
                                   TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis);
         }
 
-
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            //  cancelación si hay datos en el formulario
             if (TieneInformacion())
             {
                 var resultado = MessageBox.Show("¿Está seguro que desea cancelar?\n\nSe perderán todos los datos ingresados.",
@@ -657,19 +637,16 @@ ORDER BY a.nombre;";
 
         private void LimpiarFormulario()
         {
-            //limpia los cmapos
             textBoxNombre.Clear();
             textBoxDNI.Clear();
             textBoxTelefono.Clear();
             textBoxDomicilio.Clear();
 
-            // reset los combo box a su estado inicial si tienen elementos
             if (comboBoxTurno.Enabled && comboBoxTurno.Items.Count > 0)
             {
                 comboBoxTurno.SelectedIndex = 0;
             }
 
-            // enfoca el primer campo para facilitar el siguiente ingreso
             textBoxNombre.Focus();
         }
 
@@ -681,8 +658,6 @@ ORDER BY a.nombre;";
                    !string.IsNullOrWhiteSpace(textBoxDomicilio.Text);
         }
 
-
-        // DIBUJA los profesores SIN CUPO en gris + itálica
         private void comboBoxProfesor_DrawItem(object sender, DrawItemEventArgs e)
         {
             var combo = (ComboBox)sender;
@@ -690,7 +665,9 @@ ORDER BY a.nombre;";
             if (e.Index < 0) { e.DrawFocusRectangle(); return; }
 
             var drv = combo.Items[e.Index] as DataRowView;
-            string text = drv?["label"]?.ToString() ?? combo.Items[e.Index].ToString();
+            string text = drv != null && drv.Row.Table.Columns.Contains("label")
+                          ? Convert.ToString(drv["label"])
+                          : combo.Items[e.Index].ToString();
 
             bool inaccesible = drv != null
                                && drv.Row.Table.Columns.Contains("inaccesible")
@@ -711,7 +688,6 @@ ORDER BY a.nombre;";
             e.DrawFocusRectangle();
         }
 
-        // BLOQUEA selección de profesores SIN CUPO y avisa
         private void comboBoxProfesor_SelectionChangeCommitted(object sender, EventArgs e)
         {
             var combo = (ComboBox)sender;
@@ -727,16 +703,15 @@ ORDER BY a.nombre;";
                 string nombre = Convert.ToString(drv["nombre"]);
                 int cupo = drv["cupo"] == DBNull.Value ? 0 : Convert.ToInt32(drv["cupo"]);
                 int ocupados = drv["ocupados"] == DBNull.Value ? 0 : Convert.ToInt32(drv["ocupados"]);
-                MessageBox.Show($"{nombre} no tiene cupo disponible ({ocupados}/{cupo}).", "Sin cupo",
+                MessageBox.Show(string.Format("{0} no tiene cupo disponible ({1}/{2}).", nombre, ocupados, cupo), "Sin cupo",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 combo.SelectedIndex = -1;
                 combo.Text = "Seleccioná un profesor";
-                combo.DroppedDown = true; // reabre para elegir otro
+                combo.DroppedDown = true;
             }
         }
 
-        // Helper para contar cupo/ocupados de un entrenador
         private (int cupo, int ocupados) ObtenerCupoYOcupadosEntrenador(int idEntrenador)
         {
             string cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
@@ -766,11 +741,8 @@ GROUP BY e.cupo;";
             return (cupo, ocup);
         }
 
-
-        //Permitir solo letras y/o numeros, espacios y backspace
         private void textBoxNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
-            
             if (!char.IsLetter(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
                 e.Handled = true;
@@ -779,38 +751,33 @@ GROUP BY e.cupo;";
 
         private void textBoxDNI_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // permitir solo números y teclas de control (ej: Backspace)
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
-                e.Handled = true; // Bloquea el carácter
+                e.Handled = true;
             }
         }
 
         private void textBoxTelefono_KeyPress(object sender, KeyPressEventArgs e)
         {
-
-            // permitir solo números y teclas de control (ej: Backspace)
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
-                e.Handled = true; // Bloquea el carácter
+                e.Handled = true;
             }
         }
 
         private void textBoxDomicilio_KeyPress(object sender, KeyPressEventArgs e)
         {
-           
+            // permitido todo (lo validás por UI si querés)
         }
 
         private void ConfigurarDataGridView(DataGridView dgv)
         {
+            Color verdeEncabezado = ColorTranslator.FromHtml("#014A16");
+            Color verdeSeleccion = ColorTranslator.FromHtml("#7BAE7F");
+            Color verdeAlterna = ColorTranslator.FromHtml("#EDFFEF");
+            Color grisBorde = ColorTranslator.FromHtml("#C8D3C4");
+            Color hoverSuave = ColorTranslator.FromHtml("#DCEFE6");
 
-            Color verdeEncabezado = ColorTranslator.FromHtml("#014A16"); // verde bosque apagado
-            Color verdeSeleccion = ColorTranslator.FromHtml("#7BAE7F"); // verde medio selección
-            Color verdeAlterna = ColorTranslator.FromHtml("#EDFFEF"); // verde muy claro alternado
-            Color grisBorde = ColorTranslator.FromHtml("#C8D3C4"); // gris verdoso claro
-            Color hoverSuave = ColorTranslator.FromHtml("#DCEFE6"); // verde pastel para hover
-
-            // --- Comportamiento ---
             dgv.ReadOnly = true;
             dgv.MultiSelect = false;
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -823,18 +790,15 @@ GROUP BY e.cupo;";
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgv.EnableHeadersVisualStyles = false;
 
-            // --- Autoajuste ---
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgv.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
 
-            // --- Estética general ---
             dgv.BackgroundColor = Color.White;
             dgv.BorderStyle = BorderStyle.None;
             dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgv.GridColor = grisBorde;
 
-            // Encabezado
             dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dgv.ColumnHeadersDefaultCellStyle.BackColor = verdeEncabezado;
             dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
@@ -842,7 +806,6 @@ GROUP BY e.cupo;";
             dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dgv.ColumnHeadersHeight = 36;
 
-            // Celdas
             dgv.DefaultCellStyle.BackColor = Color.White;
             dgv.DefaultCellStyle.ForeColor = Color.Black;
             dgv.DefaultCellStyle.Font = new Font("Segoe UI", 10f, FontStyle.Regular);
@@ -850,14 +813,11 @@ GROUP BY e.cupo;";
             dgv.DefaultCellStyle.SelectionForeColor = Color.White;
             dgv.DefaultCellStyle.Padding = new Padding(4, 6, 4, 6);
 
-            // Filas alternadas
             dgv.AlternatingRowsDefaultCellStyle.BackColor = verdeAlterna;
 
-            // --- Sin selección inicial ---
             dgv.ClearSelection();
             dgv.DataBindingComplete += (s, e) => ((DataGridView)s).ClearSelection();
 
-            // --- Hover suave (efecto al pasar el mouse) ---
             Color originalBackColor = dgv.DefaultCellStyle.BackColor;
             Color originalAltColor = dgv.AlternatingRowsDefaultCellStyle.BackColor;
             int lastRow = -1;
@@ -881,7 +841,6 @@ GROUP BY e.cupo;";
                 }
             };
 
-            // --- Doble buffer (scroll suave) ---
             try
             {
                 typeof(DataGridView)
@@ -889,6 +848,134 @@ GROUP BY e.cupo;";
                     ?.SetValue(dgv, true, null);
             }
             catch { }
+        }
+
+        // ===== util local =====
+        private bool ColumnaExiste(string tabla, string columna)
+        {
+            string cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
+            const string q = @"SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID(@t) AND name = @c;";
+            using (var cn = new SqlConnection(cs))
+            using (var cmd = new SqlCommand(q, cn))
+            {
+                cmd.Parameters.Add("@t", SqlDbType.NVarChar, 256).Value = tabla;
+                cmd.Parameters.Add("@c", SqlDbType.NVarChar, 128).Value = columna;
+                cn.Open();
+                object r = cmd.ExecuteScalar();
+                return r != null;
+            }
+        }
+
+        // =======================
+        // ==== NUEVO: FILTRO ====
+        // =======================
+
+        // Conecta eventos de buscar/limpiar/Enter si los controles existen
+        private void WireSearchUI()
+        {
+            // Enter en el textbox dispara buscar
+            if (textBox_DniClientes != null)
+            {
+                textBox_DniClientes.KeyDown -= textBox_DniClientes_KeyDown;
+                textBox_DniClientes.KeyDown += textBox_DniClientes_KeyDown;
+            }
+
+            // Botón Buscar
+            if (B_BuscarCliente != null)
+            {
+                B_BuscarCliente.Click -= B_BuscarCliente_Click;
+                B_BuscarCliente.Click += B_BuscarCliente_Click;
+            }
+
+            // Botón Limpiar
+            if (BLimpiar != null)
+            {
+                BLimpiar.Click -= BLimpiar_Click;
+                BLimpiar.Click += BLimpiar_Click;
+            }
+        }
+
+        // Escapa caracteres especiales para RowFilter (', [, ], %)
+        private static string EscapeRowFilter(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return string.Empty;
+            // Duplicar comillas simples y encerrar corchetes
+            var sb = new StringBuilder(value.Length);
+            foreach (char c in value)
+            {
+                if (c == '\'') sb.Append("''");
+                else if (c == '[') sb.Append("[[]");
+                else if (c == ']') sb.Append("[]]");
+                else if (c == '%') sb.Append("[%]");
+                else if (c == '*') sb.Append("[*]");
+                else sb.Append(c);
+            }
+            return sb.ToString();
+        }
+
+        // Aplica filtro por DNI o Nombre (contiene)
+        private void BuscarClientesPorTexto()
+        {
+            if (_bsClientes.DataSource == null)
+            {
+                // por las dudas recargamos si aún no hay data
+                CargarListaClientes();
+            }
+
+            string termino = (textBox_DniClientes != null ? textBox_DniClientes.Text.Trim() : string.Empty);
+
+            if (string.IsNullOrEmpty(termino))
+            {
+                _bsClientes.RemoveFilter();
+                dataGridView_ListaClientes.ClearSelection();
+                return;
+            }
+
+            string t = EscapeRowFilter(termino);
+
+            // Si el término es numérico, también filtramos por DNI "contiene"
+            bool esNumero = termino.All(char.IsDigit);
+
+            // Importante: RowFilter usa nombres de columnas del DataTable (_dtClientes)
+            // DNI es int, por eso usamos CONVERT(..., 'System.String') para buscar parcial
+            string filtro = esNumero
+                ? string.Format("CONVERT(dni, 'System.String') LIKE '%{0}%' OR nombre LIKE '%{0}%'", t)
+                : string.Format("nombre LIKE '%{0}%'", t);
+
+            _bsClientes.Filter = filtro;
+            dataGridView_ListaClientes.ClearSelection();
+        }
+
+        private void LimpiarFiltroClientes()
+        {
+            if (textBox_DniClientes != null)
+                textBox_DniClientes.Clear();
+
+            if (_bsClientes != null)
+                _bsClientes.RemoveFilter();
+
+            dataGridView_ListaClientes.ClearSelection();
+            dataGridView_ListaClientes.CurrentCell = null;
+        }
+
+        // ==== Handlers nuevos ====
+        private void textBox_DniClientes_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                BuscarClientesPorTexto();
+            }
+        }
+
+        private void B_BuscarCliente_Click(object sender, EventArgs e)
+        {
+            BuscarClientesPorTexto();
+        }
+
+        private void BLimpiar_Click(object sender, EventArgs e)
+        {
+            LimpiarFiltroClientes();
         }
     }
 }

@@ -450,5 +450,10 @@ ORDER BY p.fecha_pago DESC, a.nombre;";
             public PeriodoItem(string texto, int y, int m) { Texto = texto; Year = y; Month = m; }
             public override string ToString() => Texto;
         }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

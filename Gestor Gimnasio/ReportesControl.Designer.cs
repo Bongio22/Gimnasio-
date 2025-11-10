@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 50D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 30D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 15D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 50D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 30D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 15D);
             this.label4 = new System.Windows.Forms.Label();
             this.textBox_TotalIngresos = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -42,6 +42,7 @@
             this.cboMesDemanda = new System.Windows.Forms.ComboBox();
             this.B_BuscarIngresosMes = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.B_Admin = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.B_VerReporteEntrenadores = new System.Windows.Forms.Button();
             this.B_VerReporteClientes = new System.Windows.Forms.Button();
@@ -52,7 +53,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.checkbox_pagaron = new System.Windows.Forms.CheckBox();
-            this.B_Admin = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grafico)).BeginInit();
@@ -64,7 +64,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.label4.Location = new System.Drawing.Point(1176, 1048);
+            this.label4.Location = new System.Drawing.Point(1099, 652);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(44, 20);
             this.label4.TabIndex = 24;
@@ -75,9 +75,9 @@
             this.textBox_TotalIngresos.BackColor = System.Drawing.SystemColors.Window;
             this.textBox_TotalIngresos.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox_TotalIngresos.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_TotalIngresos.Location = new System.Drawing.Point(1226, 1042);
+            this.textBox_TotalIngresos.Location = new System.Drawing.Point(1149, 646);
             this.textBox_TotalIngresos.Name = "textBox_TotalIngresos";
-            this.textBox_TotalIngresos.Size = new System.Drawing.Size(98, 30);
+            this.textBox_TotalIngresos.Size = new System.Drawing.Size(175, 30);
             this.textBox_TotalIngresos.TabIndex = 23;
             // 
             // label2
@@ -131,7 +131,7 @@
             this.B_BuscarIngresosMes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.B_BuscarIngresosMes.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.B_BuscarIngresosMes.ForeColor = System.Drawing.Color.White;
-            this.B_BuscarIngresosMes.Location = new System.Drawing.Point(1211, 566);
+            this.B_BuscarIngresosMes.Location = new System.Drawing.Point(917, 641);
             this.B_BuscarIngresosMes.Name = "B_BuscarIngresosMes";
             this.B_BuscarIngresosMes.Size = new System.Drawing.Size(113, 37);
             this.B_BuscarIngresosMes.TabIndex = 17;
@@ -149,6 +149,20 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(359, 377);
             this.panel1.TabIndex = 15;
+            // 
+            // B_Admin
+            // 
+            this.B_Admin.BackColor = System.Drawing.Color.GreenYellow;
+            this.B_Admin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.B_Admin.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.B_Admin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.B_Admin.Location = new System.Drawing.Point(59, 295);
+            this.B_Admin.Name = "B_Admin";
+            this.B_Admin.Size = new System.Drawing.Size(249, 53);
+            this.B_Admin.TabIndex = 4;
+            this.B_Admin.Text = "ADMINISTRADORES";
+            this.B_Admin.UseVisualStyleBackColor = false;
+            this.B_Admin.Click += new System.EventHandler(this.B_Admin_Click);
             // 
             // pictureBox1
             // 
@@ -190,31 +204,31 @@
             // 
             // grafico
             // 
-            chartArea3.Name = "ChartArea1";
-            this.grafico.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.grafico.Legends.Add(legend3);
+            chartArea2.Name = "ChartArea1";
+            this.grafico.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.grafico.Legends.Add(legend2);
             this.grafico.Location = new System.Drawing.Point(362, 194);
             this.grafico.Name = "grafico";
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series3.IsValueShownAsLabel = true;
-            series3.Label = "#PERCENT{P0}";
-            series3.Legend = "Legend1";
-            series3.LegendText = "#VALX";
-            series3.Name = "Series1";
-            dataPoint7.AxisLabel = "MAÑANA";
-            dataPoint7.Color = System.Drawing.Color.OliveDrab;
-            dataPoint7.LegendText = "MAÑANA";
-            dataPoint8.AxisLabel = "TARDE";
-            dataPoint8.Color = System.Drawing.Color.GreenYellow;
-            dataPoint8.LegendText = "TARDE";
-            dataPoint9.Color = System.Drawing.Color.YellowGreen;
-            dataPoint9.LegendText = "NOCHE";
-            series3.Points.Add(dataPoint7);
-            series3.Points.Add(dataPoint8);
-            series3.Points.Add(dataPoint9);
-            this.grafico.Series.Add(series3);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series2.IsValueShownAsLabel = true;
+            series2.Label = "#PERCENT{P0}";
+            series2.Legend = "Legend1";
+            series2.LegendText = "#VALX";
+            series2.Name = "Series1";
+            dataPoint4.AxisLabel = "MAÑANA";
+            dataPoint4.Color = System.Drawing.Color.OliveDrab;
+            dataPoint4.LegendText = "MAÑANA";
+            dataPoint5.AxisLabel = "TARDE";
+            dataPoint5.Color = System.Drawing.Color.GreenYellow;
+            dataPoint5.LegendText = "TARDE";
+            dataPoint6.Color = System.Drawing.Color.YellowGreen;
+            dataPoint6.LegendText = "NOCHE";
+            series2.Points.Add(dataPoint4);
+            series2.Points.Add(dataPoint5);
+            series2.Points.Add(dataPoint6);
+            this.grafico.Series.Add(series2);
             this.grafico.Size = new System.Drawing.Size(495, 309);
             this.grafico.TabIndex = 14;
             this.grafico.Text = "chart1";
@@ -224,7 +238,7 @@
             this.dataGridView_Ingresos.BackgroundColor = System.Drawing.Color.GreenYellow;
             this.dataGridView_Ingresos.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView_Ingresos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_Ingresos.Location = new System.Drawing.Point(362, 628);
+            this.dataGridView_Ingresos.Location = new System.Drawing.Point(362, 700);
             this.dataGridView_Ingresos.Name = "dataGridView_Ingresos";
             this.dataGridView_Ingresos.RowHeadersWidth = 51;
             this.dataGridView_Ingresos.RowTemplate.Height = 24;
@@ -235,7 +249,7 @@
             // 
             this.dtpDesde.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDesde.Location = new System.Drawing.Point(707, 571);
+            this.dtpDesde.Location = new System.Drawing.Point(442, 646);
             this.dtpDesde.Name = "dtpDesde";
             this.dtpDesde.Size = new System.Drawing.Size(159, 30);
             this.dtpDesde.TabIndex = 25;
@@ -244,7 +258,7 @@
             // 
             this.dtpHasta.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpHasta.Location = new System.Drawing.Point(1033, 569);
+            this.dtpHasta.Location = new System.Drawing.Point(739, 646);
             this.dtpHasta.Name = "dtpHasta";
             this.dtpHasta.Size = new System.Drawing.Size(155, 30);
             this.dtpHasta.TabIndex = 26;
@@ -254,18 +268,19 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.label3.Location = new System.Drawing.Point(631, 571);
+            this.label3.Location = new System.Drawing.Point(366, 646);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(70, 28);
             this.label3.TabIndex = 27;
             this.label3.Text = "Desde";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.label5.Location = new System.Drawing.Point(961, 571);
+            this.label5.Location = new System.Drawing.Point(667, 645);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(66, 28);
             this.label5.TabIndex = 28;
@@ -282,20 +297,6 @@
             this.checkbox_pagaron.TabIndex = 29;
             this.checkbox_pagaron.Text = "SOLO LOS QUE PAGARON";
             this.checkbox_pagaron.UseVisualStyleBackColor = true;
-            // 
-            // B_Admin
-            // 
-            this.B_Admin.BackColor = System.Drawing.Color.GreenYellow;
-            this.B_Admin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.B_Admin.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.B_Admin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.B_Admin.Location = new System.Drawing.Point(59, 295);
-            this.B_Admin.Name = "B_Admin";
-            this.B_Admin.Size = new System.Drawing.Size(249, 53);
-            this.B_Admin.TabIndex = 4;
-            this.B_Admin.Text = "ADMINISTRADORES";
-            this.B_Admin.UseVisualStyleBackColor = false;
-            this.B_Admin.Click += new System.EventHandler(this.B_Admin_Click);
             // 
             // ReportesControl
             // 

@@ -14,8 +14,12 @@ namespace Gestor_Gimnasio
 {
     public partial class ProfesorAgregarControl : UserControl
     {
-        public event EventHandler<int> ProfesorCreado; 
+        public event EventHandler<int> ProfesorCreado;
         // dispara el ID nuevo para que el dashboard refresque listas si quiere
+
+        // ========= NUEVO: cache + binding para filtro =========
+        private DataTable _dtEntrenadores;
+        private readonly BindingSource _bs = new BindingSource();
 
         public ProfesorAgregarControl()
         {
@@ -30,9 +34,8 @@ namespace Gestor_Gimnasio
 
         private void ProfesorAgregarControl_Load(object sender, EventArgs e)
         {
-            
             this.Dock = DockStyle.Fill;
-            
+
             // DateTimePicker: formato, límites y check para permitir NULL
             dtpFecha_nac.Format = DateTimePickerFormat.Short;
             dtpFecha_nac.MaxDate = DateTime.Today;
@@ -54,6 +57,27 @@ namespace Gestor_Gimnasio
 
             CargarEntrenadores();
             tabla_profesores.CellContentClick += tabla_profesores_CellContentClick;
+
+            // ========= NUEVO: eventos de búsqueda =========
+            if (B_BuscarEntrenador != null)
+                B_BuscarEntrenador.Click += (s, ev) => BuscarEntrenador();
+
+            if (BLimpiar != null)
+                BLimpiar.Click += (s, ev) => LimpiarBusqueda();
+
+            if (textBox_DniEntrenadores != null)
+                textBox_DniEntrenadores.KeyDown += (s, ev) =>
+                {
+                    if (ev.KeyCode == Keys.Enter)
+                    {
+                        ev.SuppressKeyPress = true;
+                        BuscarEntrenador();
+                    }
+                    else if (ev.KeyCode == Keys.Escape)
+                    {
+                        LimpiarBusqueda();
+                    }
+                };
         }
 
         //cuando se cancela se limpia
@@ -72,13 +96,14 @@ namespace Gestor_Gimnasio
             numCupo.Value = 0;
             chkActivo.Checked = true;
             textBoxNombre.Focus();
-            textBoxCorreo.Clear();                
+            textBoxCorreo.Clear();
             numCupo.Value = 0;
             chkActivo.Checked = true;
 
             dtpFecha_nac.Checked = false; //  sin fecha por defecto
             textBoxNombre.Focus();
         }
+
         private void ConfigurarDataGridView(DataGridView dgv)
         {
 
@@ -168,6 +193,7 @@ namespace Gestor_Gimnasio
             }
             catch { }
         }
+
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             // validaciones
@@ -194,11 +220,10 @@ namespace Gestor_Gimnasio
                 return;
             }
 
-
             if (comboBoxTurno.SelectedValue == null)
             { MessageBox.Show("Debes seleccionar un turno."); return; }
 
-           
+
             string correo = textBoxCorreo.Text.Trim();
             if (string.IsNullOrWhiteSpace(correo))
             {
@@ -219,12 +244,12 @@ namespace Gestor_Gimnasio
                 fechaNac = dtpFecha_nac.Value.Date;
             }
 
-        
+
 
             var cs = ConfigurationManager.ConnectionStrings["BaseDatos"].ConnectionString;
 
             //  Insertar entrenador sin id_turno
-           
+
             const string sqlEntrenador = @"
 INSERT INTO dbo.Entrenador (cupo, nombre, estado, telefono, dni, domicilio, correo, fecha_nac)
 VALUES (@cupo, @nombre, @estado, @telefono, @dni, @domicilio, @correo, @fecha_nac);
@@ -250,7 +275,7 @@ SELECT CAST(SCOPE_IDENTITY() AS int);";
                             cmd.Parameters.Add("@cupo", SqlDbType.Int).Value = (int)numCupo.Value;
                             cmd.Parameters.Add("@nombre", SqlDbType.VarChar, 50).Value = textBoxNombre.Text.Trim();
                             cmd.Parameters.Add("@estado", SqlDbType.Bit).Value = chkActivo.Checked ? 1 : 0;
-                            cmd.Parameters.Add("@telefono", SqlDbType.BigInt).Value = tel;               
+                            cmd.Parameters.Add("@telefono", SqlDbType.BigInt).Value = tel;
                             cmd.Parameters.Add("@dni", SqlDbType.Int).Value = dni;                    // INT y UNIQUE
                             cmd.Parameters.Add("@domicilio", SqlDbType.VarChar, 50).Value = (object)(textBoxDomicilio.Text?.Trim() ?? string.Empty);
                             cmd.Parameters.Add("@correo", SqlDbType.VarChar, 120).Value = correo;
@@ -293,7 +318,7 @@ SELECT CAST(SCOPE_IDENTITY() AS int);";
 
 
         // metodo para obtener todos los proesores
-        
+
         private DataTable ObtenerEntrenadores()
         {
             DataTable dt = new DataTable();
@@ -330,19 +355,22 @@ INNER JOIN Turno t ON te.id_turno = t.id_turno";
         // cargar entrenadores en data grid view
         private void CargarEntrenadores()
         {
-            DataTable entrenadores = ObtenerEntrenadores();
+            _dtEntrenadores = ObtenerEntrenadores();
+            _dtEntrenadores.CaseSensitive = false; // LIKE sin sensibilidad a mayúsculas
 
             // Columna calculada de estado (texto)
-            if (!entrenadores.Columns.Contains("estadoTexto"))
-                entrenadores.Columns.Add("estadoTexto", typeof(string));
+            if (!_dtEntrenadores.Columns.Contains("estadoTexto"))
+                _dtEntrenadores.Columns.Add("estadoTexto", typeof(string));
 
-            foreach (DataRow row in entrenadores.Rows)
+            foreach (DataRow row in _dtEntrenadores.Rows)
             {
                 bool activo = Convert.ToBoolean(row["estado"]);
                 row["estadoTexto"] = activo ? "Activo" : "Inactivo";
             }
 
-            tabla_profesores.DataSource = entrenadores;
+            // Binding con filtro
+            _bs.DataSource = _dtEntrenadores;
+            tabla_profesores.DataSource = _bs;
 
             // Encabezados
             tabla_profesores.Columns["id_entrenador"].HeaderText = "ID";
@@ -423,6 +451,46 @@ INNER JOIN Turno t ON te.id_turno = t.id_turno";
             tabla_profesores.ClearSelection();
         }
 
+        // ========= NUEVO: búsqueda por DNI/Nombre =========
+        private void BuscarEntrenador()
+        {
+            if (_dtEntrenadores == null || _dtEntrenadores.Rows.Count == 0)
+                return;
+
+            string term = textBox_DniEntrenadores?.Text?.Trim() ?? string.Empty;
+
+            if (string.IsNullOrEmpty(term))
+            {
+                _bs.RemoveFilter();
+                tabla_profesores.ClearSelection();
+                return;
+            }
+
+            // Escapar comillas para RowFilter
+            string esc(string s) => s.Replace("'", "''");
+
+            // Si es numérico -> filtra por prefijo de DNI; si no, por nombre contiene
+            if (int.TryParse(term, out _))
+            {
+                _bs.Filter = $"Convert(dni, 'System.String') LIKE '{esc(term)}%'";
+            }
+            else
+            {
+                _bs.Filter = $"nombre LIKE '%{esc(term)}%'";
+            }
+
+            tabla_profesores.ClearSelection();
+        }
+
+        // ========= NUEVO: botón BLimpiar =========
+        private void LimpiarBusqueda()
+        {
+            if (textBox_DniEntrenadores != null)
+                textBox_DniEntrenadores.Clear();
+
+            _bs.RemoveFilter();
+            tabla_profesores.ClearSelection();
+        }
 
         //metodo para personalizar apariencia de las celdas en el dgv
         private void tabla_profesores_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -437,12 +505,12 @@ INNER JOIN Turno t ON te.id_turno = t.id_turno";
                 e.Value = (string.Equals(estado, "Activo", StringComparison.OrdinalIgnoreCase))
                           ? "Dar de Baja"
                           : "Dar de Alta";
-                
+
             }
             else if (col == "Editar")
             {
                 e.Value = "Editar";
-              
+
             }
         }
 
@@ -523,7 +591,7 @@ INNER JOIN Turno t ON te.id_turno = t.id_turno";
                     }
                 }
             }
-      
+
 
             // accion de botones de  alta/baja
             if (tabla_profesores.Columns[e.ColumnIndex].Name == "Accion")
@@ -569,7 +637,7 @@ INNER JOIN Turno t ON te.id_turno = t.id_turno";
         }
 
         //botones previamente crewdos en el dgv de cargar los entrenadores y botones() es para configurar la accion
-       
+
         // metodo para actualizar estado de entrenador (activo/inactivo) en la BD
         public void CambiarEstadoEntrenador(int idEntrenador, bool activo)
         {
@@ -599,7 +667,7 @@ INNER JOIN Turno t ON te.id_turno = t.id_turno";
 
         private void textBoxDomicilio_KeyPress(object sender, KeyPressEventArgs e)
         {
-            
+
         }
 
         private void textBoxDNI_KeyPress(object sender, KeyPressEventArgs e)
@@ -619,16 +687,6 @@ INNER JOIN Turno t ON te.id_turno = t.id_turno";
                 e.Handled = true; // Bloquea el carácter
             }
         }
-
-
-
-
-
-
-
-
-
-
 
         //no eliminar porque se rompe el diseñador
         private void groupBoxRegistroProf_Enter(object sender, EventArgs e)
@@ -655,4 +713,3 @@ INNER JOIN Turno t ON te.id_turno = t.id_turno";
         }
     }
 }
-

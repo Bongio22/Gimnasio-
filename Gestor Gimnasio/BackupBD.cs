@@ -248,7 +248,8 @@ SELECT @dir;";
                     Name = "colRuta",
                     HeaderText = "Ruta (.bak)",
                     DataPropertyName = "Ruta",
-                    AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells,
+                    TrackVisitedState = false
                 };
                 dgv.Columns.RemoveAt(idx);
                 dgv.Columns.Insert(idx, link);
@@ -309,7 +310,6 @@ SELECT @dir;";
     internal static class GridStyler
     {
         private static readonly Color verdeEncabezado = ColorTranslator.FromHtml("#014A16");
-        private static readonly Color verdeSeleccion = ColorTranslator.FromHtml("#7BAE7F");
         private static readonly Color verdeAlterna = ColorTranslator.FromHtml("#EDFFEF");
         private static readonly Color hoverSuave = ColorTranslator.FromHtml("#DCEFE6");
 
@@ -322,16 +322,32 @@ SELECT @dir;";
             dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgv.EnableHeadersVisualStyles = false;
 
+            // ======== Fuentes ========
+            dgv.DefaultCellStyle.Font = new Font("Segoe UI", 11f, FontStyle.Regular);
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 12f, FontStyle.Bold);
+
+            // ======== Encabezados ========
             dgv.ColumnHeadersDefaultCellStyle.BackColor = verdeEncabezado;
             dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 11f, FontStyle.Bold);
 
+            // Evita “celeste” al seleccionar encabezado
+            dgv.ColumnHeadersDefaultCellStyle.SelectionBackColor = verdeEncabezado;
+            dgv.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.White;
+
+            // ======== Celdas ========
             dgv.DefaultCellStyle.BackColor = Color.White;
             dgv.DefaultCellStyle.ForeColor = Color.Black;
-            dgv.DefaultCellStyle.SelectionBackColor = verdeSeleccion;
-            dgv.DefaultCellStyle.SelectionForeColor = Color.White;
-            dgv.AlternatingRowsDefaultCellStyle.BackColor = verdeAlterna;
 
+            // Sin color azul de selección en filas
+            dgv.DefaultCellStyle.SelectionBackColor = dgv.DefaultCellStyle.BackColor;
+            dgv.DefaultCellStyle.SelectionForeColor = dgv.DefaultCellStyle.ForeColor;
+
+            // Alterna
+            dgv.AlternatingRowsDefaultCellStyle.BackColor = verdeAlterna;
+            dgv.AlternatingRowsDefaultCellStyle.SelectionBackColor = verdeAlterna;
+            dgv.AlternatingRowsDefaultCellStyle.SelectionForeColor = dgv.DefaultCellStyle.ForeColor;
+
+            // Hover suave (no es selección)
             dgv.CellMouseEnter += (s, e) =>
             {
                 if (e.RowIndex >= 0)
@@ -358,6 +374,8 @@ SELECT @dir;";
         public static void AplicarFuerte(DataGridView dgv)
         {
             Aplicar(dgv);
+            // refuerza también para filas creadas tras setear DataSource
+            dgv.RowTemplate.DefaultCellStyle.Font = new Font("Segoe UI", 11f, FontStyle.Regular);
             dgv.Invalidate();
             dgv.Refresh();
         }
